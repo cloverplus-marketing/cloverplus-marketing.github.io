@@ -783,18 +783,6 @@ async function deleteSession() {
     loadSessions();
   } catch(e) { alert('エラーが発生しました'); }
 }
-    document.getElementById('surveyUrl').value     = d.survey_url   || '';
-    document.getElementById('useDemo').checked     = d.use_demo !== false;
-    document.getElementById('publishRss').checked  = d.publish_rss === true;
-    document.getElementById('message').value       = d.message      || '';
-    document.getElementById('loginUrl').value      = d.login_url    || 'https://system.netsuite.com/pages/customerlogin.jsp?country=JP';
-    document.getElementById('useLogin').checked    = d.use_login !== false;
-    document.getElementById('detailCard').style.display   = 'block';
-    document.getElementById('accountsCard').style.display = 'block';
-    document.getElementById('detailMsg').textContent = '';
-    if (reload) loadAccounts();
-  } catch(e) {}
-}
 
 async function saveAll() {
   const msg = document.getElementById('detailMsg');
