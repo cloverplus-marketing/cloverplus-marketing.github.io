@@ -1243,6 +1243,23 @@ function postCopy(i) {
     const ck = document.getElementById(`postCopyOk${i}`);
     if (ck) { ck.style.display = 'inline'; setTimeout(() => ck.style.display = 'none', 2000); }
   });
+  // タグをサイレントにログ送信（エラーは無視）
+  if (!postSession) return;
+  const platform = ['x', 'sns'][i] || 'other';
+  const tags = {
+    industries: [...POST_SEL.i],
+    roles:      [...POST_SEL.r],
+    modules:    [...POST_SEL.m],
+    purposes:   [...POST_SEL.p]
+  };
+  fetch(API_URL
+    + '?action=logSnsTag'
+    + '&token='        + encodeURIComponent(partnerToken)
+    + '&session_code=' + encodeURIComponent(postSession.code)
+    + '&platform='     + encodeURIComponent(platform)
+    + '&tags='         + encodeURIComponent(JSON.stringify(tags)),
+    { redirect: 'follow' }
+  ).catch(() => {});
 }
 
 </script>
