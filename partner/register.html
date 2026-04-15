@@ -1,1 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clover Plus Seminar System - パートナー登録</title>
+<style>
+:root{--green:#196B24;--green2:#22922f;--bg:#f0f7f2;--text:#1a3320;--orange:#E97132;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Yu Gothic','Hiragino Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px 16px;}
+.card{background:#fff;border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,.08);padding:40px 36px;width:100%;max-width:480px;}
+h1{color:var(--green);font-size:20px;margin-bottom:6px;}
+.sub{color:#666;font-size:13px;margin-bottom:28px;}
+.field{margin-bottom:18px;}
+label{display:block;font-size:13px;font-weight:bold;margin-bottom:6px;}
+input{width:100%;padding:11px 14px;border:2px solid #ddd;border-radius:8px;font-size:15px;font-family:inherit;transition:border-color .2s;}
+input:focus{outline:none;border-color:var(--green);}
+.hint{font-size:11px;color:#888;margin-top:4px;}
+.btn{width:100%;padding:14px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:15px;font-family:inherit;font-weight:bold;cursor:pointer;margin-top:8px;transition:background .2s;}
+.btn:hover{background:var(--green2);}
+.msg{text-align:center;font-size:13px;margin-top:12px;display:none;}
+.msg.ok{color:var(--green);}
+.msg.err{color:#c00;}
+.back{text-align:center;margin-top:16px;font-size:13px;}
+.back a{color:var(--green);text-decoration:none;}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>パートナー登録</h1>
+  <div class="sub">登録申請後、審査が完了次第ご連絡いたします。</div>
+  <div class="field">
+    <label>会社名 <span style="color:#c00">*</span></label>
+    <input type="text" id="companyName" placeholder="〇〇株式会社">
+  </div>
+  <div class="field">
+    <label>会社ID（希望） <span style="color:#c00">*</span></label>
+    <input type="text" id="companyId" placeholder="CP001" maxlength="20">
+    <div class="hint">半角英数字とハイフンのみ・最大20文字</div>
+  </div>
+  <div class="field">
+    <label>代表者名 <span style="color:#c00">*</span></label>
+    <input type="text" id="representative" placeholder="山田太郎">
+  </div>
+  <div class="field">
+    <label>メールアドレス <span style="color:#c00">*</span></label>
+    <input type="email" id="email" placeholder="yamada@example.com">
+  </div>
+  <div class="field">
+    <label>パスコード（希望） <span style="color:#c00">*</span></label>
+    <input type="password" id="passcode" placeholder="8文字以上">
+    <div class="hint">8文字以上で設定してください</div>
+  </div>
+  <div class="field">
+    <label>パスコード確認 <span style="color:#c00">*</span></label>
+    <input type="password" id="passcode2" placeholder="パスコードを再入力">
+  </div>
+  <button class="btn" onclick="submit()">申請する</button>
+  <div class="msg" id="msg"></div>
+  <div class="back"><a href="/">← トップに戻る</a></div>
+</div>
+<script>
+const API_URL = 'https://script.google.com/macros/s/AKfycbxQ7fNkIzsxaFEOoPngnY5lcWLRTQUhG97D1THjDciUqLcIqKlCQxGrPjpZSEPt3vp09A/exec';
+async function submit(){
+  const companyName = document.getElementById('companyName').value.trim();
+  const companyId   = document.getElementById('companyId').value.trim();
+  const representative = document.getElementById('representative').value.trim();
+  const email       = document.getElementById('email').value.trim();
+  const passcode    = document.getElementById('passcode').value;
+  const passcode2   = document.getElementById('passcode2').value;
+  const msg = document.getElementById('msg');
 
+  if(!companyName||!companyId||!representative||!email||!passcode||!passcode2){
+    msg.textContent='すべての項目を入力してください';msg.className='msg err';msg.style.display='block';return;
+  }
+  if(!/^[A-Za-z0-9-]+$/.test(companyId)){
+    msg.textContent='会社IDは半角英数字とハイフンのみ使用できます';msg.className='msg err';msg.style.display='block';return;
+  }
+  if(!email.includes('@')){
+    msg.textContent='正しいメールアドレスを入力してください';msg.className='msg err';msg.style.display='block';return;
+  }
+  if(passcode.length < 8){
+    msg.textContent='パスコードは8文字以上で設定してください';msg.className='msg err';msg.style.display='block';return;
+  }
+  if(passcode !== passcode2){
+    msg.textContent='パスコードが一致しません';msg.className='msg err';msg.style.display='block';return;
+  }
+  msg.textContent='送信中...';msg.className='msg';msg.style.display='block';
+  try{
+    const url = `${API_URL}?action=registerPartner&company_id=${encodeURIComponent(companyId)}&company_name=${encodeURIComponent(companyName)}&representative=${encodeURIComponent(representative)}&email=${encodeURIComponent(email)}&passcode=${encodeURIComponent(passcode)}`;
+    const res = await fetch(url);
+    const json = await res.json();
+    if(json.status==='ok'){
+      msg.textContent=json.data.message;msg.className='msg ok';
+      setTimeout(()=>{ location.href='/'; }, 2000);
+    } else {
+      msg.textContent=json.message;msg.className='msg err';
+    }
+  }catch(e){
+    msg.textContent='エラーが発生しました';msg.className='msg err';
+  }
+  msg.style.display='block';
+}
+</script>
+</body>
+</html>
