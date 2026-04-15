@@ -255,10 +255,9 @@ tr.active-row td{background:#e8f5e9;}
       <div class="card" id="proxyAccountsCard" style="display:none;">
         <h2>アカウント管理</h2>
         <div class="flex-wrap">
-          <label style="margin:0;cursor:pointer;">
-            <input type="file" id="proxyXlsxFile" accept=".xlsx" style="display:none" onchange="proxyImportAccounts()">
-            <span class="btn btn-orange btn-sm" onclick="document.getElementById('proxyXlsxFile').click()">Excelインポート</span>
-          </label>
+          <input type="file" id="proxyXlsxFile" accept=".xlsx" style="display:none" onchange="proxyImportAccounts()">
+          <span class="btn btn-orange btn-sm" onclick="document.getElementById('proxyXlsxFile').click()">Excelインポート</span>
+          <button class="btn btn-outline btn-sm" onclick="downloadTemplate()">テンプレートを取得</button>
           <button class="btn btn-outline btn-sm" onclick="proxyResetAll()">全リセット</button>
         </div>
         <div id="proxyAccountsArea"><p style="color:#666;font-size:13px;">アカウントがありません</p></div>
@@ -517,6 +516,7 @@ async function loadAdminAccounts(sessionCode){
     if(json.status!=='ok'){document.getElementById('adminAccountsArea').innerHTML='<p style="color:#c00;">'+json.message+'</p>';return;}
     const accounts=json.data.accounts||[];
     if(accounts.length===0){document.getElementById('adminAccountsArea').innerHTML='<p style="color:#666;">アカウントがありません</p>';return;}
+    accounts.sort((a,b)=>String(a.user_id).localeCompare(String(b.user_id),'ja'));
     let html='<table><tr><th>ユーザーID</th><th>パスワード</th><th>状態</th><th>使用日時</th></tr>';
     accounts.forEach(a=>{
       const badge=a.is_used?'<span class="badge used">使用済</span>':'<span class="badge unused">未使用</span>';
@@ -788,6 +788,7 @@ async function loadProxyAccounts(){
 function renderProxyAccounts(accounts){
   const area=document.getElementById('proxyAccountsArea');
   if(!accounts||accounts.length===0){area.innerHTML='<p style="color:#666;font-size:13px;">アカウントがありません</p>';return;}
+  accounts.sort((a,b)=>String(a.user_id).localeCompare(String(b.user_id),'ja'));
   let html='<table><tr><th>ユーザーID</th><th>パスワード</th><th>状態</th><th>使用日時</th><th>操作</th></tr>';
   accounts.forEach(a=>{
     const badge=a.is_used?'<span class="badge used">使用済</span>':'<span class="badge unused">未使用</span>';
@@ -815,6 +816,18 @@ async function proxyResetAll(){
     msg.className='msg '+(json.status==='ok'?'ok':'err');
     if(json.status==='ok')loadProxyAccounts();
   }catch(e){}
+}
+
+function downloadTemplate(){
+  const wb=XLSX.utils.book_new();
+  const ws=XLSX.utils.aoa_to_sheet([
+    ['USER ID','PASSWORD'],
+    ['user001','pass001'],
+    ['user002','pass002'],
+  ]);
+  ws['!cols']=[{wch:20},{wch:20}];
+  XLSX.utils.book_append_sheet(wb,ws,'アカウント一覧');
+  XLSX.writeFile(wb,'account_template.xlsx');
 }
 
 async function proxyImportAccounts(){
