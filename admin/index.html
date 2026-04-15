@@ -730,22 +730,23 @@ async function proxySaveAll(){
   const msg=document.getElementById('proxyDetailMsg');
   msg.textContent='保存中...';msg.className='msg';
   try{
-    const json = await api({
-      action:'adminProxySaveAll',
-      admin_token:adminToken,
-      session_code:proxySessionCode,
-      session_name:document.getElementById('proxySessionName').value,
-      session_date:document.getElementById('proxySessionDate').value,
-      message:document.getElementById('proxyMessage').value,
-      materials_url:document.getElementById('proxyMaterialsUrl').value,
-      survey_url:document.getElementById('proxySurveyUrl').value,
-      login_url:document.getElementById('proxyLoginUrl').value,
-      use_login:document.getElementById('proxyUseLogin').checked,
-      use_demo:document.getElementById('proxyUseDemo').checked,
-      session_time:document.getElementById('proxySessionTime').value,
-      detail_url:document.getElementById('proxyDetailUrl').value,
-      publish_rss:document.getElementById('proxyPublishRss').checked
-    });
+    const params = new URLSearchParams();
+    params.append('action',       'adminProxySaveAll');
+    params.append('admin_token',  adminToken);
+    params.append('session_code', proxySessionCode);
+    params.append('session_name', document.getElementById('proxySessionName').value);
+    params.append('session_date', document.getElementById('proxySessionDate').value);
+    params.append('message',      document.getElementById('proxyMessage').value);
+    params.append('materials_url',document.getElementById('proxyMaterialsUrl').value);
+    params.append('survey_url',   document.getElementById('proxySurveyUrl').value);
+    params.append('login_url',    document.getElementById('proxyLoginUrl').value);
+    params.append('use_login',    document.getElementById('proxyUseLogin').checked);
+    params.append('use_demo',     document.getElementById('proxyUseDemo').checked);
+    params.append('session_time', document.getElementById('proxySessionTime').value);
+    params.append('detail_url',   document.getElementById('proxyDetailUrl').value);
+    params.append('publish_rss',  document.getElementById('proxyPublishRss').checked);
+    const res = await fetch(API_URL, { method: 'POST', redirect: 'follow', body: params });
+    const json = await res.json();
     msg.textContent=json.status==='ok'?'保存しました':json.message;
     msg.className='msg '+(json.status==='ok'?'ok':'err');
     if(json.status==='ok')loadProxySessions();
