@@ -292,10 +292,8 @@ tr.active-row td{background:#e8f5e9;}
       <input type="text" id="resourceDescription" placeholder="概要テキスト">
       <label>ファイル</label>
       <div style="margin-bottom:12px;">
-        <label style="display:inline-block;cursor:pointer;margin:0;">
-          <input type="file" id="resourceFile" accept=".pdf,.xlsx,.pptx,.docx" style="display:none" onchange="onResourceFileChange()">
-          <span class="btn btn-orange btn-sm" onclick="document.getElementById('resourceFile').click()">ファイルを選択</span>
-        </label>
+        <input type="file" id="resourceFile" accept=".pdf,.xlsx,.pptx,.docx" style="display:none" onchange="onResourceFileChange()">
+        <span class="btn btn-orange btn-sm" onclick="document.getElementById('resourceFile').click()">ファイルを選択</span>
         <span id="resourceFileLabel" style="margin-left:10px;font-size:13px;color:#666;">未選択</span>
       </div>
       <div class="flex-wrap">
@@ -919,17 +917,23 @@ async function uploadResource(){
   msg.textContent='アップロード中...';msg.className='msg';
 
   try{
-    // ファイルをBase64に変換してGASへ送信
+    // ファイルをBase64に変換してPOSTで送信（GETではURLが長すぎるため）
     const base64 = await fileToBase64(file);
-    const url = API_URL
-      +'?action=adminUploadResource'
-      +'&admin_token='+encodeURIComponent(adminToken)
-      +'&category='+encodeURIComponent(category)
-      +'&file_name='+encodeURIComponent(fileName)
-      +'&description='+encodeURIComponent(description)
-      +'&original_name='+encodeURIComponent(file.name)
-      +'&file_data='+encodeURIComponent(base64);
-    const res = await fetch(url,{redirect:'follow'});
+    const body = JSON.stringify({
+      action:        'adminUploadResource',
+      admin_token:   adminToken,
+      category:      category,
+      file_name:     fileName,
+      description:   description,
+      original_name: file.name,
+      file_data:     base64
+    });
+    const res = await fetch(API_URL, {
+      method:   'POST',
+      redirect: 'follow',
+      headers:  { 'Content-Type': 'application/json' },
+      body:     body
+    });
     const json = await res.json();
     msg.textContent = json.status==='ok' ? 'アップロードしました' : json.message;
     msg.className = 'msg '+(json.status==='ok'?'ok':'err');
