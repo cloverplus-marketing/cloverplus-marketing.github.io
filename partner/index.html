@@ -852,6 +852,8 @@ async function loadAccounts() {
 function renderAccounts(accounts) {
   const area = document.getElementById('accountsArea');
   if (!accounts || accounts.length === 0) { area.innerHTML = '<p style="color:#666;font-size:13px;">アカウントがありません</p>'; return; }
+  // user_id で昇順ソート
+  accounts.sort((a, b) => String(a.user_id).localeCompare(String(b.user_id), 'ja'));
   let html = '<table><tr><th>ユーザーID</th><th>パスワード</th><th>状態</th><th>使用日時</th><th>操作</th></tr>';
   accounts.forEach(a => {
     const badge  = a.is_used ? '<span class="badge used">使用済</span>' : '<span class="badge unused">未使用</span>';
