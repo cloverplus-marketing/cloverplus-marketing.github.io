@@ -1068,7 +1068,7 @@ async function postLoadSessions() {
       return;
     }
     list.innerHTML = json.data.sessions.map(s => `
-      <div class="corp-card" onclick="postPickSession(this,'${s.session_code}','${escHtml(s.session_name||'')}','${s.session_date||''}','${s.session_time||''}','')">
+      <div class="corp-card" onclick="postPickSession(this,'${s.session_code}')">
         <div style="display:flex;align-items:center;gap:12px;">
           <code style="font-size:11px;color:#888;min-width:90px;">${s.session_code}</code>
           <span style="font-size:13px;font-weight:bold;">${escHtml(s.session_name||'（未設定）')}</span>
@@ -1076,21 +1076,31 @@ async function postLoadSessions() {
         </div>
       </div>`).join('');
     // 最初のセッションを自動選択
-    const first = json.data.sessions[0];
-    postSession = { code: first.session_code, name: first.session_name||'', date: first.session_date||'', t1: first.session_time||'', t2: '' };
-    list.querySelector('.corp-card').classList.add('selected');
-    postUpdateSelected();
-    postBuildChips();
-    postSync();
+    const firstEl = list.querySelector('.corp-card');
+    firstEl.classList.add('selected');
+    await postPickSession(firstEl, json.data.sessions[0].session_code);
   } catch(e) {
     list.innerHTML = '<p style="color:#c00;font-size:13px;">読み込みに失敗しました</p>';
   }
 }
 
-function postPickSession(el, code, name, date, t1, t2) {
+async function postPickSession(el, code) {
   document.querySelectorAll('#snsSessionList .corp-card').forEach(e => e.classList.remove('selected'));
   el.classList.add('selected');
-  postSession = { code, name, date, t1, t2 };
+  // getSettingsで開催時間を取得
+  try {
+    const json = await api({ action: 'getSettings', session_code: code });
+    if (json.status === 'ok') {
+      const d = json.data;
+      postSession = {
+        code: code,
+        name: d.session_name || '',
+        date: d.session_date || '',
+        t1:   d.session_time || ''
+      };
+    }
+  } catch(e) {}
+  postBuildChips();
   postUpdateSelected();
   postSync();
 }
