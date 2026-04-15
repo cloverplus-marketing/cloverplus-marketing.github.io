@@ -8,7 +8,21 @@
 :root{--green:#196B24;--green2:#22922f;--bg:#f0f7f2;--text:#1a3320;--orange:#E97132;}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Yu Gothic','Hiragino Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:24px 16px;}
-header{text-align:center;margin-bottom:32px;}
+header{margin-bottom:24px;}
+.header-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 0;margin-bottom:16px;border-bottom:1px solid #e0ece0;}
+.header-bar-title{font-size:12px;color:#aaa;letter-spacing:.1em;font-weight:bold;}
+.back-btn{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:#196B24;text-decoration:none;background:#fff;border:1.5px solid #c8ddc8;border-radius:20px;padding:5px 12px;transition:background .15s;}
+.back-btn:hover{background:#f0f7f2;}
+.session-card{background:#fff;border-radius:16px;box-shadow:0 2px 16px rgba(25,107,36,.10);padding:24px 28px;margin-bottom:20px;max-width:480px;margin-left:auto;margin-right:auto;border-left:4px solid #196B24;}
+.session-card-company{font-size:13px;color:#196B24;font-weight:bold;margin-bottom:6px;line-height:1.4;}
+.session-card-title{font-size:22px;font-weight:bold;color:#1a3320;margin-bottom:16px;line-height:1.35;word-break:break-all;}
+.session-card-datetime{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:#555;background:#f0f7f2;border-radius:20px;padding:6px 16px;}
+.session-card-datetime .sep{color:#ccc;}
+.page-label{font-size:11px;color:#aaa;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;}
+.company-name{font-size:15px;color:var(--green);font-weight:bold;margin-bottom:6px;}
+.seminar-title{font-size:24px;font-weight:bold;color:var(--text);margin-bottom:12px;line-height:1.3;}
+.session-datetime{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:#666;background:#fff;border:1px solid #e0ece0;border-radius:20px;padding:5px 16px;margin-bottom:0;}
+.session-datetime .sep{color:#ccc;}
 .page-label{font-size:11px;color:#aaa;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;}
 .company-name{font-size:15px;color:var(--green);font-weight:bold;margin-bottom:6px;}
 .seminar-title{font-size:24px;font-weight:bold;color:var(--text);margin-bottom:12px;line-height:1.3;}
@@ -41,11 +55,15 @@ header{text-align:center;margin-bottom:32px;}
 </head>
 <body>
 <header>
-  <div class="page-label">セミナー情報</div>
-  <div class="company-name" id="companyName"></div>
-  <div class="seminar-title" id="sessionName">読み込み中...</div>
-  <div id="sessionMeta"></div>
-  <div style="margin-top:12px;"><a href="index.html" style="font-size:12px;color:#aaa;text-decoration:none;">← セミナーコード入力に戻る</a></div>
+  <div class="header-bar">
+    <span class="header-bar-title">セミナー情報</span>
+    <a class="back-btn" href="index.html">← セミナーコード入力に戻る</a>
+  </div>
+  <div class="session-card">
+    <div class="session-card-company" id="companyName"></div>
+    <div class="session-card-title" id="sessionName">読み込み中...</div>
+    <div id="sessionMeta"></div>
+  </div>
 </header>
 
 <div id="messageCard" class="card" style="display:none;">
@@ -105,11 +123,11 @@ async function init(){
       const dateStr = d.session_date ? d.session_date.replace(/-/g, '/') : '';
       const timeStr = d.session_time || '';
       const meta = document.getElementById('sessionMeta');
-      meta.innerHTML = '<span class="session-datetime">'
+      meta.innerHTML = '<div class="session-card-datetime">'
         + (dateStr ? '<span>' + dateStr + '</span>' : '')
         + (dateStr && timeStr ? '<span class="sep">|</span>' : '')
         + (timeStr ? '<span>' + timeStr + ' 開始</span>' : '')
-        + '</span>';
+        + '</div>';
     }
 
     // 資料・アンケート
