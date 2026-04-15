@@ -607,19 +607,20 @@ async function saveAll() {
       token: partnerToken
     });
     if (r1.status !== 'ok') { msg.textContent = r1.message; msg.className = 'msg err'; return; }
-    const r2 = await api({
-      action: 'saveSettings',
-      session_code: currentSession,
-      detail_url:   document.getElementById('detailUrl').value,
-      materials_url:document.getElementById('materialsUrl').value,
-      survey_url:   document.getElementById('surveyUrl').value,
-      use_demo:     document.getElementById('useDemo').checked,
-      publish_rss:  document.getElementById('publishRss').checked,
-      message:      document.getElementById('message').value,
-      login_url:    document.getElementById('loginUrl').value,
-      use_login:    document.getElementById('useLogin').checked,
-      token: partnerToken
-    });
+    const params2 = new URLSearchParams();
+    params2.append('action',       'saveSettings');
+    params2.append('session_code', currentSession);
+    params2.append('detail_url',   document.getElementById('detailUrl').value);
+    params2.append('materials_url',document.getElementById('materialsUrl').value);
+    params2.append('survey_url',   document.getElementById('surveyUrl').value);
+    params2.append('use_demo',     document.getElementById('useDemo').checked);
+    params2.append('publish_rss',  document.getElementById('publishRss').checked);
+    params2.append('message',      document.getElementById('message').value);
+    params2.append('login_url',    document.getElementById('loginUrl').value);
+    params2.append('use_login',    document.getElementById('useLogin').checked);
+    params2.append('token',        partnerToken);
+    const res2 = await fetch(API_URL, { method: 'POST', redirect: 'follow', body: params2 });
+    const r2 = await res2.json();
     if (r2.status !== 'ok') { msg.textContent = r2.message; msg.className = 'msg err'; return; }
     msg.textContent = '保存しました'; msg.className = 'msg ok';
     loadSessions();
