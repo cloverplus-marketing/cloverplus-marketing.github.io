@@ -114,6 +114,7 @@ tr.active-row td{background:#e8f5e9;}
     <button class="tab" onclick="switchTab('researchlog')">調査ログ</button>
     <button class="tab" onclick="switchTab('dllog')">ダウンロードログ</button>
     <button class="tab" onclick="switchTab('research')">企業調査 <span style="font-size:10px;background:#E97132;color:#fff;padding:1px 5px;border-radius:4px;vertical-align:middle;">β</span></button>
+    <button class="tab" onclick="switchTab('tagstats')">タグ分析</button>
   </div>
 
   <!-- ① セッション管理 -->
@@ -223,11 +224,8 @@ tr.active-row td{background:#e8f5e9;}
             <input type="url" id="proxyDetailUrl" placeholder="https://...">
           </div>
         </div>
-        <label>メッセージ <span style="font-size:11px;color:#888;font-weight:normal;">（最大500文字）</span></label>
-        <textarea id="proxyMessage" rows="3" maxlength="500" oninput="updateProxyMsgCount()" placeholder="受講者へのメッセージ"></textarea>
-        <div style="text-align:right;font-size:12px;margin-top:-6px;margin-bottom:8px;">
-          <span id="proxyMsgCount" style="color:#888;">0</span> / 500文字
-        </div>
+        <label>メッセージ</label>
+        <textarea id="proxyMessage" rows="3" placeholder="受講者へのメッセージ"></textarea>
         <label>資料URL</label>
         <input type="url" id="proxyMaterialsUrl">
         <label>アンケートURL</label>
@@ -404,6 +402,27 @@ tr.active-row td{background:#e8f5e9;}
     </div>
   </div>
 
+  <!-- タグ分析 -->
+  <div id="tab-tagstats" class="tab-content">
+    <div class="card">
+      <h2>タグ×出席率 集計</h2>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center;">
+        <select id="statGroupBy" onchange="renderTagStats()">
+          <option value="industries">業種別</option>
+          <option value="roles">役職別</option>
+          <option value="modules">モジュール別</option>
+          <option value="purposes">目的別</option>
+        </select>
+        <button class="btn btn-sm" onclick="loadTagStats()">再読み込み</button>
+      </div>
+      <div id="tagStatsArea"><p style="color:#666;font-size:13px;">読み込み中...</p></div>
+    </div>
+    <div class="card" id="tagStatsDetailCard" style="display:none;">
+      <h2 id="tagStatsDetailTitle">セッション詳細</h2>
+      <div id="tagStatsDetailArea"></div>
+    </div>
+  </div>
+
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -452,12 +471,16 @@ function logout(){
 
 let adminResourcesLoaded = false;
 function switchTab(tab){
-  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['sessions','partners','proxy','resources','researchlog','dllog','research'][i]===tab));
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['sessions','partners','proxy','resources','researchlog','dllog','research','tagstats'][i]===tab));
   document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
   document.getElementById('tab-'+tab).classList.add('active');
   if(tab==='resources' && !adminResourcesLoaded){
     adminResourcesLoaded=true;
     loadAdminResources();
+  }
+  if(tab==='tagstats' && !tagStatsLoaded){
+    tagStatsLoaded=true;
+    loadTagStats();
   }
 }
 
@@ -705,7 +728,6 @@ async function selectProxySession(code){
     document.getElementById('proxySessionTime').value=d.session_time||'';
     document.getElementById('proxyDetailUrl').value=d.detail_url||'';
     document.getElementById('proxyMessage').value=d.message||'';
-    updateProxyMsgCount();
     document.getElementById('proxyMaterialsUrl').value=d.materials_url||'';
     document.getElementById('proxySurveyUrl').value=d.survey_url||'';
     document.getElementById('proxyLoginUrl').value=d.login_url||'https://system.netsuite.com/pages/customerlogin.jsp?country=JP';
@@ -719,34 +741,26 @@ async function selectProxySession(code){
   }catch(e){}
 }
 
-function updateProxyMsgCount() {
-  const len = document.getElementById('proxyMessage').value.length;
-  const el  = document.getElementById('proxyMsgCount');
-  el.textContent = len;
-  el.style.color = len >= 480 ? '#c00' : len >= 400 ? '#E97132' : '#888';
-}
-
 async function proxySaveAll(){
   const msg=document.getElementById('proxyDetailMsg');
   msg.textContent='保存中...';msg.className='msg';
   try{
-    const params = new URLSearchParams();
-    params.append('action',       'adminProxySaveAll');
-    params.append('admin_token',  adminToken);
-    params.append('session_code', proxySessionCode);
-    params.append('session_name', document.getElementById('proxySessionName').value);
-    params.append('session_date', document.getElementById('proxySessionDate').value);
-    params.append('message',      document.getElementById('proxyMessage').value);
-    params.append('materials_url',document.getElementById('proxyMaterialsUrl').value);
-    params.append('survey_url',   document.getElementById('proxySurveyUrl').value);
-    params.append('login_url',    document.getElementById('proxyLoginUrl').value);
-    params.append('use_login',    document.getElementById('proxyUseLogin').checked);
-    params.append('use_demo',     document.getElementById('proxyUseDemo').checked);
-    params.append('session_time', document.getElementById('proxySessionTime').value);
-    params.append('detail_url',   document.getElementById('proxyDetailUrl').value);
-    params.append('publish_rss',  document.getElementById('proxyPublishRss').checked);
-    const res = await fetch(API_URL, { method: 'POST', redirect: 'follow', body: params });
-    const json = await res.json();
+    const json = await api({
+      action:'adminProxySaveAll',
+      admin_token:adminToken,
+      session_code:proxySessionCode,
+      session_name:document.getElementById('proxySessionName').value,
+      session_date:document.getElementById('proxySessionDate').value,
+      message:document.getElementById('proxyMessage').value,
+      materials_url:document.getElementById('proxyMaterialsUrl').value,
+      survey_url:document.getElementById('proxySurveyUrl').value,
+      login_url:document.getElementById('proxyLoginUrl').value,
+      use_login:document.getElementById('proxyUseLogin').checked,
+      use_demo:document.getElementById('proxyUseDemo').checked,
+      session_time:document.getElementById('proxySessionTime').value,
+      detail_url:document.getElementById('proxyDetailUrl').value,
+      publish_rss:document.getElementById('proxyPublishRss').checked
+    });
     msg.textContent=json.status==='ok'?'保存しました':json.message;
     msg.className='msg '+(json.status==='ok'?'ok':'err');
     if(json.status==='ok')loadProxySessions();
@@ -1275,6 +1289,113 @@ function adminOpenEngine(engine){
     +'&engine='+encodeURIComponent(engine),
     {redirect:'follow'}
   ).catch(()=>{});
+}
+
+// ============================================================
+// タグ分析
+// ============================================================
+let tagStatsLoaded = false;
+let tagStatsData = [];
+
+async function loadTagStats() {
+  const area = document.getElementById('tagStatsArea');
+  area.innerHTML = '<p style="color:#666;font-size:13px;">読み込み中...</p>';
+  document.getElementById('tagStatsDetailCard').style.display = 'none';
+  try {
+    const json = await api({ action: 'getTagStats', admin_token: adminToken });
+    if (json.status !== 'ok') { area.innerHTML = `<p style="color:#c00;font-size:13px;">${json.message}</p>`; return; }
+    tagStatsData = json.data.stats || [];
+    renderTagStats();
+  } catch(e) { area.innerHTML = '<p style="color:#c00;font-size:13px;">読み込みに失敗しました</p>'; }
+}
+
+function renderTagStats() {
+  const area    = document.getElementById('tagStatsArea');
+  const groupBy = document.getElementById('statGroupBy').value;
+  if (!tagStatsData.length) { area.innerHTML = '<p style="color:#666;font-size:13px;">データがありません。土曜の集計後に表示されます。</p>'; return; }
+
+  // タグ軸でグループ集計
+  const groups = {};
+  tagStatsData.forEach(s => {
+    const tags = s[groupBy] || [];
+    const labels = tags.length ? tags : ['（未設定）'];
+    labels.forEach(tag => {
+      if (!groups[tag]) groups[tag] = { total: 0, attended: 0, sessions: [] };
+      groups[tag].total    += s.total_accounts || 0;
+      groups[tag].attended += s.attended       || 0;
+      groups[tag].sessions.push(s);
+    });
+  });
+
+  // 出席率でソート
+  const rows = Object.entries(groups).map(([tag, g]) => ({
+    tag,
+    total:    g.total,
+    attended: g.attended,
+    rate:     g.total > 0 ? Math.round(g.attended / g.total * 1000) / 10 : 0,
+    count:    g.sessions.length,
+    sessions: g.sessions
+  })).sort((a, b) => b.rate - a.rate);
+
+  // バー最大値
+  const maxRate = Math.max(...rows.map(r => r.rate), 1);
+
+  let html = `<table>
+    <tr>
+      <th>タグ</th>
+      <th style="width:200px;">出席率</th>
+      <th style="text-align:right;">出席数</th>
+      <th style="text-align:right;">登録数</th>
+      <th style="text-align:right;">件数</th>
+      <th></th>
+    </tr>`;
+  rows.forEach(r => {
+    const barW = Math.round(r.rate / maxRate * 100);
+    const color = r.rate >= 70 ? 'var(--green)' : r.rate >= 40 ? 'var(--orange)' : '#ccc';
+    html += `<tr>
+      <td style="font-weight:bold;">${r.tag}</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="flex:1;background:#f0f0f0;border-radius:4px;height:10px;overflow:hidden;">
+            <div style="width:${barW}%;background:${color};height:10px;border-radius:4px;"></div>
+          </div>
+          <span style="font-size:12px;min-width:38px;text-align:right;">${r.rate}%</span>
+        </div>
+      </td>
+      <td style="text-align:right;">${r.attended}</td>
+      <td style="text-align:right;">${r.total}</td>
+      <td style="text-align:right;">${r.count}件</td>
+      <td><button class="btn btn-outline btn-sm" onclick="showTagDetail('${r.tag}',${rows.indexOf(r)})">詳細</button></td>
+    </tr>`;
+  });
+  html += '</table>';
+  area.innerHTML = html;
+  // rowsをグローバルに保持（詳細表示用）
+  window._tagStatsRows = rows;
+}
+
+function showTagDetail(tag, idx) {
+  const rows = window._tagStatsRows || [];
+  const row  = rows[idx];
+  if (!row) return;
+  document.getElementById('tagStatsDetailTitle').textContent = `「${tag}」のセッション一覧`;
+  let html = `<table>
+    <tr><th>セッションコード</th><th>セッション名</th><th>開催日</th><th style="text-align:right;">出席数</th><th style="text-align:right;">登録数</th><th style="text-align:right;">出席率</th></tr>`;
+  row.sessions.sort((a,b)=>(b.session_date||'').localeCompare(a.session_date||'')).forEach(s => {
+    const r = s.total_accounts > 0 ? Math.round(s.attended / s.total_accounts * 1000) / 10 : 0;
+    html += `<tr>
+      <td><code style="font-size:11px;">${s.session_code}</code></td>
+      <td>${s.session_name||'（未設定）'}</td>
+      <td>${s.session_date||''}</td>
+      <td style="text-align:right;">${s.attended}</td>
+      <td style="text-align:right;">${s.total_accounts}</td>
+      <td style="text-align:right;font-weight:bold;">${r}%</td>
+    </tr>`;
+  });
+  html += '</table>';
+  document.getElementById('tagStatsDetailArea').innerHTML = html;
+  document.getElementById('tagStatsDetailCard').style.display = 'block';
+  document.getElementById('tagStatsDetailCard').scrollIntoView({ behavior: 'smooth' });
 }
 </script>
 </body>
