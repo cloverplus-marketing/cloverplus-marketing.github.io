@@ -1,1 +1,848 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clover Plus Partner HUB - パートナーハブ</title>
+<style>
+:root{--green:#196B24;--green2:#22922f;--bg:#f0f7f2;--text:#1a3320;--orange:#E97132;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Yu Gothic','Hiragino Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:20px 16px;}
 
+/* ============================================================
+   ログイン画面：左右2カラム
+   ============================================================ */
+.login-wrap{display:flex;align-items:stretch;justify-content:center;min-height:100vh;padding:24px 0;}
+.login-layout{display:grid;grid-template-columns:420px 1fr;gap:0;width:100%;max-width:1000px;background:#fff;border-radius:16px;box-shadow:0 4px 32px rgba(0,0,0,.10);overflow:hidden;}
+
+/* 左カラム：フォーム */
+.login-left{padding:48px 40px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid #e8f0e9;}
+.login-left-top{flex:1;}
+.login-logo{margin-bottom:32px;}
+.login-logo-title{color:var(--green);font-size:22px;font-weight:bold;line-height:1.2;margin-bottom:4px;}
+.login-logo-sub{color:#888;font-size:13px;}
+.login-left label{display:block;font-size:13px;font-weight:bold;margin-bottom:6px;color:var(--text);}
+.login-left input[type=text],
+.login-left input[type=password]{width:100%;padding:12px 14px;border:2px solid #ddd;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:16px;transition:border-color .2s;}
+.login-left input:focus{outline:none;border-color:var(--green);}
+.btn-login{width:100%;padding:14px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:15px;font-family:inherit;font-weight:bold;cursor:pointer;transition:background .2s;margin-top:4px;}
+.btn-login:hover{background:var(--green2);}
+.login-hint{margin-top:12px;font-size:12px;color:#aaa;text-align:center;}
+.msg{font-size:13px;margin-top:8px;}
+.msg.ok{color:var(--green);}
+.msg.err{color:#c00;}
+
+/* 左カラム下部リンク */
+.login-links{margin-top:32px;padding-top:20px;border-top:1px solid #eef2ee;display:flex;flex-direction:column;gap:8px;}
+.login-link-item{display:flex;align-items:center;gap:8px;font-size:13px;color:#555;text-decoration:none;padding:8px 10px;border-radius:8px;transition:background .15s;}
+.login-link-item:hover{background:var(--bg);color:var(--green);}
+.login-link-item .link-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.link-icon-session{background:#e8f5e9;color:var(--green);}
+.link-icon-web{background:#e3f2fd;color:#1565c0;}
+
+/* 右カラム：RSSフィード */
+.login-right{background:#fafcfa;padding:32px 28px;display:flex;flex-direction:column;min-width:0;}
+.feed-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.feed-title{font-size:15px;font-weight:bold;color:var(--text);}
+.feed-badge{font-size:11px;background:#e8f5e9;color:var(--green);border-radius:12px;padding:3px 10px;font-weight:bold;}
+
+/* RSSタブ */
+.rss-tabs{display:flex;gap:2px;border-bottom:2px solid #e0e8e0;margin-bottom:16px;}
+.rss-tab{padding:7px 16px;border:none;background:transparent;font-size:13px;font-family:inherit;cursor:pointer;color:#888;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;border-radius:4px 4px 0 0;}
+.rss-tab:hover{color:var(--green);background:#f0f7f2;}
+.rss-tab.active{color:var(--green);border-bottom-color:var(--green);font-weight:bold;background:transparent;}
+
+.rss-panel{display:none;overflow-y:auto;flex:1;}
+.rss-panel.active{display:block;}
+
+/* 記事カード */
+.news-item{padding:12px 14px;background:#fff;border-radius:8px;margin-bottom:8px;border:1px solid #e8ede8;transition:border-color .15s;}
+.news-item:hover{border-color:var(--green);}
+.news-item-body{}
+.news-item-top{display:flex;align-items:flex-start;gap:8px;margin-bottom:4px;}
+.source-icon{width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold;flex-shrink:0;margin-top:1px;}
+.icon-note{background:#41c9b4;color:#fff;}
+.icon-youtube{background:#ff0000;color:#fff;}
+.icon-spotify{background:#1db954;color:#fff;}
+.news-title{font-size:13px;font-weight:bold;line-height:1.4;}
+.news-title a{color:var(--text);text-decoration:none;}
+.news-title a:hover{color:var(--green);}
+.news-desc{font-size:12px;color:#888;line-height:1.5;margin:4px 0 6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.news-meta{font-size:11px;color:#bbb;}
+.news-loading{color:#aaa;font-size:13px;padding:16px 0;text-align:center;}
+.news-error{color:#c00;font-size:12px;padding:8px 0;}
+
+/* スマホ対応 */
+@media(max-width:700px){
+  .login-layout{grid-template-columns:1fr;max-width:440px;}
+  .login-left{border-right:none;border-bottom:1px solid #e8f0e9;padding:32px 24px;}
+  .login-right{padding:24px;}
+  .login-wrap{align-items:flex-start;padding:16px 0;}
+}
+
+/* ============================================================
+   メイン画面
+   ============================================================ */
+.card{background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.07);padding:28px 24px;margin-bottom:16px;}
+.section{display:none;}
+input[type=text],input[type=password],input[type=date],input[type=url],input[type=time]{width:100%;padding:10px 13px;border:2px solid #ddd;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:12px;transition:border-color .2s;}
+input:focus{outline:none;border-color:var(--green);}
+.btn{padding:10px 16px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:13px;font-family:inherit;font-weight:bold;cursor:pointer;transition:background .2s;}
+.btn:hover{background:var(--green2);}
+.btn-full{width:100%;padding:13px;}
+.btn-sm{padding:6px 12px;font-size:12px;}
+.btn-outline{background:#fff;color:var(--green);border:2px solid var(--green);}
+.btn-outline:hover{background:var(--bg);}
+.btn-red{background:#c00;}
+.btn-red:hover{background:#900;}
+.btn-orange{background:var(--orange);}
+.btn-orange:hover{background:#c85a1a;}
+.btn-logout{background:transparent;color:#666;border:1px solid #ccc;font-size:12px;padding:6px 12px;}
+h2{color:var(--green);font-size:16px;margin-bottom:14px;border-bottom:2px solid var(--bg);padding-bottom:8px;}
+.flex-wrap{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{background:var(--green);color:#fff;padding:8px 12px;text-align:left;}
+td{padding:8px 12px;border-bottom:1px solid #eee;vertical-align:middle;}
+tr:hover td{background:#f9f9f9;}
+tr.active td{background:#e8f5e9;}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:bold;}
+.badge.used{background:#e8f5e9;color:var(--green);}
+.badge.unused{background:#f5f5f5;color:#999;}
+.toggle{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.toggle input[type=checkbox]{width:16px;height:16px;margin:0;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.session-table-wrap{overflow-x:auto;}
+.tabs{display:flex;gap:4px;margin-bottom:20px;border-bottom:2px solid #ddd;}
+.tab{padding:10px 20px;border:none;background:transparent;font-size:14px;font-family:inherit;cursor:pointer;color:#666;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;}
+.tab.active{color:var(--green);border-bottom-color:var(--green);font-weight:bold;}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+.resource-section{margin-bottom:24px;}
+.resource-section-title{font-size:13px;font-weight:bold;color:#666;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #eee;}
+.resource-item{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid #f0f0f0;}
+.resource-item:last-child{border-bottom:none;}
+.resource-info{flex:1;}
+.resource-name{font-size:14px;font-weight:bold;color:var(--text);margin-bottom:4px;}
+.resource-desc{font-size:12px;color:#888;line-height:1.6;}
+.resource-actions{flex-shrink:0;}
+.spinner-wrap{display:flex;align-items:center;gap:10px;padding:20px 0;color:#888;font-size:13px;}
+.spinner{width:18px;height:18px;border:2px solid #ddd;border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.corp-card{background:var(--bg);border-radius:8px;padding:16px;margin-bottom:8px;cursor:pointer;border:2px solid transparent;transition:border-color .2s;}
+.corp-card:hover{border-color:var(--green);}
+.corp-card.selected{border-color:var(--green);background:#e8f5e9;}
+.corp-name{font-size:14px;font-weight:bold;color:var(--text);margin-bottom:4px;}
+.corp-meta{font-size:12px;color:#888;}
+.info-grid{display:grid;grid-template-columns:120px 1fr;gap:8px 16px;font-size:13px;margin-bottom:16px;}
+.info-label{color:#888;font-weight:bold;}
+.info-value{color:var(--text);word-break:break-all;}
+.chip-wrap{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+.chip{padding:5px 12px;border-radius:20px;background:#e8f5e9;color:var(--green);font-size:12px;font-weight:bold;cursor:pointer;border:2px solid transparent;transition:all .2s;}
+.chip:hover,.chip.active{background:var(--green);color:#fff;}
+.copy-btn{background:transparent;border:1px solid #ddd;border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer;color:#666;margin-left:8px;}
+.copy-btn:hover{background:var(--bg);}
+.search-engines{display:flex;gap:10px;flex-wrap:wrap;}
+.engine-btn{flex:1;min-width:120px;padding:12px;border:none;border-radius:8px;font-size:13px;font-family:inherit;font-weight:bold;cursor:pointer;transition:background .2s;}
+.engine-google{background:#4285F4;color:#fff;}
+.engine-google:hover{background:#3367d6;}
+.engine-perplexity{background:#20B2AA;color:#fff;}
+.engine-perplexity:hover{background:#178f89;}
+.engine-chatgpt{background:#10a37f;color:#fff;}
+.engine-chatgpt:hover{background:#0d8a6b;}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     ログイン画面
+     ============================================================ -->
+<div id="loginSection" style="display:flex;">
+  <div class="login-wrap" style="width:100%;">
+    <div class="login-layout">
+
+      <!-- 左カラム：フォーム -->
+      <div class="login-left">
+        <div class="login-left-top">
+          <div class="login-logo">
+            <div class="login-logo-title">Clover Plus Partner HUB</div>
+            <div class="login-logo-sub">パートナーログイン</div>
+          </div>
+          <label for="loginCompanyId">会社ID</label>
+          <input type="text" id="loginCompanyId" placeholder="CP001" autocomplete="username">
+          <label for="loginPasscode">パスコード</label>
+          <input type="password" id="loginPasscode" placeholder="パスコード" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()">
+          <button class="btn-login" onclick="login()">ログイン</button>
+          <div class="msg err" id="loginMsg"></div>
+          <p class="login-hint">パスコードをお忘れの場合は管理者までご連絡ください。</p>
+        </div>
+
+        <!-- 下部リンク -->
+        <div class="login-links">
+          <a class="login-link-item" href="https://cloverplus-marketing.github.io/clover-session/session/index.html" target="_blank" rel="noopener">
+            <span class="link-icon link-icon-session">🎓</span>
+            <span>セミナー参加者ログイン</span>
+          </a>
+          <a class="login-link-item" href="https://www.cloverplus.net" target="_blank" rel="noopener">
+            <span class="link-icon link-icon-web">🌐</span>
+            <span>Clover Plus ホームページ</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 右カラム：RSSフィード -->
+      <div class="login-right">
+        <div class="feed-header">
+          <div class="feed-title">Clover Plus 最新情報</div>
+          <div class="feed-badge" id="feedBadge">読み込み中...</div>
+        </div>
+
+        <div class="rss-tabs">
+          <button class="rss-tab active" data-feed="note" onclick="switchFeed('note')">note</button>
+          <button class="rss-tab" data-feed="youtube" onclick="switchFeed('youtube')">YouTube</button>
+          <button class="rss-tab" data-feed="spotify" onclick="switchFeed('spotify')">Spotify</button>
+        </div>
+
+        <div class="rss-panel active" id="panel-note">
+          <div class="news-loading">読み込み中...</div>
+        </div>
+        <div class="rss-panel" id="panel-youtube">
+          <div class="news-loading">読み込み中...</div>
+        </div>
+        <div class="rss-panel" id="panel-spotify">
+          <div class="news-loading">読み込み中...</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     メイン画面
+     ============================================================ -->
+<div id="mainSection" class="section">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+    <div style="color:var(--green);font-size:18px;font-weight:bold;"><a href="index.html" style="color:inherit;text-decoration:none;">Clover Plus Partner Hub</a></div>
+    <button class="btn btn-logout" onclick="logout()">ログアウト</button>
+  </div>
+
+  <!-- タブ -->
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('resources')">資料ダウンロード</button>
+    <button class="tab" id="tab-btn-research" style="display:none;" onclick="switchTab('research')">企業調査 <span style="font-size:10px;background:#E97132;color:#fff;padding:1px 5px;border-radius:4px;vertical-align:middle;">β</span></button>
+    <button class="tab" onclick="switchTab('sessions')">セッション管理</button>
+  </div>
+
+  <!-- タブ：セッション管理 -->
+  <div id="tab-sessions" class="tab-content">
+  <div class="card">
+    <h2>セッション一覧</h2>
+    <div style="margin-bottom:12px;">
+      <button class="btn btn-sm" onclick="addSession()">＋ セッションを追加</button>
+    </div>
+    <div class="session-table-wrap">
+      <table id="sessionTable">
+        <tr><th>セッションコード</th><th>セッション名</th><th>開催日</th><th>デモ</th><th>操作</th></tr>
+        <tr><td colspan="5" style="color:#666;text-align:center;">読み込み中...</td></tr>
+      </table>
+    </div>
+    <div class="msg err" id="sessionMsg"></div>
+  </div>
+
+  <div class="card" id="detailCard" style="display:none;">
+    <h2>セッション編集：<span id="editSessionCode" style="font-size:13px;color:#666;"></span></h2>
+    <div class="form-row">
+      <div>
+        <label>セッション名</label>
+        <input type="text" id="sessionName" placeholder="NetSuite ハンズオン 2026春">
+      </div>
+      <div>
+        <label>開催日</label>
+        <input type="date" id="sessionDate">
+      </div>
+    </div>
+    <div class="form-row">
+      <div>
+        <label>開催時間</label>
+        <input type="time" id="sessionTime">
+      </div>
+      <div>
+        <label>告知URL（任意）</label>
+        <input type="url" id="detailUrl" placeholder="https://...">
+      </div>
+    </div>
+    <label>資料URL</label>
+    <input type="url" id="materialsUrl" placeholder="https://drive.google.com/...">
+    <label>アンケートURL</label>
+    <input type="url" id="surveyUrl" placeholder="https://forms.google.com/...">
+    <label>メッセージ</label>
+    <textarea id="message" rows="4" style="width:100%;padding:10px 13px;border:2px solid #ddd;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:12px;resize:vertical;transition:border-color .2s;" placeholder="受講者への案内文や注意事項を入力してください&#10;（改行可）"></textarea>
+    <label>ログインURL</label>
+    <input type="url" id="loginUrl" placeholder="https://system.netsuite.com/pages/customerlogin.jsp?country=JP">
+    <div class="toggle">
+      <input type="checkbox" id="useLogin" checked>
+      <label for="useLogin" style="margin:0;font-weight:normal;cursor:pointer;">ログインボタンを表示する</label>
+    </div>
+    <div class="toggle">
+      <input type="checkbox" id="useDemo" checked>
+      <label for="useDemo" style="margin:0;font-weight:normal;cursor:pointer;">デモアカウント機能を使用する</label>
+    </div>
+    <div class="toggle">
+      <input type="checkbox" id="publishRss">
+      <label for="publishRss" style="margin:0;font-weight:normal;cursor:pointer;">RSS配信する（将来実装予定）</label>
+    </div>
+    <div class="flex-wrap">
+      <button class="btn" onclick="saveAll()">保存</button>
+      <button class="btn btn-red btn-sm" onclick="deleteSession()">このセッションを削除</button>
+    </div>
+    <div class="msg" id="detailMsg"></div>
+  </div>
+
+  <div class="card" id="accountsCard" style="display:none;">
+    <h2>アカウント管理</h2>
+    <div class="flex-wrap" style="margin-bottom:16px;">
+      <label style="margin:0;cursor:pointer;">
+        <input type="file" id="xlsxFile" accept=".xlsx" style="display:none" onchange="importAccounts()">
+        <span class="btn btn-orange btn-sm" onclick="document.getElementById('xlsxFile').click()">Excelインポート</span>
+      </label>
+      <button class="btn btn-outline btn-sm" onclick="resetAll()">全リセット</button>
+    </div>
+    <div id="accountsArea"><p style="color:#666;font-size:13px;">アカウントがありません</p></div>
+    <div class="msg" id="accountsMsg"></div>
+  </div>
+  </div><!-- /tab-sessions -->
+
+  <!-- タブ：企業調査 -->
+  <div id="tab-research" class="tab-content">
+    <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#7a5c00;">
+      <strong>🔬 企業調査 β（ベータ版）</strong><br>
+      現在は一般の検索サービスを経由しているため、表示される企業情報は検索結果のタイトルとURLのみとなっています。法人番号・所在地・インボイス番号などの詳細情報は表示されません。今後、国税庁の法人番号APIと連携し、これらの情報を自動取得できるようアップデートを予定しています。
+    </div>
+    <div class="card">
+      <h2>企業調査 <span style="font-size:12px;background:#E97132;color:#fff;padding:2px 7px;border-radius:4px;vertical-align:middle;font-weight:normal;">β</span></h2>
+      <div class="flex-wrap" style="margin-bottom:0;">
+        <input type="text" id="researchQuery" placeholder="会社名を入力（例：トヨタ）" style="flex:1;margin:0;" onkeydown="if(event.key==='Enter')searchCompany()">
+        <button class="btn" onclick="searchCompany()">検索</button>
+      </div>
+      <p style="font-size:12px;color:#888;margin-top:8px;">※ 初回検索は10〜20秒かかる場合があります。エラーが表示された際はもう一度お試しください。</p>
+      <div class="msg err" id="researchMsg" style="margin-top:8px;"></div>
+    </div>
+    <div class="card" id="corpListCard" style="display:none;">
+      <h2>検索結果</h2>
+      <div id="corpListArea"></div>
+    </div>
+    <div class="card" id="corpDetailCard" style="display:none;">
+      <h2 id="corpDetailName"></h2>
+      <div class="info-grid" id="corpInfoGrid"></div>
+      <div style="margin-bottom:8px;">
+        <label style="font-size:13px;font-weight:bold;color:#666;">検索クエリ</label>
+      </div>
+      <div class="chip-wrap" id="chipWrap"></div>
+      <div style="margin-bottom:12px;">
+        <input type="text" id="searchQuery" style="margin:0;" placeholder="検索クエリを編集できます">
+      </div>
+      <div class="search-engines">
+        <button class="engine-btn engine-google" onclick="openEngine('google')">Google で検索</button>
+        <button class="engine-btn engine-perplexity" onclick="openEngine('perplexity')">Perplexity で検索</button>
+        <button class="engine-btn engine-chatgpt" onclick="openEngine('chatgpt')">ChatGPT で検索 <span style="font-size:10px;font-weight:normal;">※要アカウント</span></button>
+      </div>
+    </div>
+  </div><!-- /tab-research -->
+
+  <!-- タブ：資料ダウンロード -->
+  <div id="tab-resources" class="tab-content active">
+    <div class="card">
+      <h2>資料ダウンロード</h2>
+      <div id="resourcesArea"><p style="color:#666;font-size:13px;">読み込み中...</p></div>
+      <div class="msg" id="resourcesMsg"></div>
+    </div>
+  </div><!-- /tab-resources -->
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+const API_URL = 'https://script.google.com/macros/s/AKfycbxQ7fNkIzsxaFEOoPngnY5lcWLRTQUhG97D1THjDciUqLcIqKlCQxGrPjpZSEPt3vp09A/exec';
+
+// RSS フィード定義
+const RSS_FEEDS = {
+  note:    { url: 'https://note.com/clover_plus/rss',    icon: 'N', iconClass: 'icon-note',    label: 'note' },
+  youtube: { url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UC6ReXNRMH874dfAbtu8-ztg', icon: '▶', iconClass: 'icon-youtube', label: 'YouTube' },
+  spotify: { url: 'https://anchor.fm/s/110f9ce94/podcast/rss', icon: '♪', iconClass: 'icon-spotify', label: 'Spotify' }
+};
+
+let partnerToken = sessionStorage.getItem('partner_token');
+let companyId = sessionStorage.getItem('partner_company_id');
+let currentSession = null;
+let researchEnabled = false;
+let resourcesLoaded = false;
+let currentCorp = null;
+let feedLoaded = { note: false, youtube: false, spotify: false };
+let currentFeed = 'note';
+
+// ============================================================
+// ページ初期化
+// ============================================================
+if (partnerToken && companyId) {
+  document.getElementById('loginSection').style.display = 'none';
+  document.getElementById('mainSection').style.display = 'block';
+  resourcesLoaded = true;
+  loadResources();
+  loadSessions();
+}
+
+// ログインページ表示時にRSSを読み込む
+if (document.getElementById('loginSection').style.display !== 'none') {
+  loadRssFeed('note');
+}
+
+// ============================================================
+// RSS フィード
+// ============================================================
+function switchFeed(feed) {
+  currentFeed = feed;
+  document.querySelectorAll('.rss-tab').forEach(t => t.classList.toggle('active', t.dataset.feed === feed));
+  document.querySelectorAll('.rss-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + feed).classList.add('active');
+  if (!feedLoaded[feed]) loadRssFeed(feed);
+}
+
+async function loadRssFeed(feed) {
+  if (feedLoaded[feed]) return;
+  const cfg = RSS_FEEDS[feed];
+  const panel = document.getElementById('panel-' + feed);
+  panel.innerHTML = '<div class="news-loading">読み込み中...</div>';
+  try {
+    // feedパラメータで種別を渡す（YouTubeはURLに?が含まれるため直接渡せない）
+    const url = API_URL + '?action=getRssFeed&feed=' + encodeURIComponent(feed);
+    const res  = await fetch(url, { redirect: 'follow' });
+    const json = await res.json();
+    feedLoaded[feed] = true;
+    if (!json.items || json.items.length === 0) {
+      panel.innerHTML = '<div class="news-loading">記事が見つかりませんでした</div>';
+      updateFeedBadge();
+      return;
+    }
+    panel.innerHTML = json.items.map(function(item) {
+      const date = formatFeedDate(item.date);
+      const desc = item.desc ? '<div class="news-desc">' + escHtml(item.desc) + '</div>' : '';
+      return '<div class="news-item">'
+        + '<div class="news-item-body">'
+        + '<div class="news-item-top">'
+        + '<span class="source-icon ' + cfg.iconClass + '">' + cfg.icon + '</span>'
+        + '<div class="news-title"><a href="' + escHtml(item.link) + '" target="_blank" rel="noopener">' + escHtml(item.title) + '</a></div>'
+        + '</div>'
+        + desc
+        + '<div class="news-meta">' + cfg.label + (date ? ' · ' + date : '') + '</div>'
+        + '</div>'
+        + '</div>';
+    }).join('');
+    updateFeedBadge();
+  } catch(e) {
+    feedLoaded[feed] = false;
+    panel.innerHTML = '<div class="news-error">読み込みに失敗しました</div>';
+  }
+}
+
+function updateFeedBadge() {
+  const loaded = Object.values(feedLoaded).filter(Boolean).length;
+  document.getElementById('feedBadge').textContent = loaded + 'フィード';
+}
+
+function formatFeedDate(dateStr) {
+  if (!dateStr) return '';
+  try {
+    const d = new Date(dateStr);
+    if (isNaN(d)) return '';
+    return (d.getMonth() + 1) + '/' + d.getDate();
+  } catch(e) { return ''; }
+}
+
+function escHtml(str) {
+  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ============================================================
+// タブ切り替え
+// ============================================================
+function switchTab(tab) {
+  const tabs = ['resources', 'research', 'sessions'];
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    t.classList.toggle('active', tabs[i] === tab);
+  });
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  if (tab === 'resources' && !resourcesLoaded) {
+    resourcesLoaded = true;
+    loadResources();
+  }
+}
+
+async function api(params) {
+  const qs = Object.entries(params).map(([k,v]) => `${k}=${encodeURIComponent(v)}`).join('&');
+  const res = await fetch(`${API_URL}?${qs}`, { redirect: 'follow' });
+  return res.json();
+}
+
+// ============================================================
+// ログイン・ログアウト
+// ============================================================
+async function login() {
+  const cid = document.getElementById('loginCompanyId').value.trim();
+  const pc  = document.getElementById('loginPasscode').value;
+  const msg = document.getElementById('loginMsg');
+  if (!cid || !pc) { msg.textContent = '会社IDとパスコードを入力してください'; return; }
+  try {
+    const json = await api({ action: 'authPartner', company_id: cid, passcode: pc });
+    if (json.status !== 'ok') { msg.textContent = json.message; return; }
+    partnerToken = json.data.token;
+    companyId    = json.data.company_id;
+    sessionStorage.setItem('partner_token', partnerToken);
+    sessionStorage.setItem('partner_company_id', companyId);
+    researchEnabled = json.data.research_enabled === true;
+    if (researchEnabled) document.getElementById('tab-btn-research').style.display = '';
+    document.getElementById('loginSection').style.display = 'none';
+    document.getElementById('mainSection').style.display = 'block';
+    resourcesLoaded = true;
+    loadResources();
+    loadSessions();
+  } catch(e) { msg.textContent = 'エラーが発生しました'; }
+}
+
+function logout() {
+  sessionStorage.removeItem('partner_token');
+  sessionStorage.removeItem('partner_company_id');
+  partnerToken = null; companyId = null; currentSession = null;
+  document.getElementById('mainSection').style.display = 'none';
+  document.getElementById('loginSection').style.display = 'flex';
+  document.getElementById('loginPasscode').value = '';
+  // ログアウト後フィードを再表示
+  if (!feedLoaded['note']) loadRssFeed('note');
+}
+
+// ============================================================
+// セッション管理
+// ============================================================
+async function loadSessions() {
+  try {
+    const json = await api({ action: 'getSessions', company_id: companyId, token: partnerToken });
+    if (json.status !== 'ok') { if (json.message && json.message.includes('切れ')) { logout(); } return; }
+    const sessions = json.data.sessions || [];
+    const tbody = document.getElementById('sessionTable');
+    if (sessions.length === 0) {
+      tbody.innerHTML = '<tr><th>セッションコード</th><th>セッション名</th><th>開催日</th><th>デモ</th><th>操作</th></tr><tr><td colspan="5" style="color:#666;text-align:center;">セッションがありません。「＋ セッションを追加」から作成してください。</td></tr>';
+      document.getElementById('detailCard').style.display = 'none';
+      document.getElementById('accountsCard').style.display = 'none';
+      return;
+    }
+    let html = '<tr><th>セッションコード</th><th>セッション名</th><th>開催日</th><th>デモ</th><th>操作</th></tr>';
+    sessions.forEach(s => {
+      const active = s.session_code === currentSession ? 'class="active"' : '';
+      html += `<tr ${active}>
+        <td><code>${s.session_code}</code></td>
+        <td>${s.session_name || '（未設定）'}</td>
+        <td>${s.session_date || '（未設定）'}</td>
+        <td>${s.use_demo ? '✅' : '－'}</td>
+        <td><button class="btn btn-sm" onclick="selectSession('${s.session_code}')">編集</button></td>
+      </tr>`;
+    });
+    tbody.innerHTML = html;
+    if (currentSession) {
+      const found = sessions.find(s => s.session_code === currentSession);
+      if (found) selectSession(currentSession, false);
+    }
+  } catch(e) { document.getElementById('sessionMsg').textContent = 'エラーが発生しました'; }
+}
+
+async function selectSession(code, reload = true) {
+  currentSession = code;
+  document.getElementById('editSessionCode').textContent = code;
+  document.querySelectorAll('#sessionTable tr').forEach(tr => {
+    tr.classList.remove('active');
+    if (tr.querySelector('code') && tr.querySelector('code').textContent === code) tr.classList.add('active');
+  });
+  try {
+    const json = await api({ action: 'getSettings', session_code: code });
+    if (json.status !== 'ok') return;
+    const d = json.data;
+    document.getElementById('sessionName').value   = d.session_name || '';
+    document.getElementById('sessionDate').value   = d.session_date || '';
+    document.getElementById('sessionTime').value   = d.session_time || '';
+    document.getElementById('detailUrl').value     = d.detail_url   || '';
+    document.getElementById('materialsUrl').value  = d.materials_url || '';
+    document.getElementById('surveyUrl').value     = d.survey_url   || '';
+    document.getElementById('useDemo').checked     = d.use_demo !== false;
+    document.getElementById('publishRss').checked  = d.publish_rss === true;
+    document.getElementById('message').value       = d.message      || '';
+    document.getElementById('loginUrl').value      = d.login_url    || 'https://system.netsuite.com/pages/customerlogin.jsp?country=JP';
+    document.getElementById('useLogin').checked    = d.use_login !== false;
+    document.getElementById('detailCard').style.display   = 'block';
+    document.getElementById('accountsCard').style.display = 'block';
+    document.getElementById('detailMsg').textContent = '';
+    if (reload) loadAccounts();
+  } catch(e) {}
+}
+
+async function saveAll() {
+  const msg = document.getElementById('detailMsg');
+  msg.textContent = '保存中...'; msg.className = 'msg';
+  try {
+    const r1 = await api({
+      action: 'updateSessionInfo',
+      session_code: currentSession,
+      session_name: document.getElementById('sessionName').value,
+      session_date: document.getElementById('sessionDate').value,
+      session_time: document.getElementById('sessionTime').value,
+      token: partnerToken
+    });
+    if (r1.status !== 'ok') { msg.textContent = r1.message; msg.className = 'msg err'; return; }
+    const r2 = await api({
+      action: 'saveSettings',
+      session_code: currentSession,
+      detail_url:   document.getElementById('detailUrl').value,
+      materials_url:document.getElementById('materialsUrl').value,
+      survey_url:   document.getElementById('surveyUrl').value,
+      use_demo:     document.getElementById('useDemo').checked,
+      publish_rss:  document.getElementById('publishRss').checked,
+      message:      document.getElementById('message').value,
+      login_url:    document.getElementById('loginUrl').value,
+      use_login:    document.getElementById('useLogin').checked,
+      token: partnerToken
+    });
+    if (r2.status !== 'ok') { msg.textContent = r2.message; msg.className = 'msg err'; return; }
+    msg.textContent = '保存しました'; msg.className = 'msg ok';
+    loadSessions();
+  } catch(e) { msg.textContent = 'エラーが発生しました'; msg.className = 'msg err'; }
+}
+
+async function addSession() {
+  try {
+    const json = await api({ action: 'addSession', company_id: companyId, token: partnerToken });
+    if (json.status !== 'ok') { alert(json.message); return; }
+    currentSession = json.data.session_code;
+    await loadSessions();
+    selectSession(currentSession);
+  } catch(e) { alert('エラーが発生しました'); }
+}
+
+async function deleteSession() {
+  if (!currentSession) { alert('セッションを選択してください'); return; }
+  if (!confirm(`セッション ${currentSession} とすべてのアカウントを削除します。よろしいですか？`)) return;
+  try {
+    const json = await api({ action: 'deleteSession', session_code: currentSession, token: partnerToken });
+    if (json.status !== 'ok') { alert(json.message); return; }
+    currentSession = null;
+    document.getElementById('detailCard').style.display   = 'none';
+    document.getElementById('accountsCard').style.display = 'none';
+    loadSessions();
+  } catch(e) { alert('エラーが発生しました'); }
+}
+
+// ============================================================
+// アカウント管理
+// ============================================================
+async function loadAccounts() {
+  try {
+    const json = await api({ action: 'getAccounts', session_code: currentSession, token: partnerToken });
+    if (json.status !== 'ok') return;
+    renderAccounts(json.data.accounts);
+  } catch(e) {}
+}
+
+function renderAccounts(accounts) {
+  const area = document.getElementById('accountsArea');
+  if (!accounts || accounts.length === 0) { area.innerHTML = '<p style="color:#666;font-size:13px;">アカウントがありません</p>'; return; }
+  let html = '<table><tr><th>ユーザーID</th><th>パスワード</th><th>状態</th><th>使用日時</th><th>操作</th></tr>';
+  accounts.forEach(a => {
+    const badge  = a.is_used ? '<span class="badge used">使用済</span>' : '<span class="badge unused">未使用</span>';
+    const usedAt = a.used_at ? new Date(a.used_at).toLocaleString('ja-JP') : '－';
+    html += `<tr><td>${a.user_id}</td><td>${a.password}</td><td>${badge}</td><td style="font-size:12px;">${usedAt}</td><td><button class="btn btn-sm btn-outline" onclick="resetAccount('${a.user_id}')">リセット</button></td></tr>`;
+  });
+  html += '</table>';
+  area.innerHTML = html;
+}
+
+async function resetAccount(userId) {
+  try {
+    const json = await api({ action: 'resetAccount', session_code: currentSession, user_id: userId, token: partnerToken });
+    const msg = document.getElementById('accountsMsg');
+    msg.textContent = json.status === 'ok' ? 'リセットしました' : json.message;
+    msg.className   = 'msg ' + (json.status === 'ok' ? 'ok' : 'err');
+    if (json.status === 'ok') loadAccounts();
+  } catch(e) {}
+}
+
+async function resetAll() {
+  if (!confirm('全アカウントをリセットします。よろしいですか？')) return;
+  try {
+    const json = await api({ action: 'resetAll', session_code: currentSession, token: partnerToken });
+    const msg = document.getElementById('accountsMsg');
+    msg.textContent = json.status === 'ok' ? '全リセットしました' : json.message;
+    msg.className   = 'msg ' + (json.status === 'ok' ? 'ok' : 'err');
+    if (json.status === 'ok') loadAccounts();
+  } catch(e) {}
+}
+
+async function importAccounts() {
+  const file = document.getElementById('xlsxFile').files[0];
+  if (!file) return;
+  const msg = document.getElementById('accountsMsg');
+  try {
+    const buf  = await file.arrayBuffer();
+    const wb   = XLSX.read(buf, { type: 'array' });
+    const ws   = wb.Sheets[wb.SheetNames[0]];
+    const rows = XLSX.utils.sheet_to_json(ws, { header: 1 });
+    const data = rows.slice(1).filter(r => r[0] && r[1]).map(r => ({ user_id: String(r[0]).trim(), password: String(r[1]).trim() }));
+    if (data.length === 0)   { msg.textContent = 'データがありません'; msg.className = 'msg err'; return; }
+    if (data.length > 100)   { msg.textContent = '100件を超えるデータはインポートできません'; msg.className = 'msg err'; return; }
+    msg.textContent = 'インポート中...'; msg.className = 'msg';
+    const encodedData = encodeURIComponent(JSON.stringify(data));
+    const url = API_URL + '?action=importAccounts&session_code=' + currentSession + '&token=' + partnerToken + '&data=' + encodedData;
+    const res  = await fetch(url, { redirect: 'follow' });
+    const json = await res.json();
+    msg.textContent = json.status === 'ok' ? json.data.message : json.message;
+    msg.className   = 'msg ' + (json.status === 'ok' ? 'ok' : 'err');
+    if (json.status === 'ok') loadAccounts();
+  } catch(e) { msg.textContent = 'エラーが発生しました'; msg.className = 'msg err'; }
+  document.getElementById('xlsxFile').value = '';
+}
+
+// ============================================================
+// 企業調査
+// ============================================================
+async function searchCompany() {
+  const name = document.getElementById('researchQuery').value.trim();
+  const msg  = document.getElementById('researchMsg');
+  if (!name) { msg.textContent = '会社名を入力してください'; return; }
+  msg.textContent = '';
+  document.getElementById('corpListCard').style.display  = 'none';
+  document.getElementById('corpDetailCard').style.display = 'none';
+  document.getElementById('corpListArea').innerHTML = '<div class="spinner-wrap"><div class="spinner"></div>検索中...</div>';
+  document.getElementById('corpListCard').style.display  = 'block';
+  try {
+    const json = await api({ action: 'searchCompanyBrave', token: partnerToken, name });
+    if (json.status !== 'ok') {
+      document.getElementById('corpListArea').innerHTML = `<p style="color:#c00;font-size:13px;">${json.message}</p>`;
+      return;
+    }
+    const corps = json.data?.results || [];
+    if (corps.length === 0) {
+      document.getElementById('corpListArea').innerHTML = '<p style="color:#666;font-size:13px;">該当する結果が見つかりませんでした</p>';
+      return;
+    }
+    let html = '';
+    corps.forEach((c, i) => {
+      html += `<div class="corp-card" id="corp-${i}" onclick="selectCorp(${i})">
+        <div class="corp-name">${c.name}</div>
+        <div class="corp-meta" style="font-size:11px;">${c.url}</div>
+      </div>`;
+    });
+    document.getElementById('corpListArea').innerHTML = html;
+    document.getElementById('corpListArea')._data = corps;
+  } catch(e) {
+    document.getElementById('corpListArea').innerHTML = `<p style="color:#c00;font-size:13px;">エラーが発生しました: ${e.message}</p>`;
+  }
+}
+
+function selectCorp(idx) {
+  const corps = document.getElementById('corpListArea')._data || [];
+  const c = corps[idx];
+  if (!c) return;
+  currentCorp = { name: c.name, corporate_number: '', invoice_number: '' };
+  document.querySelectorAll('.corp-card').forEach((el, i) => el.classList.toggle('selected', i === idx));
+  document.getElementById('corpDetailName').textContent = c.name;
+  document.getElementById('corpInfoGrid').innerHTML = `
+    <span class="info-label">会社名</span><span class="info-value">${c.name}</span>
+    <span class="info-label">参照URL</span><span class="info-value" style="font-size:11px;word-break:break-all;">${c.url}</span>
+  `;
+  const chips = [c.name, c.name + ' ERP', c.name + ' NetSuite', c.name + ' 基幹システム', c.name + ' 導入事例'];
+  document.getElementById('chipWrap').innerHTML = chips.map((chip, i) =>
+    `<span class="chip${i === 0 ? ' active' : ''}" onclick="selectChip(this,'${chip.replace(/'/g, "\\'")}')">${chip}</span>`
+  ).join('');
+  document.getElementById('searchQuery').value = c.name;
+  document.getElementById('corpDetailCard').style.display = 'block';
+  document.getElementById('corpDetailCard').scrollIntoView({ behavior: 'smooth' });
+}
+
+function selectChip(el, text) {
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('searchQuery').value = text;
+}
+
+function openEngine(engine) {
+  if (!currentCorp) return;
+  const query = document.getElementById('searchQuery').value.trim() || currentCorp.name;
+  let url = '';
+  if (engine === 'google')     url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+  if (engine === 'perplexity') url = `https://www.perplexity.ai/search?q=${encodeURIComponent(query)}`;
+  if (engine === 'chatgpt')    url = `https://chatgpt.com/?q=${encodeURIComponent(query)}`;
+  window.open(url, '_blank');
+  fetch(API_URL
+    + '?action=logResearch'
+    + '&token=' + encodeURIComponent(partnerToken)
+    + '&corporate_number=' + encodeURIComponent(currentCorp.corporate_number)
+    + '&company_name=' + encodeURIComponent(currentCorp.name)
+    + '&engine=' + encodeURIComponent(engine),
+    { redirect: 'follow' }
+  ).catch(() => {});
+}
+
+// ============================================================
+// 資料ダウンロード
+// ============================================================
+async function loadResources() {
+  const area = document.getElementById('resourcesArea');
+  const msg  = document.getElementById('resourcesMsg');
+  area.innerHTML = '<div class="spinner-wrap"><div class="spinner"></div>資料を読み込み中...</div>';
+  msg.textContent = '';
+  try {
+    const json = await api({ action: 'getResources', token: partnerToken });
+    if (json.status !== 'ok') { area.innerHTML = '<p style="color:#c00;font-size:13px;">' + json.message + '</p>'; return; }
+    renderResources(json.data.resources || []);
+  } catch(e) { area.innerHTML = '<p style="color:#c00;font-size:13px;">読み込みに失敗しました</p>'; }
+}
+
+function renderResources(resources) {
+  const area = document.getElementById('resourcesArea');
+  if (!resources || resources.length === 0) { area.innerHTML = '<p style="color:#666;font-size:13px;">現在ダウンロードできる資料はありません</p>'; return; }
+  const categories = {};
+  resources.forEach(r => {
+    const cat = r.category || 'その他';
+    if (!categories[cat]) categories[cat] = [];
+    categories[cat].push(r);
+  });
+  const catOrder    = ['製品カタログ', '資料'];
+  const orderedCats = [...catOrder.filter(c => categories[c]), ...Object.keys(categories).filter(c => !catOrder.includes(c))];
+  let html = '';
+  orderedCats.forEach(cat => {
+    html += `<div class="resource-section"><div class="resource-section-title">${cat}</div>`;
+    categories[cat].forEach(r => {
+      html += `<div class="resource-item">
+        <div class="resource-info">
+          <div class="resource-name">${r.file_name}</div>
+          ${r.description ? `<div class="resource-desc">${r.description}</div>` : ''}
+        </div>
+        <div class="resource-actions">
+          <button class="btn btn-outline btn-sm" onclick="downloadResource('${r.doc_id}','${r.file_name}')">ダウンロード</button>
+        </div>
+      </div>`;
+    });
+    html += '</div>';
+  });
+  area.innerHTML = html;
+}
+
+async function downloadResource(docId, fileName) {
+  const msg = document.getElementById('resourcesMsg');
+  msg.textContent = 'URLを取得中...'; msg.className = 'msg';
+  try {
+    const json = await api({ action: 'getResourceUrl', doc_id: docId, token: partnerToken });
+    if (json.status !== 'ok') { msg.textContent = json.message || 'ダウンロードURLの取得に失敗しました'; msg.className = 'msg err'; return; }
+    msg.textContent = '';
+    window.open(json.data.url, '_blank');
+  } catch(e) { msg.textContent = 'エラーが発生しました'; msg.className = 'msg err'; }
+}
+</script>
+</body>
+</html>
