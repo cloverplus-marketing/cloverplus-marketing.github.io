@@ -292,8 +292,8 @@ tr.active-row td{background:#e8f5e9;}
       <label>ファイル</label>
       <div style="margin-bottom:12px;">
         <label style="display:inline-block;cursor:pointer;margin:0;">
+          <label for="resourceFile" class="btn btn-orange btn-sm" style="cursor:pointer;display:inline-block;">ファイルを選択</label>
           <input type="file" id="resourceFile" accept=".pdf,.xlsx,.pptx,.docx" style="display:none" onchange="onResourceFileChange()">
-          <span class="btn btn-orange btn-sm" onclick="document.getElementById('resourceFile').click()">ファイルを選択</span>
         </label>
         <span id="resourceFileLabel" style="margin-left:10px;font-size:13px;color:#666;">未選択</span>
       </div>
@@ -900,20 +900,19 @@ async function uploadResource(){
   try{
     // POSTリクエストでBase64を送信（URL長制限回避）
     const base64 = await fileToBase64(file);
-    const body = JSON.stringify({
-      action:       'adminUploadResource',
-      admin_token:  adminToken,
-      category:     category,
-      file_name:    fileName,
-      description:  description,
-      original_name:file.name,
-      file_data:    base64
-    });
+    // GASはCORSのpreflightを通さないためフォームエンコードで送信
+    const params = new URLSearchParams();
+    params.append('action',        'adminUploadResource');
+    params.append('admin_token',   adminToken);
+    params.append('category',      category);
+    params.append('file_name',     fileName);
+    params.append('description',   description);
+    params.append('original_name', file.name);
+    params.append('file_data',     base64);
     const res = await fetch(API_URL, {
       method: 'POST',
       redirect: 'follow',
-      headers: { 'Content-Type': 'application/json' },
-      body: body
+      body: params
     });
     const json = await res.json();
     msg.textContent = json.status==='ok' ? 'アップロードしました' : json.message;
