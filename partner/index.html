@@ -27,7 +27,6 @@ body{font-family:'Yu Gothic','Hiragino Sans',sans-serif;background:var(--bg);col
 .login-left input:focus{outline:none;border-color:var(--green);}
 .btn-login{width:100%;padding:14px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:15px;font-family:inherit;font-weight:bold;cursor:pointer;transition:background .2s;margin-top:4px;}
 .btn-login:hover{background:var(--green2);}
-#loginCompanyId::placeholder,#loginPasscode::placeholder{color:#ccc;letter-spacing:.05em;}
 .login-hint{margin-top:12px;font-size:12px;color:#aaa;text-align:center;}
 .msg{font-size:13px;margin-top:8px;}
 .msg.ok{color:var(--green);}
@@ -169,21 +168,17 @@ tr.active td{background:#e8f5e9;}
             <div class="login-logo-sub">パートナーログイン</div>
           </div>
           <label for="loginCompanyId">会社ID</label>
-          <input type="text" id="loginCompanyId" placeholder="XXXXXX" autocomplete="username">
+          <input type="text" id="loginCompanyId" placeholder="CP001" autocomplete="username">
           <label for="loginPasscode">パスコード</label>
           <input type="password" id="loginPasscode" placeholder="パスコード" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()">
           <button class="btn-login" onclick="login()">ログイン</button>
           <div class="msg err" id="loginMsg"></div>
-          <p class="login-hint">パスコードをお忘れの場合は <a href="mailto:media@cloverplus.net" style="color:#196B24;">media@cloverplus.net</a> までご連絡ください。</p>
+          <p class="login-hint">パスコードをお忘れの場合は管理者までご連絡ください。</p>
         </div>
 
         <!-- 下部リンク -->
         <div class="login-links">
-          <a class="login-link-item" href="/partner/register.html">
-            <span class="link-icon link-icon-session" style="background:#fff3e0;color:#E97132;">＋</span>
-            <span>新規パートナー登録はこちら</span>
-          </a>
-          <a class="login-link-item" href="/seminar/" target="_blank" rel="noopener">
+          <a class="login-link-item" href="https://cloverplus-marketing.github.io/clover-session/session/index.html" target="_blank" rel="noopener">
             <span class="link-icon link-icon-session">🎓</span>
             <span>セミナー参加者ログイン</span>
           </a>
@@ -235,19 +230,19 @@ tr.active td{background:#e8f5e9;}
   <div class="tabs">
     <button class="tab active" onclick="switchTab('resources')">資料ダウンロード</button>
     <button class="tab" id="tab-btn-research" style="display:none;" onclick="switchTab('research')">企業調査 <span style="font-size:10px;background:#E97132;color:#fff;padding:1px 5px;border-radius:4px;vertical-align:middle;">β</span></button>
-    <button class="tab" onclick="switchTab('sessions')">セミナー管理</button>
+    <button class="tab" onclick="switchTab('sessions')">セッション管理</button>
   </div>
 
-  <!-- タブ：セミナー管理 -->
+  <!-- タブ：セッション管理 -->
   <div id="tab-sessions" class="tab-content">
   <div class="card">
-    <h2>セミナー一覧</h2>
+    <h2>セッション一覧</h2>
     <div style="margin-bottom:12px;">
-      <button class="btn btn-sm" onclick="addSession()">＋ セミナーを追加</button>
+      <button class="btn btn-sm" onclick="addSession()">＋ セッションを追加</button>
     </div>
     <div class="session-table-wrap">
       <table id="sessionTable">
-        <tr><th>セミナーコード</th><th>セミナー名</th><th>開催日</th><th>デモ</th><th>操作</th></tr>
+        <tr><th>セッションコード</th><th>セッション名</th><th>開催日</th><th>デモ</th><th>操作</th></tr>
         <tr><td colspan="5" style="color:#666;text-align:center;">読み込み中...</td></tr>
       </table>
     </div>
@@ -255,10 +250,10 @@ tr.active td{background:#e8f5e9;}
   </div>
 
   <div class="card" id="detailCard" style="display:none;">
-    <h2>セミナー編集：<span id="editSessionCode" style="font-size:13px;color:#666;"></span></h2>
+    <h2>セッション編集：<span id="editSessionCode" style="font-size:13px;color:#666;"></span></h2>
     <div class="form-row">
       <div>
-        <label>セミナー名</label>
+        <label>セッション名</label>
         <input type="text" id="sessionName" placeholder="NetSuite ハンズオン 2026春">
       </div>
       <div>
@@ -280,8 +275,11 @@ tr.active td{background:#e8f5e9;}
     <input type="url" id="materialsUrl" placeholder="https://drive.google.com/...">
     <label>アンケートURL</label>
     <input type="url" id="surveyUrl" placeholder="https://forms.google.com/...">
-    <label>メッセージ</label>
-    <textarea id="message" rows="4" style="width:100%;padding:10px 13px;border:2px solid #ddd;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:12px;resize:vertical;transition:border-color .2s;" placeholder="受講者への案内文や注意事項を入力してください&#10;（改行可）"></textarea>
+    <label>メッセージ <span style="font-size:11px;color:#888;font-weight:normal;">（最大500文字）</span></label>
+    <textarea id="message" rows="4" maxlength="500" oninput="updateMsgCount()" style="width:100%;padding:10px 13px;border:2px solid #ddd;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:4px;resize:vertical;transition:border-color .2s;" placeholder="受講者への案内文や注意事項を入力してください&#10;（改行可）"></textarea>
+    <div style="text-align:right;font-size:12px;margin-bottom:10px;">
+      <span id="msgCount" style="color:#888;">0</span> / 500文字
+    </div>
     <label>ログインURL</label>
     <input type="url" id="loginUrl" placeholder="https://system.netsuite.com/pages/customerlogin.jsp?country=JP">
     <div class="toggle">
@@ -298,7 +296,7 @@ tr.active td{background:#e8f5e9;}
     </div>
     <div class="flex-wrap">
       <button class="btn" onclick="saveAll()">保存</button>
-      <button class="btn btn-red btn-sm" onclick="deleteSession()">このセミナーを削除</button>
+      <button class="btn btn-red btn-sm" onclick="deleteSession()">このセッションを削除</button>
     </div>
     <div class="msg" id="detailMsg"></div>
   </div>
@@ -526,7 +524,7 @@ function logout() {
 }
 
 // ============================================================
-// セミナー管理
+// セッション管理
 // ============================================================
 async function loadSessions() {
   try {
@@ -535,12 +533,12 @@ async function loadSessions() {
     const sessions = json.data.sessions || [];
     const tbody = document.getElementById('sessionTable');
     if (sessions.length === 0) {
-      tbody.innerHTML = '<tr><th>セミナーコード</th><th>セミナー名</th><th>開催日</th><th>デモ</th><th>操作</th></tr><tr><td colspan="5" style="color:#666;text-align:center;">セミナーがありません。「＋ セミナーを追加」から作成してください。</td></tr>';
+      tbody.innerHTML = '<tr><th>セッションコード</th><th>セッション名</th><th>開催日</th><th>デモ</th><th>操作</th></tr><tr><td colspan="5" style="color:#666;text-align:center;">セッションがありません。「＋ セッションを追加」から作成してください。</td></tr>';
       document.getElementById('detailCard').style.display = 'none';
       document.getElementById('accountsCard').style.display = 'none';
       return;
     }
-    let html = '<tr><th>セミナーコード</th><th>セミナー名</th><th>開催日</th><th>デモ</th><th>操作</th></tr>';
+    let html = '<tr><th>セッションコード</th><th>セッション名</th><th>開催日</th><th>デモ</th><th>操作</th></tr>';
     sessions.forEach(s => {
       const active = s.session_code === currentSession ? 'class="active"' : '';
       html += `<tr ${active}>
@@ -579,6 +577,7 @@ async function selectSession(code, reload = true) {
     document.getElementById('useDemo').checked     = d.use_demo !== false;
     document.getElementById('publishRss').checked  = d.publish_rss === true;
     document.getElementById('message').value       = d.message      || '';
+    updateMsgCount();
     document.getElementById('loginUrl').value      = d.login_url    || 'https://system.netsuite.com/pages/customerlogin.jsp?country=JP';
     document.getElementById('useLogin').checked    = d.use_login !== false;
     document.getElementById('detailCard').style.display   = 'block';
@@ -586,6 +585,13 @@ async function selectSession(code, reload = true) {
     document.getElementById('detailMsg').textContent = '';
     if (reload) loadAccounts();
   } catch(e) {}
+}
+
+function updateMsgCount() {
+  const len = document.getElementById('message').value.length;
+  const el  = document.getElementById('msgCount');
+  el.textContent = len;
+  el.style.color = len >= 480 ? '#c00' : len >= 400 ? '#E97132' : '#888';
 }
 
 async function saveAll() {
@@ -631,7 +637,7 @@ async function addSession() {
 }
 
 async function deleteSession() {
-  if (!currentSession) { alert('セミナーを選択してください'); return; }
+  if (!currentSession) { alert('セッションを選択してください'); return; }
   if (!confirm(`セッション ${currentSession} とすべてのアカウントを削除します。よろしいですか？`)) return;
   try {
     const json = await api({ action: 'deleteSession', session_code: currentSession, token: partnerToken });
