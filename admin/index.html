@@ -3,90 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Clover Plus Partner HUB - パートナーハブ</title>
+<title>Clover Plus System Admin - 管理者</title>
 <style>
 :root{--green:#196B24;--green2:#22922f;--bg:#f0f7f2;--text:#1a3320;--orange:#E97132;}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Yu Gothic','Hiragino Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:20px 16px;}
-
-/* ============================================================
-   ログイン画面：左右2カラム
-   ============================================================ */
-.login-wrap{display:flex;align-items:stretch;justify-content:center;min-height:100vh;padding:24px 0;}
-.login-layout{display:grid;grid-template-columns:420px 1fr;gap:0;width:100%;max-width:1000px;background:#fff;border-radius:16px;box-shadow:0 4px 32px rgba(0,0,0,.10);overflow:hidden;}
-
-/* 左カラム：フォーム */
-.login-left{padding:48px 40px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid #e8f0e9;}
-.login-left-top{flex:1;}
-.login-logo{margin-bottom:32px;}
-.login-logo-title{color:var(--green);font-size:22px;font-weight:bold;line-height:1.2;margin-bottom:4px;}
-.login-logo-sub{color:#888;font-size:13px;}
-.login-left label{display:block;font-size:13px;font-weight:bold;margin-bottom:6px;color:var(--text);}
-.login-left input[type=text],
-.login-left input[type=password]{width:100%;padding:12px 14px;border:2px solid #ddd;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:16px;transition:border-color .2s;}
-.login-left input:focus{outline:none;border-color:var(--green);}
-.btn-login{width:100%;padding:14px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:15px;font-family:inherit;font-weight:bold;cursor:pointer;transition:background .2s;margin-top:4px;}
-.btn-login:hover{background:var(--green2);}
-.login-hint{margin-top:12px;font-size:12px;color:#aaa;text-align:center;}
-.msg{font-size:13px;margin-top:8px;}
-.msg.ok{color:var(--green);}
-.msg.err{color:#c00;}
-
-/* 左カラム下部リンク */
-.login-links{margin-top:32px;padding-top:20px;border-top:1px solid #eef2ee;display:flex;flex-direction:column;gap:8px;}
-.login-link-item{display:flex;align-items:center;gap:8px;font-size:13px;color:#555;text-decoration:none;padding:8px 10px;border-radius:8px;transition:background .15s;}
-.login-link-item:hover{background:var(--bg);color:var(--green);}
-.login-link-item .link-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
-.link-icon-session{background:#e8f5e9;color:var(--green);}
-.link-icon-web{background:#e3f2fd;color:#1565c0;}
-
-/* 右カラム：RSSフィード */
-.login-right{background:#fafcfa;padding:32px 28px;display:flex;flex-direction:column;min-width:0;}
-.feed-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
-.feed-title{font-size:15px;font-weight:bold;color:var(--text);}
-.feed-badge{font-size:11px;background:#e8f5e9;color:var(--green);border-radius:12px;padding:3px 10px;font-weight:bold;}
-
-/* RSSタブ */
-.rss-tabs{display:flex;gap:2px;border-bottom:2px solid #e0e8e0;margin-bottom:16px;}
-.rss-tab{padding:7px 16px;border:none;background:transparent;font-size:13px;font-family:inherit;cursor:pointer;color:#888;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;border-radius:4px 4px 0 0;}
-.rss-tab:hover{color:var(--green);background:#f0f7f2;}
-.rss-tab.active{color:var(--green);border-bottom-color:var(--green);font-weight:bold;background:transparent;}
-
-.rss-panel{display:none;overflow-y:auto;flex:1;}
-.rss-panel.active{display:block;}
-
-/* 記事カード */
-.news-item{padding:12px 14px;background:#fff;border-radius:8px;margin-bottom:8px;border:1px solid #e8ede8;transition:border-color .15s;}
-.news-item:hover{border-color:var(--green);}
-.news-item-body{}
-.news-item-top{display:flex;align-items:flex-start;gap:8px;margin-bottom:4px;}
-.source-icon{width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold;flex-shrink:0;margin-top:1px;}
-.icon-note{background:#41c9b4;color:#fff;}
-.icon-youtube{background:#ff0000;color:#fff;}
-.icon-spotify{background:#1db954;color:#fff;}
-.news-title{font-size:13px;font-weight:bold;line-height:1.4;}
-.news-title a{color:var(--text);text-decoration:none;}
-.news-title a:hover{color:var(--green);}
-.news-desc{font-size:12px;color:#888;line-height:1.5;margin:4px 0 6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-.news-meta{font-size:11px;color:#bbb;}
-.news-loading{color:#aaa;font-size:13px;padding:16px 0;text-align:center;}
-.news-error{color:#c00;font-size:12px;padding:8px 0;}
-
-/* スマホ対応 */
-@media(max-width:700px){
-  .login-layout{grid-template-columns:1fr;max-width:440px;}
-  .login-left{border-right:none;border-bottom:1px solid #e8f0e9;padding:32px 24px;}
-  .login-right{padding:24px;}
-  .login-wrap{align-items:flex-start;padding:16px 0;}
-}
-
-/* ============================================================
-   メイン画面
-   ============================================================ */
+.login-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;}
 .card{background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.07);padding:28px 24px;margin-bottom:16px;}
-.section{display:none;}
-input[type=text],input[type=password],input[type=date],input[type=url],input[type=time]{width:100%;padding:10px 13px;border:2px solid #ddd;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:12px;transition:border-color .2s;}
+.logo{color:var(--green);font-size:20px;font-weight:bold;text-align:center;margin-bottom:20px;}
+label{display:block;font-size:13px;font-weight:bold;margin-bottom:5px;}
+input[type=text],input[type=password],input[type=date],input[type=url]{width:100%;padding:10px 13px;border:2px solid #ddd;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:10px;transition:border-color .2s;}
 input:focus{outline:none;border-color:var(--green);}
+select{width:100%;padding:10px 13px;border:2px solid #ddd;border-radius:8px;font-size:14px;font-family:inherit;background:#fff;margin-bottom:10px;}
+textarea{width:100%;padding:10px 13px;border:2px solid #ddd;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:10px;resize:vertical;}
+textarea:focus{outline:none;border-color:var(--green);}
 .btn{padding:10px 16px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:13px;font-family:inherit;font-weight:bold;cursor:pointer;transition:background .2s;}
 .btn:hover{background:var(--green2);}
 .btn-full{width:100%;padding:13px;}
@@ -97,38 +27,39 @@ input:focus{outline:none;border-color:var(--green);}
 .btn-red:hover{background:#900;}
 .btn-orange{background:var(--orange);}
 .btn-orange:hover{background:#c85a1a;}
+.btn-gray{background:#888;}
+.btn-gray:hover{background:#666;}
 .btn-logout{background:transparent;color:#666;border:1px solid #ccc;font-size:12px;padding:6px 12px;}
 h2{color:var(--green);font-size:16px;margin-bottom:14px;border-bottom:2px solid var(--bg);padding-bottom:8px;}
-.flex-wrap{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
-table{width:100%;border-collapse:collapse;font-size:13px;}
-th{background:var(--green);color:#fff;padding:8px 12px;text-align:left;}
-td{padding:8px 12px;border-bottom:1px solid #eee;vertical-align:middle;}
-tr:hover td{background:#f9f9f9;}
-tr.active td{background:#e8f5e9;}
-.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:bold;}
-.badge.used{background:#e8f5e9;color:var(--green);}
-.badge.unused{background:#f5f5f5;color:#999;}
-.toggle{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
-.toggle input[type=checkbox]{width:16px;height:16px;margin:0;}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.session-table-wrap{overflow-x:auto;}
 .tabs{display:flex;gap:4px;margin-bottom:20px;border-bottom:2px solid #ddd;}
 .tab{padding:10px 20px;border:none;background:transparent;font-size:14px;font-family:inherit;cursor:pointer;color:#666;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;}
 .tab.active{color:var(--green);border-bottom-color:var(--green);font-weight:bold;}
 .tab-content{display:none;}
 .tab-content.active{display:block;}
-.resource-section{margin-bottom:24px;}
-.resource-section-title{font-size:13px;font-weight:bold;color:#666;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #eee;}
-.resource-item{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid #f0f0f0;}
-.resource-item:last-child{border-bottom:none;}
-.resource-info{flex:1;}
-.resource-name{font-size:14px;font-weight:bold;color:var(--text);margin-bottom:4px;}
-.resource-desc{font-size:12px;color:#888;line-height:1.6;}
-.resource-actions{flex-shrink:0;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{background:var(--green);color:#fff;padding:8px 12px;text-align:left;}
+td{padding:8px 12px;border-bottom:1px solid #eee;vertical-align:middle;}
+tr:hover td{background:#f9f9f9;}
+tr.active-row td{background:#e8f5e9;}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:bold;}
+.badge.active{background:#e8f5e9;color:var(--green);}
+.badge.inactive{background:#fee;color:#c00;}
+.badge.used{background:#e8f5e9;color:var(--green);}
+.badge.unused{background:#f5f5f5;color:#999;}
+.msg{font-size:13px;margin-top:8px;}
+.msg.ok{color:var(--green);}
+.msg.err{color:#c00;}
+.flex-wrap{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.toggle{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.toggle input[type=checkbox]{width:16px;height:16px;margin:0;}
+.section{display:none;}
+#loginSection{display:flex;}
+.proxy-banner{background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:10px 16px;margin-bottom:16px;font-size:13px;color:#856404;}
 .spinner-wrap{display:flex;align-items:center;gap:10px;padding:20px 0;color:#888;font-size:13px;}
 .spinner{width:18px;height:18px;border:2px solid #ddd;border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
 @keyframes spin{to{transform:rotate(360deg);}}
-.corp-card{background:var(--bg);border-radius:8px;padding:16px;margin-bottom:8px;cursor:pointer;border:2px solid transparent;transition:border-color .2s;}
+.corp-card{background:var(--bg);border-radius:8px;padding:14px;margin-bottom:8px;cursor:pointer;border:2px solid transparent;transition:border-color .2s;}
 .corp-card:hover{border-color:var(--green);}
 .corp-card.selected{border-color:var(--green);background:#e8f5e9;}
 .corp-name{font-size:14px;font-weight:bold;color:var(--text);margin-bottom:4px;}
@@ -143,179 +74,303 @@ tr.active td{background:#e8f5e9;}
 .copy-btn:hover{background:var(--bg);}
 .search-engines{display:flex;gap:10px;flex-wrap:wrap;}
 .engine-btn{flex:1;min-width:120px;padding:12px;border:none;border-radius:8px;font-size:13px;font-family:inherit;font-weight:bold;cursor:pointer;transition:background .2s;}
-.engine-google{background:#4285F4;color:#fff;}
-.engine-google:hover{background:#3367d6;}
-.engine-perplexity{background:#20B2AA;color:#fff;}
-.engine-perplexity:hover{background:#178f89;}
-.engine-chatgpt{background:#10a37f;color:#fff;}
-.engine-chatgpt:hover{background:#0d8a6b;}
+.engine-google{background:#4285F4;color:#fff;}.engine-google:hover{background:#3367d6;}
+.engine-perplexity{background:#20B2AA;color:#fff;}.engine-perplexity:hover{background:#178f89;}
+.engine-chatgpt{background:#10a37f;color:#fff;}.engine-chatgpt:hover{background:#0d8a6b;}
+.toggle-sw{position:relative;display:inline-block;width:36px;height:20px;vertical-align:middle;}
+.toggle-sw input{opacity:0;width:0;height:0;}
+.toggle-sw .slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:#ccc;border-radius:20px;transition:.3s;}
+.toggle-sw .slider:before{position:absolute;content:'';height:14px;width:14px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s;}
+.toggle-sw input:checked+.slider{background:var(--green);}
+.toggle-sw input:checked+.slider:before{transform:translateX(16px);}
 </style>
 </head>
 <body>
 
-<!-- ============================================================
-     ログイン画面
-     ============================================================ -->
-<div id="loginSection" style="display:flex;">
-  <div class="login-wrap" style="width:100%;">
-    <div class="login-layout">
-
-      <!-- 左カラム：フォーム -->
-      <div class="login-left">
-        <div class="login-left-top">
-          <div class="login-logo">
-            <div class="login-logo-title">Clover Plus Partner HUB</div>
-            <div class="login-logo-sub">パートナーログイン</div>
-          </div>
-          <label for="loginCompanyId">会社ID</label>
-          <input type="text" id="loginCompanyId" placeholder="CP001" autocomplete="username">
-          <label for="loginPasscode">パスコード</label>
-          <input type="password" id="loginPasscode" placeholder="パスコード" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()">
-          <button class="btn-login" onclick="login()">ログイン</button>
-          <div class="msg err" id="loginMsg"></div>
-          <p class="login-hint">パスコードをお忘れの場合は管理者までご連絡ください。</p>
-        </div>
-
-        <!-- 下部リンク -->
-        <div class="login-links">
-          <a class="login-link-item" href="https://cloverplus-marketing.github.io/clover-session/session/index.html" target="_blank" rel="noopener">
-            <span class="link-icon link-icon-session">🎓</span>
-            <span>セミナー参加者ログイン</span>
-          </a>
-          <a class="login-link-item" href="https://www.cloverplus.net" target="_blank" rel="noopener">
-            <span class="link-icon link-icon-web">🌐</span>
-            <span>Clover Plus ホームページ</span>
-          </a>
-        </div>
-      </div>
-
-      <!-- 右カラム：RSSフィード -->
-      <div class="login-right">
-        <div class="feed-header">
-          <div class="feed-title">Clover Plus 最新情報</div>
-          <div class="feed-badge" id="feedBadge">読み込み中...</div>
-        </div>
-
-        <div class="rss-tabs">
-          <button class="rss-tab active" data-feed="note" onclick="switchFeed('note')">note</button>
-          <button class="rss-tab" data-feed="youtube" onclick="switchFeed('youtube')">YouTube</button>
-          <button class="rss-tab" data-feed="spotify" onclick="switchFeed('spotify')">Spotify</button>
-        </div>
-
-        <div class="rss-panel active" id="panel-note">
-          <div class="news-loading">読み込み中...</div>
-        </div>
-        <div class="rss-panel" id="panel-youtube">
-          <div class="news-loading">読み込み中...</div>
-        </div>
-        <div class="rss-panel" id="panel-spotify">
-          <div class="news-loading">読み込み中...</div>
-        </div>
-      </div>
-
-    </div>
+<!-- ログイン -->
+<div id="loginSection" class="login-wrap">
+  <div class="card" style="width:100%;max-width:380px;">
+    <div class="logo"><a href="/" style="color:inherit;text-decoration:none;">Clover Plus System Admin</a><br><span style="font-size:13px;color:#666;font-weight:normal;">管理者ログイン</span></div>
+    <label>パスワード</label>
+    <input type="password" id="adminPass" placeholder="管理者パスワード">
+    <button class="btn btn-full" onclick="login()">ログイン</button>
+    <div class="msg err" id="loginMsg"></div>
   </div>
 </div>
 
-<!-- ============================================================
-     メイン画面
-     ============================================================ -->
+<!-- メイン -->
 <div id="mainSection" class="section">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-    <div style="color:var(--green);font-size:18px;font-weight:bold;"><a href="index.html" style="color:inherit;text-decoration:none;">Clover Plus Partner Hub</a></div>
+    <div style="color:var(--green);font-size:18px;font-weight:bold;"><a href="/" style="color:inherit;text-decoration:none;">Clover Plus System Admin</a> 管理</div>
     <button class="btn btn-logout" onclick="logout()">ログアウト</button>
   </div>
 
   <!-- タブ -->
   <div class="tabs">
-    <button class="tab active" onclick="switchTab('resources')">資料ダウンロード</button>
-    <button class="tab" id="tab-btn-research" style="display:none;" onclick="switchTab('research')">企業調査 <span style="font-size:10px;background:#E97132;color:#fff;padding:1px 5px;border-radius:4px;vertical-align:middle;">β</span></button>
-    <button class="tab" onclick="switchTab('sessions')">セッション管理</button>
+    <button class="tab active" onclick="switchTab('sessions')">セッション管理</button>
+    <button class="tab" onclick="switchTab('partners')">パートナー管理</button>
+    <button class="tab" onclick="switchTab('proxy')">代理操作</button>
+    <button class="tab" onclick="switchTab('resources')">資料管理</button>
+    <button class="tab" onclick="switchTab('researchlog')">調査ログ</button>
+    <button class="tab" onclick="switchTab('dllog')">ダウンロードログ</button>
+    <button class="tab" onclick="switchTab('research')">企業調査 <span style="font-size:10px;background:#E97132;color:#fff;padding:1px 5px;border-radius:4px;vertical-align:middle;">β</span></button>
   </div>
 
-  <!-- タブ：セッション管理 -->
-  <div id="tab-sessions" class="tab-content">
-  <div class="card">
-    <h2>セッション一覧</h2>
-    <div style="margin-bottom:12px;">
-      <button class="btn btn-sm" onclick="addSession()">＋ セッションを追加</button>
+  <!-- ① セッション管理 -->
+  <div id="tab-sessions" class="tab-content active">
+    <div class="card">
+      <h2>全セッション一覧</h2>
+      <div id="sessionsArea"><div style="color:#666;">読み込み中...</div></div>
     </div>
-    <div class="session-table-wrap">
-      <table id="sessionTable">
-        <tr><th>セッションコード</th><th>セッション名</th><th>開催日</th><th>デモ</th><th>操作</th></tr>
-        <tr><td colspan="5" style="color:#666;text-align:center;">読み込み中...</td></tr>
-      </table>
+    <div class="card" id="adminAccountsCard" style="display:none;">
+      <h2>アカウント一覧：<span id="selectedSession"></span></h2>
+      <div id="adminAccountsArea"></div>
     </div>
-    <div class="msg err" id="sessionMsg"></div>
   </div>
 
-  <div class="card" id="detailCard" style="display:none;">
-    <h2>セッション編集：<span id="editSessionCode" style="font-size:13px;color:#666;"></span></h2>
-    <div class="form-row">
-      <div>
-        <label>セッション名</label>
-        <input type="text" id="sessionName" placeholder="NetSuite ハンズオン 2026春">
+  <!-- ② パートナー管理 -->
+  <div id="tab-partners" class="tab-content">
+    <div class="card">
+      <h2>パートナー一覧</h2>
+      <div class="flex-wrap">
+        <button class="btn btn-sm" onclick="showCreatePartner()">＋ 新規パートナー作成</button>
       </div>
-      <div>
-        <label>開催日</label>
-        <input type="date" id="sessionDate">
+      <div id="partnersArea"><div style="color:#666;">読み込み中...</div></div>
+    </div>
+    <!-- パートナー作成フォーム -->
+    <div class="card" id="createPartnerCard" style="display:none;">
+      <h2>新規パートナー作成</h2>
+      <div class="form-row">
+        <div>
+          <label>会社ID</label>
+          <input type="text" id="newCompanyId" placeholder="CP003">
+        </div>
+        <div>
+          <label>会社名</label>
+          <input type="text" id="newCompanyName" placeholder="〇〇株式会社">
+        </div>
       </div>
-    </div>
-    <div class="form-row">
-      <div>
-        <label>開催時間</label>
-        <input type="time" id="sessionTime">
+      <label>パスコード</label>
+      <input type="text" id="newPasscode" placeholder="8文字以上">
+      <div class="flex-wrap">
+        <button class="btn" onclick="createPartner()">作成</button>
+        <button class="btn btn-gray btn-sm" onclick="document.getElementById('createPartnerCard').style.display='none'">キャンセル</button>
       </div>
-      <div>
-        <label>告知URL（任意）</label>
-        <input type="url" id="detailUrl" placeholder="https://...">
+      <div class="msg" id="createPartnerMsg"></div>
+    </div>
+    <!-- パートナー編集フォーム -->
+    <div class="card" id="editPartnerCard" style="display:none;">
+      <h2>パートナー編集：<span id="editPartnerId"></span></h2>
+      <label>会社名</label>
+      <input type="text" id="editCompanyName">
+      <label>パスコード</label>
+      <input type="text" id="editPasscode">
+      <div class="flex-wrap">
+        <button class="btn" onclick="updatePartner()">更新</button>
+        <button class="btn btn-gray btn-sm" onclick="document.getElementById('editPartnerCard').style.display='none'">キャンセル</button>
       </div>
+      <div class="msg" id="editPartnerMsg"></div>
     </div>
-    <label>資料URL</label>
-    <input type="url" id="materialsUrl" placeholder="https://drive.google.com/...">
-    <label>アンケートURL</label>
-    <input type="url" id="surveyUrl" placeholder="https://forms.google.com/...">
-    <label>メッセージ <span style="font-size:11px;color:#888;font-weight:normal;">（最大500文字）</span></label>
-    <textarea id="message" rows="4" maxlength="500" oninput="updateMsgCount()" style="width:100%;padding:10px 13px;border:2px solid #ddd;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:4px;resize:vertical;transition:border-color .2s;" placeholder="受講者への案内文や注意事項を入力してください&#10;（改行可）"></textarea>
-    <div style="text-align:right;font-size:12px;margin-bottom:10px;">
-      <span id="msgCount" style="color:#888;">0</span> / 500文字
-    </div>
-    <label>ログインURL</label>
-    <input type="url" id="loginUrl" placeholder="https://system.netsuite.com/pages/customerlogin.jsp?country=JP">
-    <div class="toggle">
-      <input type="checkbox" id="useLogin" checked>
-      <label for="useLogin" style="margin:0;font-weight:normal;cursor:pointer;">ログインボタンを表示する</label>
-    </div>
-    <div class="toggle">
-      <input type="checkbox" id="useDemo" checked>
-      <label for="useDemo" style="margin:0;font-weight:normal;cursor:pointer;">デモアカウント機能を使用する</label>
-    </div>
-    <div class="toggle">
-      <input type="checkbox" id="publishRss">
-      <label for="publishRss" style="margin:0;font-weight:normal;cursor:pointer;">RSS配信する（将来実装予定）</label>
-    </div>
-    <div class="flex-wrap">
-      <button class="btn" onclick="saveAll()">保存</button>
-      <button class="btn btn-red btn-sm" onclick="deleteSession()">このセッションを削除</button>
-    </div>
-    <div class="msg" id="detailMsg"></div>
   </div>
 
-  <div class="card" id="accountsCard" style="display:none;">
-    <h2>アカウント管理</h2>
-    <div class="flex-wrap" style="margin-bottom:16px;">
-      <label style="margin:0;cursor:pointer;">
-        <input type="file" id="xlsxFile" accept=".xlsx" style="display:none" onchange="importAccounts()">
-        <span class="btn btn-orange btn-sm" onclick="document.getElementById('xlsxFile').click()">Excelインポート</span>
-      </label>
-      <button class="btn btn-outline btn-sm" onclick="resetAll()">全リセット</button>
+  <!-- ③ 代理操作 -->
+  <div id="tab-proxy" class="tab-content">
+    <div class="card">
+      <h2>代理操作するパートナーを選択</h2>
+      <div class="flex-wrap">
+        <select id="proxyCompanySelect" style="flex:1;margin:0;" onchange="onProxyCompanyChange()">
+          <option value="">パートナーを選択してください</option>
+        </select>
+      </div>
     </div>
-    <div id="accountsArea"><p style="color:#666;font-size:13px;">アカウントがありません</p></div>
-    <div class="msg" id="accountsMsg"></div>
-  </div>
-  </div><!-- /tab-sessions -->
 
-  <!-- タブ：企業調査 -->
+    <div id="proxyMain" style="display:none;">
+      <div class="proxy-banner" id="proxyBanner"></div>
+
+      <!-- セッション一覧 -->
+      <div class="card">
+        <h2>セッション一覧</h2>
+        <div class="flex-wrap">
+          <button class="btn btn-sm" onclick="proxyAddSession()">＋ セッションを追加</button>
+        </div>
+        <table id="proxySessionTable">
+          <tr><th>セッションコード</th><th>セッション名</th><th>開催日</th><th>デモ</th><th>操作</th></tr>
+          <tr><td colspan="5" style="color:#666;text-align:center;">読み込み中...</td></tr>
+        </table>
+        <div class="msg err" id="proxySessionMsg"></div>
+      </div>
+
+      <!-- セッション編集 -->
+      <div class="card" id="proxyDetailCard" style="display:none;">
+        <h2>セッション編集：<span id="proxyEditCode" style="font-size:13px;color:#666;"></span></h2>
+        <div class="form-row">
+          <div>
+            <label>セッション名</label>
+            <input type="text" id="proxySessionName" placeholder="NetSuite ハンズオン 2026春">
+          </div>
+          <div>
+            <label>開催日</label>
+            <input type="date" id="proxySessionDate">
+          </div>
+        </div>
+        <div class="form-row">
+          <div>
+            <label>開催時間</label>
+            <input type="time" id="proxySessionTime">
+          </div>
+          <div>
+            <label>告知URL（任意）</label>
+            <input type="url" id="proxyDetailUrl" placeholder="https://...">
+          </div>
+        </div>
+        <label>メッセージ <span style="font-size:11px;color:#888;font-weight:normal;">（最大500文字）</span></label>
+        <textarea id="proxyMessage" rows="3" maxlength="500" oninput="updateProxyMsgCount()" placeholder="受講者へのメッセージ"></textarea>
+        <div style="text-align:right;font-size:12px;margin-top:-6px;margin-bottom:8px;">
+          <span id="proxyMsgCount" style="color:#888;">0</span> / 500文字
+        </div>
+        <label>資料URL</label>
+        <input type="url" id="proxyMaterialsUrl">
+        <label>アンケートURL</label>
+        <input type="url" id="proxySurveyUrl">
+        <label>ログインURL</label>
+        <input type="url" id="proxyLoginUrl">
+        <div class="toggle">
+          <input type="checkbox" id="proxyUseLogin" checked>
+          <label for="proxyUseLogin" style="margin:0;font-weight:normal;cursor:pointer;">ログインボタンを表示する</label>
+        </div>
+        <div class="toggle">
+          <input type="checkbox" id="proxyUseDemo" checked>
+          <label for="proxyUseDemo" style="margin:0;font-weight:normal;cursor:pointer;">デモアカウント機能を使用する</label>
+        </div>
+        <div class="toggle">
+          <input type="checkbox" id="proxyPublishRss">
+          <label for="proxyPublishRss" style="margin:0;font-weight:normal;cursor:pointer;">RSS配信する（将来実装予定）</label>
+        </div>
+        <div class="flex-wrap">
+          <button class="btn" onclick="proxySaveAll()">保存</button>
+          <button class="btn btn-red btn-sm" onclick="proxyDeleteSession()">このセッションを削除</button>
+        </div>
+        <div class="msg" id="proxyDetailMsg"></div>
+      </div>
+
+      <!-- アカウント管理 -->
+      <div class="card" id="proxyAccountsCard" style="display:none;">
+        <h2>アカウント管理</h2>
+        <div class="flex-wrap">
+          <label style="margin:0;cursor:pointer;">
+            <input type="file" id="proxyXlsxFile" accept=".xlsx" style="display:none" onchange="proxyImportAccounts()">
+            <span class="btn btn-orange btn-sm" onclick="document.getElementById('proxyXlsxFile').click()">Excelインポート</span>
+          </label>
+          <button class="btn btn-outline btn-sm" onclick="proxyResetAll()">全リセット</button>
+        </div>
+        <div id="proxyAccountsArea"><p style="color:#666;font-size:13px;">アカウントがありません</p></div>
+        <div class="msg" id="proxyAccountsMsg"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ④ 資料管理 -->
+  <div id="tab-resources" class="tab-content">
+    <div class="card">
+      <h2>資料一覧</h2>
+      <div class="flex-wrap" style="margin-bottom:12px;">
+        <button class="btn btn-sm" onclick="showUploadForm()">＋ 資料をアップロード</button>
+      </div>
+      <div id="adminResourcesArea"><div style="color:#666;">読み込み中...</div></div>
+      <div class="msg" id="adminResourcesMsg"></div>
+    </div>
+
+    <!-- アップロードフォーム -->
+    <div class="card" id="uploadResourceCard" style="display:none;">
+      <h2>資料アップロード</h2>
+      <label>カテゴリ</label>
+      <select id="resourceCategory" style="width:100%;padding:10px 13px;border:2px solid #ddd;border-radius:8px;font-size:14px;font-family:inherit;background:#fff;margin-bottom:12px;">
+        <option value="製品カタログ">製品カタログ</option>
+        <option value="資料">資料</option>
+      </select>
+      <label>ファイル名（表示名）</label>
+      <input type="text" id="resourceFileName" placeholder="NetSuite製品カタログ2026">
+      <label>説明（任意）</label>
+      <input type="text" id="resourceDescription" placeholder="概要テキスト">
+      <label>ファイル</label>
+      <div style="margin-bottom:12px;">
+        <label style="display:inline-block;cursor:pointer;margin:0;">
+          <input type="file" id="resourceFile" accept=".pdf,.xlsx,.pptx,.docx" style="display:none" onchange="onResourceFileChange()">
+          <span class="btn btn-orange btn-sm" onclick="document.getElementById('resourceFile').click()">ファイルを選択</span>
+        </label>
+        <span id="resourceFileLabel" style="margin-left:10px;font-size:13px;color:#666;">未選択</span>
+      </div>
+      <div class="flex-wrap">
+        <button class="btn" onclick="uploadResource()">アップロード</button>
+        <button class="btn btn-gray btn-sm" onclick="hideUploadForm()">キャンセル</button>
+      </div>
+      <div class="msg" id="uploadResourceMsg"></div>
+    </div>
+
+    <!-- 編集フォーム -->
+    <div class="card" id="editResourceCard" style="display:none;">
+      <h2>資料を編集</h2>
+      <input type="hidden" id="editResourceDocId">
+      <label>カテゴリ</label>
+      <select id="editResourceCategory" style="width:100%;padding:10px 13px;border:2px solid #ddd;border-radius:8px;font-size:14px;font-family:inherit;background:#fff;margin-bottom:12px;">
+        <option value="製品カタログ">製品カタログ</option>
+        <option value="資料">資料</option>
+      </select>
+      <label>ファイル名（表示名）</label>
+      <input type="text" id="editResourceFileName">
+      <label>説明（任意）</label>
+      <input type="text" id="editResourceDescription">
+      <div class="flex-wrap">
+        <button class="btn" onclick="updateResource()">更新</button>
+        <button class="btn btn-gray btn-sm" onclick="document.getElementById('editResourceCard').style.display='none'">キャンセル</button>
+      </div>
+      <div class="msg" id="editResourceMsg"></div>
+    </div>
+  </div>
+
+  <!-- ⑤ 調査ログ -->
+  <div id="tab-researchlog" class="tab-content">
+    <div class="card">
+      <h2>調査ログ</h2>
+      <div class="flex-wrap" style="margin-bottom:16px;align-items:flex-end;">
+        <div>
+          <label style="margin-bottom:4px;">開始日</label>
+          <input type="date" id="logDateFrom" style="margin:0;width:auto;">
+        </div>
+        <div>
+          <label style="margin-bottom:4px;">終了日</label>
+          <input type="date" id="logDateTo" style="margin:0;width:auto;">
+        </div>
+        <button class="btn btn-sm" onclick="loadResearchLogs()">検索</button>
+        <button class="btn btn-outline btn-sm" onclick="exportResearchLogs()">Excelダウンロード</button>
+      </div>
+      <div id="researchLogArea"><div style="color:#666;">検索してください</div></div>
+      <div class="msg" id="researchLogMsg"></div>
+    </div>
+  </div>
+
+  <!-- ⑥ ダウンロードログ -->
+  <div id="tab-dllog" class="tab-content">
+    <div class="card">
+      <h2>ダウンロードログ</h2>
+      <div class="flex-wrap" style="margin-bottom:16px;align-items:flex-end;">
+        <div>
+          <label style="margin-bottom:4px;">開始日</label>
+          <input type="date" id="dlDateFrom" style="margin:0;width:auto;">
+        </div>
+        <div>
+          <label style="margin-bottom:4px;">終了日</label>
+          <input type="date" id="dlDateTo" style="margin:0;width:auto;">
+        </div>
+        <button class="btn btn-sm" onclick="loadDownloadLogs()">検索</button>
+        <button class="btn btn-outline btn-sm" onclick="exportDownloadLogs()">Excelダウンロード</button>
+      </div>
+      <div id="dlLogArea"><div style="color:#666;">検索してください</div></div>
+      <div class="msg" id="dlLogMsg"></div>
+    </div>
+  </div>
+
+  <!-- ⑦ 企業調査（admin用） -->
   <div id="tab-research" class="tab-content">
     <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#7a5c00;">
       <strong>🔬 企業調査 β（ベータ版）</strong><br>
@@ -324,535 +379,901 @@ tr.active td{background:#e8f5e9;}
     <div class="card">
       <h2>企業調査 <span style="font-size:12px;background:#E97132;color:#fff;padding:2px 7px;border-radius:4px;vertical-align:middle;font-weight:normal;">β</span></h2>
       <div class="flex-wrap" style="margin-bottom:0;">
-        <input type="text" id="researchQuery" placeholder="会社名を入力（例：トヨタ）" style="flex:1;margin:0;" onkeydown="if(event.key==='Enter')searchCompany()">
-        <button class="btn" onclick="searchCompany()">検索</button>
+        <input type="text" id="adminResearchQuery" placeholder="会社名を入力（例：トヨタ）" style="flex:1;margin:0;" onkeydown="if(event.key==='Enter')adminSearchCompany()">
+        <button class="btn" onclick="adminSearchCompany()">検索</button>
       </div>
-      <p style="font-size:12px;color:#888;margin-top:8px;">※ 初回検索は10〜20秒かかる場合があります。エラーが表示された際はもう一度お試しください。</p>
-      <div class="msg err" id="researchMsg" style="margin-top:8px;"></div>
+      <div class="msg err" id="adminResearchMsg" style="margin-top:8px;"></div>
     </div>
-    <div class="card" id="corpListCard" style="display:none;">
+    <div class="card" id="adminCorpListCard" style="display:none;">
       <h2>検索結果</h2>
-      <div id="corpListArea"></div>
+      <div id="adminCorpListArea"></div>
     </div>
-    <div class="card" id="corpDetailCard" style="display:none;">
-      <h2 id="corpDetailName"></h2>
-      <div class="info-grid" id="corpInfoGrid"></div>
-      <div style="margin-bottom:8px;">
-        <label style="font-size:13px;font-weight:bold;color:#666;">検索クエリ</label>
-      </div>
-      <div class="chip-wrap" id="chipWrap"></div>
+    <div class="card" id="adminCorpDetailCard" style="display:none;">
+      <h2 id="adminCorpDetailName"></h2>
+      <div class="info-grid" id="adminCorpInfoGrid"></div>
+      <div style="margin-bottom:8px;"><label style="font-size:13px;font-weight:bold;color:#666;">検索クエリ</label></div>
+      <div class="chip-wrap" id="adminChipWrap"></div>
       <div style="margin-bottom:12px;">
-        <input type="text" id="searchQuery" style="margin:0;" placeholder="検索クエリを編集できます">
+        <input type="text" id="adminSearchQuery" style="margin:0;" placeholder="検索クエリを編集できます">
       </div>
       <div class="search-engines">
-        <button class="engine-btn engine-google" onclick="openEngine('google')">Google で検索</button>
-        <button class="engine-btn engine-perplexity" onclick="openEngine('perplexity')">Perplexity で検索</button>
-        <button class="engine-btn engine-chatgpt" onclick="openEngine('chatgpt')">ChatGPT で検索 <span style="font-size:10px;font-weight:normal;">※要アカウント</span></button>
+        <button class="engine-btn engine-google" onclick="adminOpenEngine('google')">Google で検索</button>
+        <button class="engine-btn engine-perplexity" onclick="adminOpenEngine('perplexity')">Perplexity で検索</button>
+        <button class="engine-btn engine-chatgpt" onclick="adminOpenEngine('chatgpt')">ChatGPT で検索 <span style="font-size:10px;font-weight:normal;">※要アカウント</span></button>
       </div>
     </div>
-  </div><!-- /tab-research -->
-
-  <!-- タブ：資料ダウンロード -->
-  <div id="tab-resources" class="tab-content active">
-    <div class="card">
-      <h2>資料ダウンロード</h2>
-      <div id="resourcesArea"><p style="color:#666;font-size:13px;">読み込み中...</p></div>
-      <div class="msg" id="resourcesMsg"></div>
-    </div>
-  </div><!-- /tab-resources -->
+  </div>
 
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 const API_URL = 'https://script.google.com/macros/s/AKfycbxQ7fNkIzsxaFEOoPngnY5lcWLRTQUhG97D1THjDciUqLcIqKlCQxGrPjpZSEPt3vp09A/exec';
+let adminToken = sessionStorage.getItem('admin_token');
+let proxyCompanyId = null;
+let proxySessionCode = null;
 
-// RSS フィード定義
-const RSS_FEEDS = {
-  note:    { url: 'https://note.com/clover_plus/rss',    icon: 'N', iconClass: 'icon-note',    label: 'note' },
-  youtube: { url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UC6ReXNRMH874dfAbtu8-ztg', icon: '▶', iconClass: 'icon-youtube', label: 'YouTube' },
-  spotify: { url: 'https://anchor.fm/s/110f9ce94/podcast/rss', icon: '♪', iconClass: 'icon-spotify', label: 'Spotify' }
-};
-
-let partnerToken = sessionStorage.getItem('partner_token');
-let companyId = sessionStorage.getItem('partner_company_id');
-let currentSession = null;
-let researchEnabled = false;
-let resourcesLoaded = false;
-let currentCorp = null;
-let feedLoaded = { note: false, youtube: false, spotify: false };
-let currentFeed = 'note';
-
-// ============================================================
-// ページ初期化
-// ============================================================
-if (partnerToken && companyId) {
-  document.getElementById('loginSection').style.display = 'none';
-  document.getElementById('mainSection').style.display = 'block';
-  resourcesLoaded = true;
-  loadResources();
+if(adminToken){
+  document.getElementById('loginSection').style.display='none';
+  document.getElementById('mainSection').style.display='block';
   loadSessions();
+  loadPartners();
 }
 
-// ログインページ表示時にRSSを読み込む
-if (document.getElementById('loginSection').style.display !== 'none') {
-  loadRssFeed('note');
-}
-
-// ============================================================
-// RSS フィード
-// ============================================================
-function switchFeed(feed) {
-  currentFeed = feed;
-  document.querySelectorAll('.rss-tab').forEach(t => t.classList.toggle('active', t.dataset.feed === feed));
-  document.querySelectorAll('.rss-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('panel-' + feed).classList.add('active');
-  if (!feedLoaded[feed]) loadRssFeed(feed);
-}
-
-async function loadRssFeed(feed) {
-  if (feedLoaded[feed]) return;
-  const cfg = RSS_FEEDS[feed];
-  const panel = document.getElementById('panel-' + feed);
-  panel.innerHTML = '<div class="news-loading">読み込み中...</div>';
-  try {
-    // feedパラメータで種別を渡す（YouTubeはURLに?が含まれるため直接渡せない）
-    const url = API_URL + '?action=getRssFeed&feed=' + encodeURIComponent(feed);
-    const res  = await fetch(url, { redirect: 'follow' });
-    const json = await res.json();
-    feedLoaded[feed] = true;
-    if (!json.items || json.items.length === 0) {
-      panel.innerHTML = '<div class="news-loading">記事が見つかりませんでした</div>';
-      updateFeedBadge();
-      return;
-    }
-    panel.innerHTML = json.items.map(function(item) {
-      const date = formatFeedDate(item.date);
-      const desc = item.desc ? '<div class="news-desc">' + escHtml(item.desc) + '</div>' : '';
-      return '<div class="news-item">'
-        + '<div class="news-item-body">'
-        + '<div class="news-item-top">'
-        + '<span class="source-icon ' + cfg.iconClass + '">' + cfg.icon + '</span>'
-        + '<div class="news-title"><a href="' + escHtml(item.link) + '" target="_blank" rel="noopener">' + escHtml(item.title) + '</a></div>'
-        + '</div>'
-        + desc
-        + '<div class="news-meta">' + cfg.label + (date ? ' · ' + date : '') + '</div>'
-        + '</div>'
-        + '</div>';
-    }).join('');
-    updateFeedBadge();
-  } catch(e) {
-    feedLoaded[feed] = false;
-    panel.innerHTML = '<div class="news-error">読み込みに失敗しました</div>';
-  }
-}
-
-function updateFeedBadge() {
-  const loaded = Object.values(feedLoaded).filter(Boolean).length;
-  document.getElementById('feedBadge').textContent = loaded + 'フィード';
-}
-
-function formatFeedDate(dateStr) {
-  if (!dateStr) return '';
-  try {
-    const d = new Date(dateStr);
-    if (isNaN(d)) return '';
-    return (d.getMonth() + 1) + '/' + d.getDate();
-  } catch(e) { return ''; }
-}
-
-function escHtml(str) {
-  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-// ============================================================
-// タブ切り替え
-// ============================================================
-function switchTab(tab) {
-  const tabs = ['resources', 'research', 'sessions'];
-  document.querySelectorAll('.tab').forEach((t, i) => {
-    t.classList.toggle('active', tabs[i] === tab);
-  });
-  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-  document.getElementById('tab-' + tab).classList.add('active');
-  if (tab === 'resources' && !resourcesLoaded) {
-    resourcesLoaded = true;
-    loadResources();
-  }
-}
-
-async function api(params) {
-  const qs = Object.entries(params).map(([k,v]) => `${k}=${encodeURIComponent(v)}`).join('&');
-  const res = await fetch(`${API_URL}?${qs}`, { redirect: 'follow' });
+async function api(params){
+  const qs = Object.entries(params).map(([k,v])=>`${k}=${encodeURIComponent(v)}`).join('&');
+  const res = await fetch(`${API_URL}?${qs}`,{redirect:'follow'});
   return res.json();
 }
 
-// ============================================================
-// ログイン・ログアウト
-// ============================================================
-async function login() {
-  const cid = document.getElementById('loginCompanyId').value.trim();
-  const pc  = document.getElementById('loginPasscode').value;
+async function login(){
+  const pass = document.getElementById('adminPass').value;
   const msg = document.getElementById('loginMsg');
-  if (!cid || !pc) { msg.textContent = '会社IDとパスコードを入力してください'; return; }
-  try {
-    const json = await api({ action: 'authPartner', company_id: cid, passcode: pc });
-    if (json.status !== 'ok') { msg.textContent = json.message; return; }
-    partnerToken = json.data.token;
-    companyId    = json.data.company_id;
-    sessionStorage.setItem('partner_token', partnerToken);
-    sessionStorage.setItem('partner_company_id', companyId);
-    researchEnabled = json.data.research_enabled === true;
-    if (researchEnabled) document.getElementById('tab-btn-research').style.display = '';
-    document.getElementById('loginSection').style.display = 'none';
-    document.getElementById('mainSection').style.display = 'block';
-    resourcesLoaded = true;
-    loadResources();
+  if(!pass){msg.textContent='パスワードを入力してください';return;}
+  try{
+    const json = await api({action:'authAdmin',password:pass});
+    if(json.status!=='ok'){msg.textContent=json.message;return;}
+    adminToken=json.data.admin_token;
+    sessionStorage.setItem('admin_token',adminToken);
+    document.getElementById('loginSection').style.display='none';
+    document.getElementById('mainSection').style.display='block';
     loadSessions();
-  } catch(e) { msg.textContent = 'エラーが発生しました'; }
+    loadPartners();
+  }catch(e){msg.textContent='エラーが発生しました';}
 }
 
-function logout() {
-  sessionStorage.removeItem('partner_token');
-  sessionStorage.removeItem('partner_company_id');
-  partnerToken = null; companyId = null; currentSession = null;
-  document.getElementById('mainSection').style.display = 'none';
-  document.getElementById('loginSection').style.display = 'flex';
-  document.getElementById('loginPasscode').value = '';
-  // ログアウト後フィードを再表示
-  if (!feedLoaded['note']) loadRssFeed('note');
+function logout(){
+  sessionStorage.removeItem('admin_token');
+  adminToken=null;
+  document.getElementById('mainSection').style.display='none';
+  document.getElementById('loginSection').style.display='flex';
+  document.getElementById('adminPass').value='';
+}
+
+let adminResourcesLoaded = false;
+function switchTab(tab){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['sessions','partners','proxy','resources','researchlog','dllog','research'][i]===tab));
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  if(tab==='resources' && !adminResourcesLoaded){
+    adminResourcesLoaded=true;
+    loadAdminResources();
+  }
 }
 
 // ============================================================
-// セッション管理
+// ① セッション管理
 // ============================================================
-async function loadSessions() {
-  try {
-    const json = await api({ action: 'getSessions', company_id: companyId, token: partnerToken });
-    if (json.status !== 'ok') { if (json.message && json.message.includes('切れ')) { logout(); } return; }
-    const sessions = json.data.sessions || [];
-    const tbody = document.getElementById('sessionTable');
-    if (sessions.length === 0) {
-      tbody.innerHTML = '<tr><th>セッションコード</th><th>セッション名</th><th>開催日</th><th>デモ</th><th>操作</th></tr><tr><td colspan="5" style="color:#666;text-align:center;">セッションがありません。「＋ セッションを追加」から作成してください。</td></tr>';
-      document.getElementById('detailCard').style.display = 'none';
-      document.getElementById('accountsCard').style.display = 'none';
-      return;
-    }
-    let html = '<tr><th>セッションコード</th><th>セッション名</th><th>開催日</th><th>デモ</th><th>操作</th></tr>';
-    sessions.forEach(s => {
-      const active = s.session_code === currentSession ? 'class="active"' : '';
-      html += `<tr ${active}>
-        <td><code>${s.session_code}</code></td>
-        <td>${s.session_name || '（未設定）'}</td>
-        <td>${s.session_date || '（未設定）'}</td>
-        <td>${s.use_demo ? '✅' : '－'}</td>
-        <td><button class="btn btn-sm" onclick="selectSession('${s.session_code}')">編集</button></td>
+async function loadSessions(){
+  try{
+    const json = await api({action:'getAllSessions',admin_token:adminToken});
+    if(json.status!=='ok'){if(json.message&&json.message.includes('切れ')){logout();}return;}
+    const sessions = json.data.sessions||[];
+    const area = document.getElementById('sessionsArea');
+    if(sessions.length===0){area.innerHTML='<p style="color:#666;">セッションがありません</p>';return;}
+    let html='<table><tr><th>会社名</th><th>セッション名</th><th>開催日</th><th>操作</th></tr>';
+    sessions.forEach(s=>{
+      html+=`<tr>
+        <td>${s.company_name||s.company_id}</td>
+        <td>${s.session_name||'（未設定）'}</td>
+        <td>${s.session_date||'（未設定）'}</td>
+        <td>
+          <button class="btn btn-sm" style="margin-right:4px;" onclick="loadAdminAccounts('${s.session_code}')">確認</button>
+          <button class="btn btn-red btn-sm" onclick="adminDelete('${s.session_code}','${s.session_name||s.session_code}')">削除</button>
+        </td>
       </tr>`;
     });
-    tbody.innerHTML = html;
-    if (currentSession) {
-      const found = sessions.find(s => s.session_code === currentSession);
-      if (found) selectSession(currentSession, false);
+    html+='</table>';
+    area.innerHTML=html;
+  }catch(e){document.getElementById('sessionsArea').innerHTML='<p style="color:#c00;">エラーが発生しました</p>';}
+}
+
+async function loadAdminAccounts(sessionCode){
+  document.getElementById('adminAccountsCard').style.display='block';
+  document.getElementById('selectedSession').textContent=sessionCode;
+  try{
+    const json = await api({action:'getAdminAccounts',admin_token:adminToken,session_code:sessionCode});
+    if(json.status!=='ok'){document.getElementById('adminAccountsArea').innerHTML='<p style="color:#c00;">'+json.message+'</p>';return;}
+    const accounts=json.data.accounts||[];
+    if(accounts.length===0){document.getElementById('adminAccountsArea').innerHTML='<p style="color:#666;">アカウントがありません</p>';return;}
+    let html='<table><tr><th>ユーザーID</th><th>パスワード</th><th>状態</th><th>使用日時</th></tr>';
+    accounts.forEach(a=>{
+      const badge=a.is_used?'<span class="badge used">使用済</span>':'<span class="badge unused">未使用</span>';
+      html+=`<tr><td>${a.user_id}</td><td>${a.password}</td><td>${badge}</td><td style="font-size:12px;">${a.used_at?new Date(a.used_at).toLocaleString('ja-JP'):'－'}</td></tr>`;
+    });
+    document.getElementById('adminAccountsArea').innerHTML=html+'</table>';
+  }catch(e){document.getElementById('adminAccountsArea').innerHTML='<p style="color:#c00;">エラーが発生しました</p>';}
+}
+
+async function adminDelete(sessionCode,sessionName){
+  if(!confirm(`「${sessionName}」を削除します。よろしいですか？`))return;
+  try{
+    const json = await api({action:'adminDeleteSession',admin_token:adminToken,session_code:sessionCode});
+    if(json.status!=='ok'){alert(json.message);return;}
+    alert('削除しました');
+    loadSessions();
+    document.getElementById('adminAccountsCard').style.display='none';
+  }catch(e){alert('エラーが発生しました');}
+}
+
+// ============================================================
+// ② パートナー管理
+// ============================================================
+async function loadPartners(){
+  try{
+    const json = await api({action:'adminGetPartners',admin_token:adminToken});
+    if(json.status!=='ok')return;
+    const partners = json.data.partners||[];
+    
+    // プロキシ用セレクトボックス更新
+    const sel = document.getElementById('proxyCompanySelect');
+    sel.innerHTML='<option value="">パートナーを選択してください</option>';
+    partners.filter(p=>p.is_active).forEach(p=>{
+      const opt=document.createElement('option');
+      opt.value=p.company_id;
+      opt.textContent=`${p.company_name} [${p.company_id}]`;
+      sel.appendChild(opt);
+    });
+
+    // パートナー一覧表示
+    const area = document.getElementById('partnersArea');
+    if(partners.length===0){area.innerHTML='<p style="color:#666;">パートナーがありません</p>';return;}
+    let html='<table><tr><th>会社ID</th><th>会社名</th><th>代表者</th><th>メール</th><th>状態</th><th>企業調査</th><th>操作</th></tr>';
+    partners.forEach(p=>{
+      const badge=p.is_active?'<span class="badge active">有効</span>':'<span class="badge inactive">申請中</span>';
+      const approveBtn=!p.is_active?`<button class="btn btn-sm" style="margin-right:4px;" onclick="approvePartner('${p.company_id}')">承認</button>`:'';
+      const deactivateBtn=p.is_active?`<button class="btn btn-gray btn-sm" style="margin-right:4px;" onclick="deactivatePartner('${p.company_id}')">無効化</button>`:'';
+      const researchChecked = p.research_enabled ? 'checked' : '';
+      html+=`<tr>
+        <td><code>${p.company_id}</code></td>
+        <td>${p.company_name}</td>
+        <td>${p.representative||'－'}</td>
+        <td style="font-size:12px;">${p.email||'－'}</td>
+        <td>${badge}</td>
+        <td style="text-align:center;">
+          <label class="toggle-sw">
+            <input type="checkbox" ${researchChecked} onchange="toggleResearch('${p.company_id}',this.checked)">
+            <span class="slider"></span>
+          </label>
+        </td>
+        <td>
+          ${approveBtn}
+          ${deactivateBtn}
+          <button class="btn btn-outline btn-sm" onclick="editPartner('${p.company_id}','${p.company_name}','${p.passcode}')">編集</button>
+        </td>
+      </tr>`;
+    });
+    area.innerHTML=html+'</table>';
+  }catch(e){document.getElementById('partnersArea').innerHTML='<p style="color:#c00;">エラーが発生しました</p>';}
+}
+
+async function approvePartner(companyId){
+  if(!confirm(`${companyId} を承認しますか？`))return;
+  try{
+    const json = await api({action:'adminApprovePartner',admin_token:adminToken,company_id:companyId});
+    if(json.status!=='ok'){alert(json.message);return;}
+    loadPartners();
+  }catch(e){alert('エラーが発生しました');}
+}
+
+async function deactivatePartner(companyId){
+  if(!confirm(`${companyId} を無効化しますか？`))return;
+  try{
+    const json = await api({action:'adminDeactivatePartner',admin_token:adminToken,company_id:companyId});
+    if(json.status!=='ok'){alert(json.message);return;}
+    loadPartners();
+  }catch(e){alert('エラーが発生しました');}
+}
+
+function editPartner(companyId,companyName,passcode){
+  document.getElementById('editPartnerId').textContent=companyId;
+  document.getElementById('editCompanyName').value=companyName;
+  document.getElementById('editPasscode').value=passcode;
+  document.getElementById('editPartnerCard').style.display='block';
+  document.getElementById('editPartnerMsg').textContent='';
+  document.getElementById('editPartnerCard').scrollIntoView({behavior:'smooth'});
+}
+
+async function updatePartner(){
+  const companyId = document.getElementById('editPartnerId').textContent;
+  const msg = document.getElementById('editPartnerMsg');
+  try{
+    const json = await api({
+      action:'adminUpdatePartner',
+      admin_token:adminToken,
+      company_id:companyId,
+      company_name:document.getElementById('editCompanyName').value,
+      passcode:document.getElementById('editPasscode').value
+    });
+    msg.textContent=json.status==='ok'?'更新しました':json.message;
+    msg.className='msg '+(json.status==='ok'?'ok':'err');
+    if(json.status==='ok')loadPartners();
+  }catch(e){msg.textContent='エラーが発生しました';msg.className='msg err';}
+}
+
+function showCreatePartner(){
+  document.getElementById('createPartnerCard').style.display='block';
+  document.getElementById('createPartnerMsg').textContent='';
+  document.getElementById('createPartnerCard').scrollIntoView({behavior:'smooth'});
+}
+
+async function createPartner(){
+  const msg = document.getElementById('createPartnerMsg');
+  const companyId = document.getElementById('newCompanyId').value.trim();
+  const companyName = document.getElementById('newCompanyName').value.trim();
+  const passcode = document.getElementById('newPasscode').value.trim();
+  if(!companyId||!companyName||!passcode){msg.textContent='すべて入力してください';msg.className='msg err';return;}
+  try{
+    const json = await api({action:'adminCreatePartner',admin_token:adminToken,company_id:companyId,company_name:companyName,passcode:passcode});
+    msg.textContent=json.status==='ok'?'作成しました':json.message;
+    msg.className='msg '+(json.status==='ok'?'ok':'err');
+    if(json.status==='ok'){
+      document.getElementById('newCompanyId').value='';
+      document.getElementById('newCompanyName').value='';
+      document.getElementById('newPasscode').value='';
+      loadPartners();
     }
-  } catch(e) { document.getElementById('sessionMsg').textContent = 'エラーが発生しました'; }
+  }catch(e){msg.textContent='エラーが発生しました';msg.className='msg err';}
 }
 
-async function selectSession(code, reload = true) {
-  currentSession = code;
-  document.getElementById('editSessionCode').textContent = code;
-  document.querySelectorAll('#sessionTable tr').forEach(tr => {
-    tr.classList.remove('active');
-    if (tr.querySelector('code') && tr.querySelector('code').textContent === code) tr.classList.add('active');
+// ============================================================
+// ③ 代理操作
+// ============================================================
+function onProxyCompanyChange(){
+  const companyId = document.getElementById('proxyCompanySelect').value;
+  if(!companyId){document.getElementById('proxyMain').style.display='none';return;}
+  proxyCompanyId=companyId;
+  proxySessionCode=null;
+  const sel = document.getElementById('proxyCompanySelect');
+  const name = sel.options[sel.selectedIndex].textContent;
+  document.getElementById('proxyBanner').textContent='代理操作中：'+name;
+  document.getElementById('proxyMain').style.display='block';
+  document.getElementById('proxyDetailCard').style.display='none';
+  document.getElementById('proxyAccountsCard').style.display='none';
+  loadProxySessions();
+}
+
+async function loadProxySessions(){
+  try{
+    const json = await api({action:'adminProxyGetSessions',admin_token:adminToken,company_id:proxyCompanyId});
+    if(json.status!=='ok')return;
+    const sessions=json.data.sessions||[];
+    const tbody=document.getElementById('proxySessionTable');
+    if(sessions.length===0){
+      tbody.innerHTML='<tr><th>セッションコード</th><th>セッション名</th><th>開催日</th><th>デモ</th><th>操作</th></tr><tr><td colspan="5" style="color:#666;text-align:center;">セッションがありません</td></tr>';
+      return;
+    }
+    let html='<tr><th>セッションコード</th><th>セッション名</th><th>開催日</th><th>デモ</th><th>操作</th></tr>';
+    sessions.forEach(s=>{
+      const active=s.session_code===proxySessionCode?'class="active-row"':'';
+      html+=`<tr ${active}>
+        <td><code>${s.session_code}</code></td>
+        <td>${s.session_name||'（未設定）'}</td>
+        <td>${s.session_date||'（未設定）'}</td>
+        <td>${s.use_demo?'✅':'－'}</td>
+        <td><button class="btn btn-sm" onclick="selectProxySession('${s.session_code}')">編集</button></td>
+      </tr>`;
+    });
+    tbody.innerHTML=html;
+  }catch(e){document.getElementById('proxySessionMsg').textContent='エラーが発生しました';}
+}
+
+async function proxyAddSession(){
+  try{
+    const json = await api({action:'adminProxyAddSession',admin_token:adminToken,company_id:proxyCompanyId});
+    if(json.status!=='ok'){alert(json.message);return;}
+    proxySessionCode=json.data.session_code;
+    await loadProxySessions();
+    selectProxySession(proxySessionCode);
+  }catch(e){alert('エラーが発生しました');}
+}
+
+async function selectProxySession(code){
+  proxySessionCode=code;
+  document.getElementById('proxyEditCode').textContent=code;
+  // 行ハイライト
+  document.querySelectorAll('#proxySessionTable tr').forEach(tr=>{
+    tr.classList.remove('active-row');
+    if(tr.querySelector('code')&&tr.querySelector('code').textContent===code) tr.classList.add('active-row');
   });
-  try {
-    const json = await api({ action: 'getSettings', session_code: code });
-    if (json.status !== 'ok') return;
-    const d = json.data;
-    document.getElementById('sessionName').value   = d.session_name || '';
-    document.getElementById('sessionDate').value   = d.session_date || '';
-    document.getElementById('sessionTime').value   = d.session_time || '';
-    document.getElementById('detailUrl').value     = d.detail_url   || '';
-    document.getElementById('materialsUrl').value  = d.materials_url || '';
-    document.getElementById('surveyUrl').value     = d.survey_url   || '';
-    document.getElementById('useDemo').checked     = d.use_demo !== false;
-    document.getElementById('publishRss').checked  = d.publish_rss === true;
-    document.getElementById('message').value       = d.message      || '';
-    updateMsgCount();
-    document.getElementById('loginUrl').value      = d.login_url    || 'https://system.netsuite.com/pages/customerlogin.jsp?country=JP';
-    document.getElementById('useLogin').checked    = d.use_login !== false;
-    document.getElementById('detailCard').style.display   = 'block';
-    document.getElementById('accountsCard').style.display = 'block';
-    document.getElementById('detailMsg').textContent = '';
-    if (reload) loadAccounts();
-  } catch(e) {}
+  try{
+    const json = await api({action:'adminProxyGetSettings',admin_token:adminToken,session_code:code});
+    if(json.status!=='ok')return;
+    const d=json.data;
+    document.getElementById('proxySessionName').value=d.session_name||'';
+    document.getElementById('proxySessionDate').value=d.session_date||'';
+    document.getElementById('proxySessionTime').value=d.session_time||'';
+    document.getElementById('proxyDetailUrl').value=d.detail_url||'';
+    document.getElementById('proxyMessage').value=d.message||'';
+    updateProxyMsgCount();
+    document.getElementById('proxyMaterialsUrl').value=d.materials_url||'';
+    document.getElementById('proxySurveyUrl').value=d.survey_url||'';
+    document.getElementById('proxyLoginUrl').value=d.login_url||'https://system.netsuite.com/pages/customerlogin.jsp?country=JP';
+    document.getElementById('proxyUseLogin').checked=d.use_login!==false;
+    document.getElementById('proxyUseDemo').checked=d.use_demo!==false;
+    document.getElementById('proxyPublishRss').checked=d.publish_rss===true;
+    document.getElementById('proxyDetailCard').style.display='block';
+    document.getElementById('proxyAccountsCard').style.display='block';
+    document.getElementById('proxyDetailMsg').textContent='';
+    loadProxyAccounts();
+  }catch(e){}
 }
 
-function updateMsgCount() {
-  const len = document.getElementById('message').value.length;
-  const el  = document.getElementById('msgCount');
+function updateProxyMsgCount() {
+  const len = document.getElementById('proxyMessage').value.length;
+  const el  = document.getElementById('proxyMsgCount');
   el.textContent = len;
   el.style.color = len >= 480 ? '#c00' : len >= 400 ? '#E97132' : '#888';
 }
 
-async function saveAll() {
-  const msg = document.getElementById('detailMsg');
-  msg.textContent = '保存中...'; msg.className = 'msg';
-  try {
-    const r1 = await api({
-      action: 'updateSessionInfo',
-      session_code: currentSession,
-      session_name: document.getElementById('sessionName').value,
-      session_date: document.getElementById('sessionDate').value,
-      session_time: document.getElementById('sessionTime').value,
-      token: partnerToken
+async function proxySaveAll(){
+  const msg=document.getElementById('proxyDetailMsg');
+  msg.textContent='保存中...';msg.className='msg';
+  try{
+    const json = await api({
+      action:'adminProxySaveAll',
+      admin_token:adminToken,
+      session_code:proxySessionCode,
+      session_name:document.getElementById('proxySessionName').value,
+      session_date:document.getElementById('proxySessionDate').value,
+      message:document.getElementById('proxyMessage').value,
+      materials_url:document.getElementById('proxyMaterialsUrl').value,
+      survey_url:document.getElementById('proxySurveyUrl').value,
+      login_url:document.getElementById('proxyLoginUrl').value,
+      use_login:document.getElementById('proxyUseLogin').checked,
+      use_demo:document.getElementById('proxyUseDemo').checked,
+      session_time:document.getElementById('proxySessionTime').value,
+      detail_url:document.getElementById('proxyDetailUrl').value,
+      publish_rss:document.getElementById('proxyPublishRss').checked
     });
-    if (r1.status !== 'ok') { msg.textContent = r1.message; msg.className = 'msg err'; return; }
-    const r2 = await api({
-      action: 'saveSettings',
-      session_code: currentSession,
-      detail_url:   document.getElementById('detailUrl').value,
-      materials_url:document.getElementById('materialsUrl').value,
-      survey_url:   document.getElementById('surveyUrl').value,
-      use_demo:     document.getElementById('useDemo').checked,
-      publish_rss:  document.getElementById('publishRss').checked,
-      message:      document.getElementById('message').value,
-      login_url:    document.getElementById('loginUrl').value,
-      use_login:    document.getElementById('useLogin').checked,
-      token: partnerToken
-    });
-    if (r2.status !== 'ok') { msg.textContent = r2.message; msg.className = 'msg err'; return; }
-    msg.textContent = '保存しました'; msg.className = 'msg ok';
-    loadSessions();
-  } catch(e) { msg.textContent = 'エラーが発生しました'; msg.className = 'msg err'; }
+    msg.textContent=json.status==='ok'?'保存しました':json.message;
+    msg.className='msg '+(json.status==='ok'?'ok':'err');
+    if(json.status==='ok')loadProxySessions();
+  }catch(e){msg.textContent='エラーが発生しました';msg.className='msg err';}
 }
 
-async function addSession() {
-  try {
-    const json = await api({ action: 'addSession', company_id: companyId, token: partnerToken });
-    if (json.status !== 'ok') { alert(json.message); return; }
-    currentSession = json.data.session_code;
-    await loadSessions();
-    selectSession(currentSession);
-  } catch(e) { alert('エラーが発生しました'); }
+async function proxyDeleteSession(){
+  if(!confirm(`セッション ${proxySessionCode} を削除します。よろしいですか？`))return;
+  try{
+    const json = await api({action:'adminProxyDeleteSession',admin_token:adminToken,session_code:proxySessionCode});
+    if(json.status!=='ok'){alert(json.message);return;}
+    proxySessionCode=null;
+    document.getElementById('proxyDetailCard').style.display='none';
+    document.getElementById('proxyAccountsCard').style.display='none';
+    loadProxySessions();
+  }catch(e){alert('エラーが発生しました');}
 }
 
-async function deleteSession() {
-  if (!currentSession) { alert('セッションを選択してください'); return; }
-  if (!confirm(`セッション ${currentSession} とすべてのアカウントを削除します。よろしいですか？`)) return;
-  try {
-    const json = await api({ action: 'deleteSession', session_code: currentSession, token: partnerToken });
-    if (json.status !== 'ok') { alert(json.message); return; }
-    currentSession = null;
-    document.getElementById('detailCard').style.display   = 'none';
-    document.getElementById('accountsCard').style.display = 'none';
-    loadSessions();
-  } catch(e) { alert('エラーが発生しました'); }
+async function loadProxyAccounts(){
+  try{
+    const json = await api({action:'adminProxyGetAccounts',admin_token:adminToken,session_code:proxySessionCode});
+    if(json.status!=='ok')return;
+    renderProxyAccounts(json.data.accounts||[]);
+  }catch(e){}
 }
 
-// ============================================================
-// アカウント管理
-// ============================================================
-async function loadAccounts() {
-  try {
-    const json = await api({ action: 'getAccounts', session_code: currentSession, token: partnerToken });
-    if (json.status !== 'ok') return;
-    renderAccounts(json.data.accounts);
-  } catch(e) {}
-}
-
-function renderAccounts(accounts) {
-  const area = document.getElementById('accountsArea');
-  if (!accounts || accounts.length === 0) { area.innerHTML = '<p style="color:#666;font-size:13px;">アカウントがありません</p>'; return; }
-  let html = '<table><tr><th>ユーザーID</th><th>パスワード</th><th>状態</th><th>使用日時</th><th>操作</th></tr>';
-  accounts.forEach(a => {
-    const badge  = a.is_used ? '<span class="badge used">使用済</span>' : '<span class="badge unused">未使用</span>';
-    const usedAt = a.used_at ? new Date(a.used_at).toLocaleString('ja-JP') : '－';
-    html += `<tr><td>${a.user_id}</td><td>${a.password}</td><td>${badge}</td><td style="font-size:12px;">${usedAt}</td><td><button class="btn btn-sm btn-outline" onclick="resetAccount('${a.user_id}')">リセット</button></td></tr>`;
+function renderProxyAccounts(accounts){
+  const area=document.getElementById('proxyAccountsArea');
+  if(!accounts||accounts.length===0){area.innerHTML='<p style="color:#666;font-size:13px;">アカウントがありません</p>';return;}
+  let html='<table><tr><th>ユーザーID</th><th>パスワード</th><th>状態</th><th>使用日時</th><th>操作</th></tr>';
+  accounts.forEach(a=>{
+    const badge=a.is_used?'<span class="badge used">使用済</span>':'<span class="badge unused">未使用</span>';
+    html+=`<tr><td>${a.user_id}</td><td>${a.password}</td><td>${badge}</td><td style="font-size:12px;">${a.used_at?new Date(a.used_at).toLocaleString('ja-JP'):'－'}</td><td><button class="btn btn-sm btn-outline" onclick="proxyResetAccount('${a.user_id}')">リセット</button></td></tr>`;
   });
-  html += '</table>';
-  area.innerHTML = html;
+  area.innerHTML=html+'</table>';
 }
 
-async function resetAccount(userId) {
-  try {
-    const json = await api({ action: 'resetAccount', session_code: currentSession, user_id: userId, token: partnerToken });
-    const msg = document.getElementById('accountsMsg');
-    msg.textContent = json.status === 'ok' ? 'リセットしました' : json.message;
-    msg.className   = 'msg ' + (json.status === 'ok' ? 'ok' : 'err');
-    if (json.status === 'ok') loadAccounts();
-  } catch(e) {}
+async function proxyResetAccount(userId){
+  try{
+    const json = await api({action:'adminProxyResetAccount',admin_token:adminToken,session_code:proxySessionCode,user_id:userId});
+    const msg=document.getElementById('proxyAccountsMsg');
+    msg.textContent=json.status==='ok'?'リセットしました':json.message;
+    msg.className='msg '+(json.status==='ok'?'ok':'err');
+    if(json.status==='ok')loadProxyAccounts();
+  }catch(e){}
 }
 
-async function resetAll() {
-  if (!confirm('全アカウントをリセットします。よろしいですか？')) return;
-  try {
-    const json = await api({ action: 'resetAll', session_code: currentSession, token: partnerToken });
-    const msg = document.getElementById('accountsMsg');
-    msg.textContent = json.status === 'ok' ? '全リセットしました' : json.message;
-    msg.className   = 'msg ' + (json.status === 'ok' ? 'ok' : 'err');
-    if (json.status === 'ok') loadAccounts();
-  } catch(e) {}
+async function proxyResetAll(){
+  if(!confirm('全アカウントをリセットします。よろしいですか？'))return;
+  try{
+    const json = await api({action:'adminProxyResetAll',admin_token:adminToken,session_code:proxySessionCode});
+    const msg=document.getElementById('proxyAccountsMsg');
+    msg.textContent=json.status==='ok'?'全リセットしました':json.message;
+    msg.className='msg '+(json.status==='ok'?'ok':'err');
+    if(json.status==='ok')loadProxyAccounts();
+  }catch(e){}
 }
 
-async function importAccounts() {
-  const file = document.getElementById('xlsxFile').files[0];
-  if (!file) return;
-  const msg = document.getElementById('accountsMsg');
-  try {
-    const buf  = await file.arrayBuffer();
-    const wb   = XLSX.read(buf, { type: 'array' });
-    const ws   = wb.Sheets[wb.SheetNames[0]];
-    const rows = XLSX.utils.sheet_to_json(ws, { header: 1 });
-    const data = rows.slice(1).filter(r => r[0] && r[1]).map(r => ({ user_id: String(r[0]).trim(), password: String(r[1]).trim() }));
-    if (data.length === 0)   { msg.textContent = 'データがありません'; msg.className = 'msg err'; return; }
-    if (data.length > 100)   { msg.textContent = '100件を超えるデータはインポートできません'; msg.className = 'msg err'; return; }
-    msg.textContent = 'インポート中...'; msg.className = 'msg';
-    const encodedData = encodeURIComponent(JSON.stringify(data));
-    const url = API_URL + '?action=importAccounts&session_code=' + currentSession + '&token=' + partnerToken + '&data=' + encodedData;
-    const res  = await fetch(url, { redirect: 'follow' });
+async function proxyImportAccounts(){
+  const file=document.getElementById('proxyXlsxFile').files[0];
+  if(!file)return;
+  const msg=document.getElementById('proxyAccountsMsg');
+  try{
+    const buf=await file.arrayBuffer();
+    const wb=XLSX.read(buf,{type:'array'});
+    const ws=wb.Sheets[wb.SheetNames[0]];
+    const rows=XLSX.utils.sheet_to_json(ws,{header:1});
+    const data=rows.slice(1).filter(r=>r[0]&&r[1]).map(r=>({user_id:String(r[0]).trim(),password:String(r[1]).trim()}));
+    if(data.length===0){msg.textContent='データがありません';msg.className='msg err';return;}
+    if(data.length>100){msg.textContent='100件を超えるデータはインポートできません';msg.className='msg err';return;}
+    msg.textContent='インポート中...';msg.className='msg';
+    const encodedData=encodeURIComponent(JSON.stringify(data));
+    const url=API_URL+'?action=adminProxyImportAccounts&admin_token='+adminToken+'&session_code='+proxySessionCode+'&data='+encodedData;
+    const res=await fetch(url,{redirect:'follow'});
+    const json=await res.json();
+    msg.textContent=json.status==='ok'?json.data.message:json.message;
+    msg.className='msg '+(json.status==='ok'?'ok':'err');
+    if(json.status==='ok')loadProxyAccounts();
+  }catch(e){msg.textContent='エラーが発生しました';msg.className='msg err';}
+  document.getElementById('proxyXlsxFile').value='';
+}
+
+// ============================================================
+// ④ 資料管理
+// ============================================================
+async function loadAdminResources(){
+  const area = document.getElementById('adminResourcesArea');
+  area.innerHTML='<div class="spinner-wrap"><div class="spinner"></div>資料を読み込み中...</div>';
+  try{
+    const json = await api({action:'adminGetResources', admin_token:adminToken});
+    if(json.status!=='ok'){area.innerHTML='<p style="color:#c00;">'+json.message+'</p>';return;}
+    const resources = json.data.resources||[];
+    if(resources.length===0){area.innerHTML='<p style="color:#666;">資料がありません</p>';return;}
+
+    // カテゴリ別にグルーピング
+    const categories = {};
+    resources.forEach(r=>{
+      const cat = r.category||'その他';
+      if(!categories[cat]) categories[cat]=[];
+      categories[cat].push(r);
+    });
+    const catOrder = ['製品カタログ','資料'];
+    const orderedCats = [
+      ...catOrder.filter(c=>categories[c]),
+      ...Object.keys(categories).filter(c=>!catOrder.includes(c))
+    ];
+
+    let html='<table><tr><th>カテゴリ</th><th>ファイル名</th><th>説明</th><th>操作</th></tr>';
+    orderedCats.forEach(cat=>{
+      categories[cat].forEach(r=>{
+        html+=`<tr>
+          <td><span style="font-size:11px;background:#e8f5e9;color:var(--green);padding:2px 8px;border-radius:10px;font-weight:bold;">${cat}</span></td>
+          <td>${r.file_name}</td>
+          <td style="font-size:12px;color:#666;">${r.description||'－'}</td>
+          <td style="white-space:nowrap;">
+            <button class="btn btn-outline btn-sm" style="margin-right:4px;" onclick="showEditResource('${r.doc_id}','${r.category}','${r.file_name.replace(/'/g,"\\'")}','${(r.description||'').replace(/'/g,"\\'")}')">編集</button>
+            <button class="btn btn-red btn-sm" onclick="deleteResource('${r.doc_id}','${r.file_name}')">削除</button>
+          </td>
+        </tr>`;
+      });
+    });
+    html+='</table>';
+    area.innerHTML=html;
+  }catch(e){area.innerHTML='<p style="color:#c00;">エラーが発生しました</p>';}
+}
+
+function showUploadForm(){
+  document.getElementById('uploadResourceCard').style.display='block';
+  document.getElementById('uploadResourceMsg').textContent='';
+  document.getElementById('resourceFileName').value='';
+  document.getElementById('resourceDescription').value='';
+  document.getElementById('resourceFileLabel').textContent='未選択';
+  document.getElementById('resourceFile').value='';
+  document.getElementById('uploadResourceCard').scrollIntoView({behavior:'smooth'});
+}
+
+function hideUploadForm(){
+  document.getElementById('uploadResourceCard').style.display='none';
+}
+
+function onResourceFileChange(){
+  const file = document.getElementById('resourceFile').files[0];
+  document.getElementById('resourceFileLabel').textContent = file ? file.name : '未選択';
+}
+
+async function uploadResource(){
+  const msg = document.getElementById('uploadResourceMsg');
+  const category    = document.getElementById('resourceCategory').value;
+  const fileName    = document.getElementById('resourceFileName').value.trim();
+  const description = document.getElementById('resourceDescription').value.trim();
+  const file        = document.getElementById('resourceFile').files[0];
+
+  if(!fileName){msg.textContent='ファイル名を入力してください';msg.className='msg err';return;}
+  if(!file){msg.textContent='ファイルを選択してください';msg.className='msg err';return;}
+
+  msg.textContent='アップロード中...';msg.className='msg';
+
+  try{
+    // ファイルをBase64に変換してGASへ送信
+    const base64 = await fileToBase64(file);
+    const url = API_URL
+      +'?action=adminUploadResource'
+      +'&admin_token='+encodeURIComponent(adminToken)
+      +'&category='+encodeURIComponent(category)
+      +'&file_name='+encodeURIComponent(fileName)
+      +'&description='+encodeURIComponent(description)
+      +'&original_name='+encodeURIComponent(file.name)
+      +'&file_data='+encodeURIComponent(base64);
+    const res = await fetch(url,{redirect:'follow'});
     const json = await res.json();
-    msg.textContent = json.status === 'ok' ? json.data.message : json.message;
-    msg.className   = 'msg ' + (json.status === 'ok' ? 'ok' : 'err');
-    if (json.status === 'ok') loadAccounts();
-  } catch(e) { msg.textContent = 'エラーが発生しました'; msg.className = 'msg err'; }
-  document.getElementById('xlsxFile').value = '';
+    msg.textContent = json.status==='ok' ? 'アップロードしました' : json.message;
+    msg.className = 'msg '+(json.status==='ok'?'ok':'err');
+    if(json.status==='ok'){
+      hideUploadForm();
+      loadAdminResources();
+    }
+  }catch(e){msg.textContent='エラーが発生しました';msg.className='msg err';}
+}
+
+function fileToBase64(file){
+  return new Promise((resolve,reject)=>{
+    const reader = new FileReader();
+    reader.onload  = ()=>resolve(reader.result.split(',')[1]);
+    reader.onerror = ()=>reject(new Error('ファイル読み込みエラー'));
+    reader.readAsDataURL(file);
+  });
+}
+
+function showEditResource(docId, category, fileName, description){
+  document.getElementById('editResourceDocId').value   = docId;
+  document.getElementById('editResourceCategory').value = category;
+  document.getElementById('editResourceFileName').value = fileName;
+  document.getElementById('editResourceDescription').value = description;
+  document.getElementById('editResourceMsg').textContent = '';
+  document.getElementById('editResourceCard').style.display = 'block';
+  document.getElementById('uploadResourceCard').style.display = 'none';
+  document.getElementById('editResourceCard').scrollIntoView({behavior:'smooth'});
+}
+
+async function updateResource(){
+  const msg         = document.getElementById('editResourceMsg');
+  const docId       = document.getElementById('editResourceDocId').value;
+  const category    = document.getElementById('editResourceCategory').value;
+  const fileName    = document.getElementById('editResourceFileName').value.trim();
+  const description = document.getElementById('editResourceDescription').value.trim();
+  if(!fileName){msg.textContent='ファイル名を入力してください';msg.className='msg err';return;}
+  msg.textContent='更新中...';msg.className='msg';
+  try{
+    const json = await api({
+      action:'adminUpdateResource',
+      admin_token:adminToken,
+      doc_id:docId,
+      category:category,
+      file_name:fileName,
+      description:description
+    });
+    msg.textContent = json.status==='ok' ? '更新しました' : json.message;
+    msg.className   = 'msg '+(json.status==='ok'?'ok':'err');
+    if(json.status==='ok'){
+      document.getElementById('editResourceCard').style.display='none';
+      adminResourcesLoaded=false;
+      loadAdminResources();
+    }
+  }catch(e){msg.textContent='エラーが発生しました';msg.className='msg err';}
+}
+
+async function deleteResource(docId, fileName){
+  if(!confirm(`「${fileName}」を削除します。よろしいですか？`))return;
+  const msg = document.getElementById('adminResourcesMsg');
+  try{
+    const json = await api({action:'adminDeleteResource', admin_token:adminToken, doc_id:docId});
+    msg.textContent = json.status==='ok' ? '削除しました' : json.message;
+    msg.className = 'msg '+(json.status==='ok'?'ok':'err');
+    if(json.status==='ok') loadAdminResources();
+  }catch(e){msg.textContent='エラーが発生しました';msg.className='msg err';}
 }
 
 // ============================================================
-// 企業調査
+// research_enabled トグル
 // ============================================================
-async function searchCompany() {
-  const name = document.getElementById('researchQuery').value.trim();
-  const msg  = document.getElementById('researchMsg');
-  if (!name) { msg.textContent = '会社名を入力してください'; return; }
+async function toggleResearch(companyId, enabled){
+  try{
+    const json = await api({action:'adminToggleResearch', admin_token:adminToken, company_id:companyId, enabled:enabled});
+    if(json.status!=='ok') alert(json.message);
+  }catch(e){alert('エラーが発生しました');}
+}
+
+// ============================================================
+// ⑤ 調査ログ
+// ============================================================
+let allResearchLogs = [];
+
+async function loadResearchLogs(){
+  const area = document.getElementById('researchLogArea');
+  const msg  = document.getElementById('researchLogMsg');
+  area.innerHTML='<div class="spinner-wrap"><div class="spinner"></div>読み込み中...</div>';
+  msg.textContent='';
+  const dateFrom = document.getElementById('logDateFrom').value;
+  const dateTo   = document.getElementById('logDateTo').value;
+  try{
+    const params = {action:'getResearchLogs', admin_token:adminToken};
+    if(dateFrom) params.date_from = dateFrom;
+    if(dateTo)   params.date_to   = dateTo;
+    const json = await api(params);
+    if(json.status!=='ok'){area.innerHTML='<p style="color:#c00;">'+json.message+'</p>';return;}
+    allResearchLogs = json.data.logs||[];
+    renderResearchLogs(allResearchLogs);
+  }catch(e){area.innerHTML='<p style="color:#c00;">エラーが発生しました</p>';}
+}
+
+function renderResearchLogs(logs){
+  const area = document.getElementById('researchLogArea');
+  if(!logs||logs.length===0){area.innerHTML='<p style="color:#666;">ログがありません</p>';return;}
+  const engineLabel = {'google':'Google','perplexity':'Perplexity','chatgpt':'ChatGPT'};
+  let html='<table><tr><th>日時</th><th>パートナー</th><th>会社名</th><th>法人番号</th><th>検索エンジン</th></tr>';
+  logs.forEach(l=>{
+    const dt = l.searched_at ? new Date(l.searched_at).toLocaleString('ja-JP') : '－';
+    html+=`<tr>
+      <td style="font-size:12px;">${dt}</td>
+      <td>${l.partner_name||l.company_id}</td>
+      <td>${l.company_name}</td>
+      <td style="font-size:12px;">${l.corporate_number}</td>
+      <td>${engineLabel[l.engine]||l.engine}</td>
+    </tr>`;
+  });
+  html+=`</table><p style="font-size:12px;color:#888;margin-top:8px;">全${logs.length}件</p>`;
+  area.innerHTML=html;
+}
+
+function exportResearchLogs(){
+  if(!allResearchLogs||allResearchLogs.length===0){
+    alert('ダウンロードするログがありません。先に検索してください。');return;
+  }
+  const engineLabel = {'google':'Google','perplexity':'Perplexity','chatgpt':'ChatGPT'};
+  const rows = [['日時','パートナーID','パートナー名','会社名','法人番号','検索エンジン']];
+  allResearchLogs.forEach(l=>{
+    rows.push([
+      l.searched_at ? new Date(l.searched_at).toLocaleString('ja-JP') : '',
+      l.company_id,
+      l.partner_name||'',
+      l.company_name,
+      l.corporate_number,
+      engineLabel[l.engine]||l.engine
+    ]);
+  });
+  const ws = XLSX.utils.aoa_to_sheet(rows);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, '調査ログ');
+  XLSX.writeFile(wb, `research_logs_${new Date().toISOString().slice(0,10)}.xlsx`);
+}
+
+// ============================================================
+// ⑤ パートナー 企業調査トグル
+// ============================================================
+async function toggleResearch(companyId, enabled){
+  try{
+    const json = await api({action:'adminToggleResearch', admin_token:adminToken, company_id:companyId, enabled:String(enabled)});
+    if(json.status!=='ok') alert(json.message);
+  }catch(e){alert('エラーが発生しました');}
+}
+
+// ============================================================
+// ⑥ 調査ログ
+// ============================================================
+let researchLogsCache = [];
+
+async function loadResearchLogs(){
+  const area = document.getElementById('researchLogArea');
+  const msg  = document.getElementById('researchLogMsg');
+  const dateFrom = document.getElementById('logDateFrom').value;
+  const dateTo   = document.getElementById('logDateTo').value;
+  area.innerHTML = '<div class="spinner-wrap"><div class="spinner"></div>読み込み中...</div>';
   msg.textContent = '';
-  document.getElementById('corpListCard').style.display  = 'none';
-  document.getElementById('corpDetailCard').style.display = 'none';
-  document.getElementById('corpListArea').innerHTML = '<div class="spinner-wrap"><div class="spinner"></div>検索中...</div>';
-  document.getElementById('corpListCard').style.display  = 'block';
-  try {
-    const json = await api({ action: 'searchCompanyBrave', token: partnerToken, name });
-    if (json.status !== 'ok') {
-      document.getElementById('corpListArea').innerHTML = `<p style="color:#c00;font-size:13px;">${json.message}</p>`;
+  try{
+    const params = {action:'getResearchLogs', admin_token:adminToken};
+    if(dateFrom) params.date_from = dateFrom;
+    if(dateTo)   params.date_to   = dateTo;
+    const json = await api(params);
+    if(json.status!=='ok'){area.innerHTML='<p style="color:#c00;">'+json.message+'</p>';return;}
+    researchLogsCache = json.data.logs||[];
+    renderResearchLogs(researchLogsCache);
+  }catch(e){area.innerHTML='<p style="color:#c00;">エラーが発生しました</p>';}
+}
+
+function renderResearchLogs(logs){
+  const area = document.getElementById('researchLogArea');
+  if(!logs||logs.length===0){area.innerHTML='<p style="color:#666;">ログがありません</p>';return;}
+  let html='<table><tr><th>日時</th><th>パートナー</th><th>会社名</th><th>法人番号</th><th>検索エンジン</th></tr>';
+  logs.forEach(l=>{
+    const dt = l.searched_at ? new Date(l.searched_at).toLocaleString('ja-JP') : '－';
+    html+=`<tr>
+      <td style="font-size:12px;white-space:nowrap;">${dt}</td>
+      <td style="font-size:12px;">${l.partner_name||l.company_id}</td>
+      <td>${l.company_name}</td>
+      <td style="font-size:12px;">${l.corporate_number}</td>
+      <td><span style="font-size:11px;background:#e8f5e9;color:var(--green);padding:2px 8px;border-radius:10px;font-weight:bold;">${l.engine}</span></td>
+    </tr>`;
+  });
+  area.innerHTML=html+'</table>';
+  document.getElementById('researchLogMsg').textContent=`${logs.length}件`;
+  document.getElementById('researchLogMsg').className='msg ok';
+}
+
+function exportResearchLogs(){
+  if(!researchLogsCache||researchLogsCache.length===0){
+    alert('先に検索してください');return;
+  }
+  const data = researchLogsCache.map(l=>({
+    '日時':     l.searched_at ? new Date(l.searched_at).toLocaleString('ja-JP') : '',
+    'パートナーID': l.company_id,
+    'パートナー名': l.partner_name||l.company_id,
+    '会社名':   l.company_name,
+    '法人番号': l.corporate_number,
+    '検索エンジン': l.engine
+  }));
+  const ws = XLSX.utils.json_to_sheet(data);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, '調査ログ');
+  XLSX.writeFile(wb, `調査ログ_${new Date().toISOString().slice(0,10)}.xlsx`);
+}
+
+// ============================================================
+// ⑥ ダウンロードログ
+// ============================================================
+let dlLogsCache = [];
+
+async function loadDownloadLogs(){
+  const area = document.getElementById('dlLogArea');
+  const msg  = document.getElementById('dlLogMsg');
+  const dateFrom = document.getElementById('dlDateFrom').value;
+  const dateTo   = document.getElementById('dlDateTo').value;
+  area.innerHTML = '<div class="spinner-wrap"><div class="spinner"></div>読み込み中...</div>';
+  msg.textContent = '';
+  try{
+    const params = {action:'adminGetDownloadLogs', admin_token:adminToken};
+    if(dateFrom) params.date_from = dateFrom;
+    if(dateTo)   params.date_to   = dateTo;
+    const json = await api(params);
+    if(json.status!=='ok'){area.innerHTML='<p style="color:#c00;">'+json.message+'</p>';return;}
+    dlLogsCache = json.data.logs||[];
+    renderDownloadLogs(dlLogsCache);
+  }catch(e){area.innerHTML='<p style="color:#c00;">エラーが発生しました</p>';}
+}
+
+function renderDownloadLogs(logs){
+  const area = document.getElementById('dlLogArea');
+  if(!logs||logs.length===0){area.innerHTML='<p style="color:#666;">ログがありません</p>';return;}
+  let html='<table><tr><th>日時</th><th>パートナー</th><th>ファイル名</th></tr>';
+  logs.forEach(l=>{
+    const dt = l.downloaded_at ? new Date(l.downloaded_at).toLocaleString('ja-JP') : '－';
+    html+=`<tr>
+      <td style="font-size:12px;white-space:nowrap;">${dt}</td>
+      <td style="font-size:12px;">${l.partner_name||l.company_id}</td>
+      <td>${l.file_name}</td>
+    </tr>`;
+  });
+  area.innerHTML=html+'</table>';
+  document.getElementById('dlLogMsg').textContent=`${logs.length}件`;
+  document.getElementById('dlLogMsg').className='msg ok';
+}
+
+function exportDownloadLogs(){
+  if(!dlLogsCache||dlLogsCache.length===0){
+    alert('先に検索してください');return;
+  }
+  const data = dlLogsCache.map(l=>({
+    '日時':         l.downloaded_at ? new Date(l.downloaded_at).toLocaleString('ja-JP') : '',
+    'パートナーID': l.company_id,
+    'パートナー名': l.partner_name||l.company_id,
+    'ファイル名':   l.file_name
+  }));
+  const ws = XLSX.utils.json_to_sheet(data);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'ダウンロードログ');
+  XLSX.writeFile(wb, `ダウンロードログ_${new Date().toISOString().slice(0,10)}.xlsx`);
+}
+
+// ============================================================
+// ⑦ 企業調査（admin用）
+// ============================================================
+const BRAVE_API_KEY = 'BSAZKKo91DIIKK6K3E14bi1SrC4HaP3';
+let adminCurrentCorp = null;
+
+async function adminSearchCompany(){
+  const name = document.getElementById('adminResearchQuery').value.trim();
+  const msg  = document.getElementById('adminResearchMsg');
+  if(!name){msg.textContent='会社名を入力してください';return;}
+  msg.textContent='';
+  document.getElementById('adminCorpListCard').style.display='none';
+  document.getElementById('adminCorpDetailCard').style.display='none';
+  document.getElementById('adminCorpListArea').innerHTML='<div class="spinner-wrap"><div class="spinner"></div>検索中...</div>';
+  document.getElementById('adminCorpListCard').style.display='block';
+  try{
+    const json = await api({action:'searchCompanyBrave', admin_token:adminToken, name});
+    if(json.status!=='ok'){
+      document.getElementById('adminCorpListArea').innerHTML=`<p style="color:#c00;font-size:13px;">${json.message}</p>`;
       return;
     }
-    const corps = json.data?.results || [];
-    if (corps.length === 0) {
-      document.getElementById('corpListArea').innerHTML = '<p style="color:#666;font-size:13px;">該当する結果が見つかりませんでした</p>';
+    const corps = json.data?.results||[];
+    if(corps.length===0){
+      document.getElementById('adminCorpListArea').innerHTML='<p style="color:#666;font-size:13px;">該当する結果が見つかりませんでした</p>';
       return;
     }
-    let html = '';
-    corps.forEach((c, i) => {
-      html += `<div class="corp-card" id="corp-${i}" onclick="selectCorp(${i})">
+    let html='';
+    corps.forEach((c,i)=>{
+      html+=`<div class="corp-card" id="acorp-${i}" onclick="adminSelectCorp(${i})">
         <div class="corp-name">${c.name}</div>
         <div class="corp-meta" style="font-size:11px;">${c.url}</div>
       </div>`;
     });
-    document.getElementById('corpListArea').innerHTML = html;
-    document.getElementById('corpListArea')._data = corps;
-  } catch(e) {
-    document.getElementById('corpListArea').innerHTML = `<p style="color:#c00;font-size:13px;">エラーが発生しました: ${e.message}</p>`;
+    document.getElementById('adminCorpListArea').innerHTML=html;
+    document.getElementById('adminCorpListArea')._data=corps;
+  }catch(e){
+    document.getElementById('adminCorpListArea').innerHTML=`<p style="color:#c00;font-size:13px;">エラーが発生しました: ${e.message}</p>`;
   }
 }
 
-function selectCorp(idx) {
-  const corps = document.getElementById('corpListArea')._data || [];
+function adminSelectCorp(idx){
+  const corps = document.getElementById('adminCorpListArea')._data||[];
   const c = corps[idx];
-  if (!c) return;
-  currentCorp = { name: c.name, corporate_number: '', invoice_number: '' };
-  document.querySelectorAll('.corp-card').forEach((el, i) => el.classList.toggle('selected', i === idx));
-  document.getElementById('corpDetailName').textContent = c.name;
-  document.getElementById('corpInfoGrid').innerHTML = `
+  if(!c) return;
+  adminCurrentCorp = { name: c.name, corporate_number: '', invoice_number: '' };
+  document.querySelectorAll('.corp-card[id^="acorp-"]').forEach((el,i)=>el.classList.toggle('selected',i===idx));
+  document.getElementById('adminCorpDetailName').textContent=c.name;
+  document.getElementById('adminCorpInfoGrid').innerHTML=`
     <span class="info-label">会社名</span><span class="info-value">${c.name}</span>
     <span class="info-label">参照URL</span><span class="info-value" style="font-size:11px;word-break:break-all;">${c.url}</span>
   `;
-  const chips = [c.name, c.name + ' ERP', c.name + ' NetSuite', c.name + ' 基幹システム', c.name + ' 導入事例'];
-  document.getElementById('chipWrap').innerHTML = chips.map((chip, i) =>
-    `<span class="chip${i === 0 ? ' active' : ''}" onclick="selectChip(this,'${chip.replace(/'/g, "\\'")}')">${chip}</span>`
+  const chips=[c.name, c.name+' ERP', c.name+' NetSuite', c.name+' 基幹システム', c.name+' 導入事例'];
+  document.getElementById('adminChipWrap').innerHTML=chips.map((chip,i)=>
+    `<span class="chip${i===0?' active':''}" onclick="adminSelectChip(this,'${chip.replace(/'/g,"\\'")}')"> ${chip}</span>`
   ).join('');
-  document.getElementById('searchQuery').value = c.name;
-  document.getElementById('corpDetailCard').style.display = 'block';
-  document.getElementById('corpDetailCard').scrollIntoView({ behavior: 'smooth' });
+  document.getElementById('adminSearchQuery').value=c.name;
+  document.getElementById('adminCorpDetailCard').style.display='block';
+  document.getElementById('adminCorpDetailCard').scrollIntoView({behavior:'smooth'});
 }
 
-function selectChip(el, text) {
-  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+function adminSelectChip(el, text){
+  document.querySelectorAll('#adminChipWrap .chip').forEach(c=>c.classList.remove('active'));
   el.classList.add('active');
-  document.getElementById('searchQuery').value = text;
+  document.getElementById('adminSearchQuery').value=text;
 }
 
-function openEngine(engine) {
-  if (!currentCorp) return;
-  const query = document.getElementById('searchQuery').value.trim() || currentCorp.name;
-  let url = '';
-  if (engine === 'google')     url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-  if (engine === 'perplexity') url = `https://www.perplexity.ai/search?q=${encodeURIComponent(query)}`;
-  if (engine === 'chatgpt')    url = `https://chatgpt.com/?q=${encodeURIComponent(query)}`;
-  window.open(url, '_blank');
+function adminCopyText(text){
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn = event.target;
+    btn.textContent='コピー済';
+    setTimeout(()=>btn.textContent='コピー',1500);
+  });
+}
+
+function adminOpenEngine(engine){
+  if(!adminCurrentCorp) return;
+  const query = document.getElementById('adminSearchQuery').value.trim() || adminCurrentCorp.name;
+  let url='';
+  if(engine==='google')     url=`https://www.google.com/search?q=${encodeURIComponent(query)}`;
+  if(engine==='perplexity') url=`https://www.perplexity.ai/search?q=${encodeURIComponent(query)}`;
+  if(engine==='chatgpt')    url=`https://chatgpt.com/?q=${encodeURIComponent(query)}`;
+  window.open(url,'_blank');
+  // ログ記録
   fetch(API_URL
-    + '?action=logResearch'
-    + '&token=' + encodeURIComponent(partnerToken)
-    + '&corporate_number=' + encodeURIComponent(currentCorp.corporate_number)
-    + '&company_name=' + encodeURIComponent(currentCorp.name)
-    + '&engine=' + encodeURIComponent(engine),
-    { redirect: 'follow' }
-  ).catch(() => {});
-}
-
-// ============================================================
-// 資料ダウンロード
-// ============================================================
-async function loadResources() {
-  const area = document.getElementById('resourcesArea');
-  const msg  = document.getElementById('resourcesMsg');
-  area.innerHTML = '<div class="spinner-wrap"><div class="spinner"></div>資料を読み込み中...</div>';
-  msg.textContent = '';
-  try {
-    const json = await api({ action: 'getResources', token: partnerToken });
-    if (json.status !== 'ok') { area.innerHTML = '<p style="color:#c00;font-size:13px;">' + json.message + '</p>'; return; }
-    renderResources(json.data.resources || []);
-  } catch(e) { area.innerHTML = '<p style="color:#c00;font-size:13px;">読み込みに失敗しました</p>'; }
-}
-
-function renderResources(resources) {
-  const area = document.getElementById('resourcesArea');
-  if (!resources || resources.length === 0) { area.innerHTML = '<p style="color:#666;font-size:13px;">現在ダウンロードできる資料はありません</p>'; return; }
-  const categories = {};
-  resources.forEach(r => {
-    const cat = r.category || 'その他';
-    if (!categories[cat]) categories[cat] = [];
-    categories[cat].push(r);
-  });
-  const catOrder    = ['製品カタログ', '資料'];
-  const orderedCats = [...catOrder.filter(c => categories[c]), ...Object.keys(categories).filter(c => !catOrder.includes(c))];
-  let html = '';
-  orderedCats.forEach(cat => {
-    html += `<div class="resource-section"><div class="resource-section-title">${cat}</div>`;
-    categories[cat].forEach(r => {
-      html += `<div class="resource-item">
-        <div class="resource-info">
-          <div class="resource-name">${r.file_name}</div>
-          ${r.description ? `<div class="resource-desc">${r.description}</div>` : ''}
-        </div>
-        <div class="resource-actions">
-          <button class="btn btn-outline btn-sm" onclick="downloadResource('${r.doc_id}','${r.file_name}')">ダウンロード</button>
-        </div>
-      </div>`;
-    });
-    html += '</div>';
-  });
-  area.innerHTML = html;
-}
-
-async function downloadResource(docId, fileName) {
-  const msg = document.getElementById('resourcesMsg');
-  msg.textContent = 'URLを取得中...'; msg.className = 'msg';
-  try {
-    const json = await api({ action: 'getResourceUrl', doc_id: docId, token: partnerToken });
-    if (json.status !== 'ok') { msg.textContent = json.message || 'ダウンロードURLの取得に失敗しました'; msg.className = 'msg err'; return; }
-    msg.textContent = '';
-    window.open(json.data.url, '_blank');
-  } catch(e) { msg.textContent = 'エラーが発生しました'; msg.className = 'msg err'; }
+    +'?action=logResearch'
+    +'&admin_token='+encodeURIComponent(adminToken)
+    +'&corporate_number='+encodeURIComponent(adminCurrentCorp.corporate_number)
+    +'&company_name='+encodeURIComponent(adminCurrentCorp.name)
+    +'&engine='+encodeURIComponent(engine),
+    {redirect:'follow'}
+  ).catch(()=>{});
 }
 </script>
 </body>
