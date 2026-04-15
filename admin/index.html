@@ -107,7 +107,7 @@ tr.active-row td{background:#e8f5e9;}
 
   <!-- タブ -->
   <div class="tabs">
-    <button class="tab active" onclick="switchTab('sessions')">セッション管理</button>
+    <button class="tab active" onclick="switchTab('sessions')">セミナー管理</button>
     <button class="tab" onclick="switchTab('partners')">パートナー管理</button>
     <button class="tab" onclick="switchTab('proxy')">代理操作</button>
     <button class="tab" onclick="switchTab('resources')">資料管理</button>
@@ -116,10 +116,10 @@ tr.active-row td{background:#e8f5e9;}
     <button class="tab" onclick="switchTab('research')">企業調査 <span style="font-size:10px;background:#E97132;color:#fff;padding:1px 5px;border-radius:4px;vertical-align:middle;">β</span></button>
   </div>
 
-  <!-- ① セッション管理 -->
+  <!-- ① セミナー管理 -->
   <div id="tab-sessions" class="tab-content active">
     <div class="card">
-      <h2>全セッション一覧</h2>
+      <h2>全セミナー一覧</h2>
       <div id="sessionsArea"><div style="color:#666;">読み込み中...</div></div>
     </div>
     <div class="card" id="adminAccountsCard" style="display:none;">
@@ -187,25 +187,25 @@ tr.active-row td{background:#e8f5e9;}
     <div id="proxyMain" style="display:none;">
       <div class="proxy-banner" id="proxyBanner"></div>
 
-      <!-- セッション一覧 -->
+      <!-- セミナー一覧 -->
       <div class="card">
-        <h2>セッション一覧</h2>
+        <h2>セミナー一覧</h2>
         <div class="flex-wrap">
-          <button class="btn btn-sm" onclick="proxyAddSession()">＋ セッションを追加</button>
+          <button class="btn btn-sm" onclick="proxyAddSession()">＋ セミナーを追加</button>
         </div>
         <table id="proxySessionTable">
-          <tr><th>セッションコード</th><th>セッション名</th><th>開催日</th><th>デモ</th><th>操作</th></tr>
+          <tr><th>セミナーコード</th><th>セミナー名</th><th>開催日</th><th>デモ</th><th>操作</th></tr>
           <tr><td colspan="5" style="color:#666;text-align:center;">読み込み中...</td></tr>
         </table>
         <div class="msg err" id="proxySessionMsg"></div>
       </div>
 
-      <!-- セッション編集 -->
+      <!-- セミナー編集 -->
       <div class="card" id="proxyDetailCard" style="display:none;">
-        <h2>セッション編集：<span id="proxyEditCode" style="font-size:13px;color:#666;"></span></h2>
+        <h2>セミナー編集：<span id="proxyEditCode" style="font-size:13px;color:#666;"></span></h2>
         <div class="form-row">
           <div>
-            <label>セッション名</label>
+            <label>セミナー名</label>
             <input type="text" id="proxySessionName" placeholder="NetSuite ハンズオン 2026春">
           </div>
           <div>
@@ -245,7 +245,7 @@ tr.active-row td{background:#e8f5e9;}
         </div>
         <div class="flex-wrap">
           <button class="btn" onclick="proxySaveAll()">保存</button>
-          <button class="btn btn-red btn-sm" onclick="proxyDeleteSession()">このセッションを削除</button>
+          <button class="btn btn-red btn-sm" onclick="proxyDeleteSession()">このセミナーを削除</button>
         </div>
         <div class="msg" id="proxyDetailMsg"></div>
       </div>
@@ -459,7 +459,7 @@ function switchTab(tab){
 }
 
 // ============================================================
-// ① セッション管理
+// ① セミナー管理
 // ============================================================
 async function loadSessions(){
   try{
@@ -467,8 +467,8 @@ async function loadSessions(){
     if(json.status!=='ok'){if(json.message&&json.message.includes('切れ')){logout();}return;}
     const sessions = json.data.sessions||[];
     const area = document.getElementById('sessionsArea');
-    if(sessions.length===0){area.innerHTML='<p style="color:#666;">セッションがありません</p>';return;}
-    let html='<table><tr><th>会社名</th><th>セッション名</th><th>開催日</th><th>操作</th></tr>';
+    if(sessions.length===0){area.innerHTML='<p style="color:#666;">セミナーがありません</p>';return;}
+    let html='<table><tr><th>会社名</th><th>セミナー名</th><th>開催日</th><th>操作</th></tr>';
     sessions.forEach(s=>{
       html+=`<tr>
         <td>${s.company_name||s.company_id}</td>
@@ -657,10 +657,10 @@ async function loadProxySessions(){
     const sessions=json.data.sessions||[];
     const tbody=document.getElementById('proxySessionTable');
     if(sessions.length===0){
-      tbody.innerHTML='<tr><th>セッションコード</th><th>セッション名</th><th>開催日</th><th>デモ</th><th>操作</th></tr><tr><td colspan="5" style="color:#666;text-align:center;">セッションがありません</td></tr>';
+      tbody.innerHTML='<tr><th>セミナーコード</th><th>セミナー名</th><th>開催日</th><th>デモ</th><th>操作</th></tr><tr><td colspan="5" style="color:#666;text-align:center;">セミナーがありません</td></tr>';
       return;
     }
-    let html='<tr><th>セッションコード</th><th>セッション名</th><th>開催日</th><th>デモ</th><th>操作</th></tr>';
+    let html='<tr><th>セミナーコード</th><th>セミナー名</th><th>開催日</th><th>デモ</th><th>操作</th></tr>';
     sessions.forEach(s=>{
       const active=s.session_code===proxySessionCode?'class="active-row"':'';
       html+=`<tr ${active}>
