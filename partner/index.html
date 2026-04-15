@@ -340,10 +340,9 @@ tr.active td{background:#e8f5e9;}
   <div class="card" id="accountsCard" style="display:none;">
     <h2>アカウント管理</h2>
     <div class="flex-wrap" style="margin-bottom:16px;">
-      <label style="margin:0;cursor:pointer;">
-        <input type="file" id="xlsxFile" accept=".xlsx" style="display:none" onchange="importAccounts()">
-        <span class="btn btn-orange btn-sm" onclick="document.getElementById('xlsxFile').click()">Excelインポート</span>
-      </label>
+      <input type="file" id="xlsxFile" accept=".xlsx" style="display:none" onchange="importAccounts()">
+      <span class="btn btn-orange btn-sm" onclick="document.getElementById('xlsxFile').click()">Excelインポート</span>
+      <button class="btn btn-outline btn-sm" onclick="downloadTemplate()">テンプレートを取得</button>
       <button class="btn btn-outline btn-sm" onclick="resetAll()">全リセット</button>
     </div>
     <div id="accountsArea"><p style="color:#666;font-size:13px;">アカウントがありません</p></div>
@@ -556,8 +555,8 @@ async function loadRssFeed(feed) {
   const panel = document.getElementById('panel-' + feed);
   panel.innerHTML = '<div class="news-loading">読み込み中...</div>';
   try {
-    // feedパラメータで種別を渡す（YouTubeはURLに?が含まれるため直接渡せない）
-    const url = API_URL + '?action=getRssFeed&feed=' + encodeURIComponent(feed);
+    // フィードURLをエンコードして渡す（encodeURIComponentで?も%3Fに変換されるため安全）
+    const url = API_URL + '?action=getRssFeed&url=' + encodeURIComponent(cfg.url);
     const res  = await fetch(url, { redirect: 'follow' });
     const json = await res.json();
     feedLoaded[feed] = true;
@@ -882,6 +881,20 @@ async function resetAll() {
     msg.className   = 'msg ' + (json.status === 'ok' ? 'ok' : 'err');
     if (json.status === 'ok') loadAccounts();
   } catch(e) {}
+}
+
+function downloadTemplate() {
+  // ExcelテンプレートをJSで生成してダウンロード
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.aoa_to_sheet([
+    ['USER ID', 'PASSWORD'],
+    ['user001', 'pass001'],
+    ['user002', 'pass002'],
+  ]);
+  // 列幅の設定
+  ws['!cols'] = [{ wch: 20 }, { wch: 20 }];
+  XLSX.utils.book_append_sheet(wb, ws, 'アカウント一覧');
+  XLSX.writeFile(wb, 'account_template.xlsx');
 }
 
 async function importAccounts() {
