@@ -272,210 +272,83 @@ tr.active td{background:#e8f5e9;}
     <button class="tab" onclick="switchTab('sns')">SNS 投稿文</button>
   </div>
 
-  <!-- タブ：セッション管理 [DEV] -->
+  <!-- タブ：セッション管理 -->
   <div id="tab-sessions" class="tab-content">
-  <div class="session-layout">
-
-    <!-- 上段：セッション一覧（全幅） -->
-    <div class="card">
-      <h2 style="display:flex;align-items:center;">セッション一覧
-        <button class="btn btn-sm" style="margin-left:auto;" onclick="addSession()">＋ 新規作成</button>
-      </h2>
-      <div class="session-table-wrap">
-        <table id="sessionTable">
-          <tr><th>セッションコード</th><th>セッション名</th><th>開催日</th><th>デモ</th><th>操作</th></tr>
-          <tr><td colspan="5" style="color:#666;text-align:center;">読み込み中...</td></tr>
-        </table>
-      </div>
-      <div class="msg err" id="sessionMsg"></div>
+  <div class="card">
+    <h2>セッション一覧</h2>
+    <div style="margin-bottom:12px;">
+      <button class="btn btn-sm" onclick="addSession()">＋ セッションを追加</button>
     </div>
+    <div class="session-table-wrap">
+      <table id="sessionTable">
+        <tr><th>セッションコード</th><th>セッション名</th><th>開催日</th><th>デモ</th><th>操作</th></tr>
+        <tr><td colspan="5" style="color:#666;text-align:center;">読み込み中...</td></tr>
+      </table>
+    </div>
+    <div class="msg err" id="sessionMsg"></div>
+  </div>
 
-    <!-- 下段：左右2列（編集・新規作成時に表示） -->
-    <div class="session-bottom" id="sessionBottom" style="display:none;">
+  <div class="card" id="detailCard" style="display:none;">
+    <h2>セッション編集：<span id="editSessionCode" style="font-size:13px;color:#666;"></span></h2>
+    <div class="form-row">
+      <div>
+        <label>セッション名</label>
+        <input type="text" id="sessionName" placeholder="NetSuite ハンズオン 2026春">
+      </div>
+      <div>
+        <label>開催日</label>
+        <input type="date" id="sessionDate">
+      </div>
+    </div>
+    <div class="form-row">
+      <div>
+        <label>開催時間</label>
+        <input type="time" id="sessionTime">
+      </div>
+      <div>
+        <label>告知URL（任意）</label>
+        <input type="url" id="detailUrl" placeholder="https://...">
+      </div>
+    </div>
+    <label>資料URL</label>
+    <input type="url" id="materialsUrl" placeholder="https://drive.google.com/...">
+    <label>アンケートURL</label>
+    <input type="url" id="surveyUrl" placeholder="https://forms.google.com/...">
+    <label>メッセージ</label>
+    <textarea id="message" rows="4" style="width:100%;padding:10px 13px;border:2px solid #ddd;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:12px;resize:vertical;transition:border-color .2s;" placeholder="受講者への案内文や注意事項を入力してください&#10;（改行可）"></textarea>
+    <label>ログインURL</label>
+    <input type="url" id="loginUrl" placeholder="https://system.netsuite.com/pages/customerlogin.jsp?country=JP">
+    <div class="toggle">
+      <input type="checkbox" id="useLogin" checked>
+      <label for="useLogin" style="margin:0;font-weight:normal;cursor:pointer;">ログインボタンを表示する</label>
+    </div>
+    <div class="toggle">
+      <input type="checkbox" id="useDemo" checked>
+      <label for="useDemo" style="margin:0;font-weight:normal;cursor:pointer;">デモアカウント機能を使用する</label>
+    </div>
+    <div class="toggle">
+      <input type="checkbox" id="publishRss">
+      <label for="publishRss" style="margin:0;font-weight:normal;cursor:pointer;">RSS配信する（将来実装予定）</label>
+    </div>
+    <div class="flex-wrap">
+      <button class="btn" onclick="saveAll()">保存</button>
+      <button class="btn btn-red btn-sm" onclick="deleteSession()">このセッションを削除</button>
+    </div>
+    <div class="msg" id="detailMsg"></div>
+  </div>
 
-      <!-- 左列：セッション設定 + アカウント管理 -->
-      <div class="session-left-col">
-
-        <div class="card" id="detailCard">
-          <h2>セッション編集：<span id="editSessionCode" style="font-size:13px;color:#666;font-weight:normal;"></span></h2>
-
-          <label>セッション名</label>
-          <input type="text" id="sessionName" placeholder="NetSuite ハンズオン 2026春" oninput="snsSync()">
-
-          <div class="fg3-dev">
-            <div>
-              <label>開催日</label>
-              <input type="date" id="sessionDate" oninput="snsSync()">
-            </div>
-            <div>
-              <label>開始時間</label>
-              <input type="time" id="sessionTime" oninput="snsSync()">
-            </div>
-            <div>
-              <label>終了時間</label>
-              <input type="time" id="sessionTimeEnd" oninput="snsSync()">
-            </div>
-          </div>
-
-          <div class="fg2-dev">
-            <div>
-              <label>資料URL</label>
-              <input type="url" id="materialsUrl" placeholder="https://drive.google.com/...">
-            </div>
-            <div>
-              <label>アンケートURL</label>
-              <input type="url" id="surveyUrl" placeholder="https://forms.google.com/...">
-            </div>
-          </div>
-
-          <label>ログインURL</label>
-          <input type="url" id="loginUrl" placeholder="https://system.netsuite.com/pages/customerlogin.jsp?country=JP">
-
-          <label>受講者へのメッセージ</label>
-          <textarea id="message" rows="3" style="width:100%;padding:10px 13px;border:2px solid #ddd;border-radius:8px;font-size:13px;font-family:inherit;margin-bottom:12px;resize:vertical;transition:border-color .2s;" placeholder="当日ダッシュボードに表示するメッセージ・注意事項（改行可）"></textarea>
-
-          <div class="sns-sl">受講者向け表示設定</div>
-          <div class="toggle">
-            <input type="checkbox" id="useLogin" checked>
-            <label for="useLogin" style="margin:0;font-weight:normal;cursor:pointer;">ログインボタンを表示する</label>
-          </div>
-          <div class="toggle">
-            <input type="checkbox" id="useDemo" checked>
-            <label for="useDemo" style="margin:0;font-weight:normal;cursor:pointer;">デモアカウント機能を使用する</label>
-          </div>
-          <div class="toggle">
-            <input type="checkbox" id="publishRss">
-            <label for="publishRss" style="margin:0;font-weight:normal;cursor:pointer;">RSS配信する（将来実装予定）</label>
-          </div>
-
-          <div class="flex-wrap" style="margin-top:16px;">
-            <button class="btn" onclick="saveAll()">保存</button>
-            <button class="btn btn-red btn-sm" onclick="deleteSession()">このセッションを削除</button>
-            <button class="btn btn-outline btn-sm" style="margin-left:auto;" onclick="closeSessionBottom()">閉じる</button>
-          </div>
-          <div class="msg" id="detailMsg"></div>
-        </div>
-
-        <div class="card" id="accountsCard">
-          <h2>アカウント管理</h2>
-          <div class="flex-wrap" style="margin-bottom:16px;">
-            <label style="margin:0;cursor:pointer;">
-              <input type="file" id="xlsxFile" accept=".xlsx" style="display:none" onchange="importAccounts()">
-              <span class="btn btn-orange btn-sm" onclick="document.getElementById('xlsxFile').click()">Excelインポート</span>
-            </label>
-            <button class="btn btn-outline btn-sm" onclick="resetAll()">全リセット</button>
-          </div>
-          <div id="accountsArea"><p style="color:#666;font-size:13px;">アカウントがありません</p></div>
-          <div class="msg" id="accountsMsg"></div>
-        </div>
-
-      </div><!-- /session-left-col -->
-
-      <!-- 右列：SNS投稿文ジェネレーター -->
-      <div class="card session-right-col">
-        <h2>SNS 投稿文ジェネレーター</h2>
-
-        <div class="sns-sl" style="margin-top:0;">セミナー分類タグ（ハッシュタグに変換）</div>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          <div>
-            <div style="font-size:11px;color:#888;margin-bottom:3px;"><span class="sns-tgi sns-ti">業</span>対象業種</div>
-            <div class="sns-chips" id="snsChipInd"></div>
-          </div>
-          <div>
-            <div style="font-size:11px;color:#888;margin-bottom:3px;"><span class="sns-tgi sns-tr">役</span>対象役職</div>
-            <div class="sns-chips" id="snsChipRole"></div>
-          </div>
-          <div>
-            <div style="font-size:11px;color:#888;margin-bottom:3px;"><span class="sns-tgi sns-tm">M</span>実施モジュール</div>
-            <div class="sns-chips" id="snsChipMod"></div>
-          </div>
-          <div>
-            <div style="font-size:11px;color:#888;margin-bottom:3px;"><span class="sns-tgi sns-tp">目</span>目的</div>
-            <div class="sns-chips" id="snsChipPurp"></div>
-          </div>
-        </div>
-        <div style="font-size:11px;color:#888;margin-top:10px;margin-bottom:2px;">生成されるハッシュタグ</div>
-        <div class="htag-preview" id="snsHtagPreview"><span style="font-size:11px;color:#aaa;">タグを選択するとハッシュタグが生成されます</span></div>
-
-        <div class="sns-sl">開催・告知情報</div>
-        <div class="flex-wrap" style="gap:6px;margin-bottom:10px;">
-          <button class="sns-method-btn sel" id="snsMethodOff" onclick="snsSelMethod('off')">オフライン</button>
-          <button class="sns-method-btn"     id="snsMethodOn"  onclick="snsSelMethod('on')">オンライン</button>
-          <button class="sns-method-btn"     id="snsMethodHy"  onclick="snsSelMethod('hy')">ハイブリッド</button>
-        </div>
-
-        <div id="snsLocRow">
-          <label>開催場所</label>
-          <input type="text" id="snsLoc" placeholder="例：東京都港区 Clover Plus セミナールーム" oninput="snsSync()">
-        </div>
-        <div id="snsUrlRow" style="display:none;">
-          <label>参加URL</label>
-          <input type="url" id="snsUrl" placeholder="https://zoom.us/j/..." oninput="snsSync()">
-        </div>
-
-        <label>告知URL</label>
-        <input type="url" id="snsAnnounce" placeholder="https://..." oninput="snsSync()">
-
-        <div class="fg2-dev">
-          <div>
-            <label>申込期限日</label>
-            <input type="date" id="snsDeadlineDate" oninput="snsSync()">
-          </div>
-          <div>
-            <label>申込期限時刻</label>
-            <input type="time" id="snsDeadlineTime" oninput="snsSync()">
-          </div>
-        </div>
-
-        <label>申し込み方法（URL またはメールアドレス）</label>
-        <input type="text" id="snsApply" placeholder="https://forms.... または info@example.com" oninput="snsSync()">
-
-        <div class="sns-tabs">
-          <button class="sns-tab-btn active" onclick="snsSw(0)">X（旧Twitter）</button>
-          <button class="sns-tab-btn" onclick="snsSw(1)">LinkedIn</button>
-          <button class="sns-tab-btn" onclick="snsSw(2)">Facebook</button>
-          <button class="sns-tab-btn" onclick="snsSw(3)">その他</button>
-        </div>
-
-        <div class="sns-panel active" id="snsPanel0">
-          <textarea class="sns-out" id="snsOut0" rows="8"></textarea>
-          <div class="sns-cc" id="snsCc0">0 / 280 文字</div>
-          <div class="flex-wrap" style="margin-top:8px;">
-            <button class="btn btn-outline btn-sm" onclick="snsReset(0)">初期状態に戻す</button>
-            <button class="btn btn-sm" style="margin-left:auto;" onclick="snsCopy(0)">クリップボードにコピー</button>
-            <span class="sns-copy-ok" id="snsCopyOk0">コピーしました</span>
-          </div>
-        </div>
-        <div class="sns-panel" id="snsPanel1">
-          <textarea class="sns-out" id="snsOut1" rows="12"></textarea>
-          <div class="flex-wrap" style="margin-top:8px;">
-            <button class="btn btn-outline btn-sm" onclick="snsReset(1)">初期状態に戻す</button>
-            <button class="btn btn-sm" style="margin-left:auto;" onclick="snsCopy(1)">クリップボードにコピー</button>
-            <span class="sns-copy-ok" id="snsCopyOk1">コピーしました</span>
-          </div>
-        </div>
-        <div class="sns-panel" id="snsPanel2">
-          <textarea class="sns-out" id="snsOut2" rows="12"></textarea>
-          <div class="flex-wrap" style="margin-top:8px;">
-            <button class="btn btn-outline btn-sm" onclick="snsReset(2)">初期状態に戻す</button>
-            <button class="btn btn-sm" style="margin-left:auto;" onclick="snsCopy(2)">クリップボードにコピー</button>
-            <span class="sns-copy-ok" id="snsCopyOk2">コピーしました</span>
-          </div>
-        </div>
-        <div class="sns-panel" id="snsPanel3">
-          <textarea class="sns-out" id="snsOut3" rows="12"></textarea>
-          <div class="flex-wrap" style="margin-top:8px;">
-            <button class="btn btn-outline btn-sm" onclick="snsReset(3)">初期状態に戻す</button>
-            <button class="btn btn-sm" style="margin-left:auto;" onclick="snsCopy(3)">クリップボードにコピー</button>
-            <span class="sns-copy-ok" id="snsCopyOk3">コピーしました</span>
-          </div>
-        </div>
-
-      </div><!-- /session-right-col -->
-
-    </div><!-- /session-bottom -->
-
-  </div><!-- /session-layout -->
+  <div class="card" id="accountsCard" style="display:none;">
+    <h2>アカウント管理</h2>
+    <div class="flex-wrap" style="margin-bottom:16px;">
+      <label style="margin:0;cursor:pointer;">
+        <input type="file" id="xlsxFile" accept=".xlsx" style="display:none" onchange="importAccounts()">
+        <span class="btn btn-orange btn-sm" onclick="document.getElementById('xlsxFile').click()">Excelインポート</span>
+      </label>
+      <button class="btn btn-outline btn-sm" onclick="resetAll()">全リセット</button>
+    </div>
+    <div id="accountsArea"><p style="color:#666;font-size:13px;">アカウントがありません</p></div>
+    <div class="msg" id="accountsMsg"></div>
+  </div>
   </div><!-- /tab-sessions -->
 
   <!-- タブ：企業調査 -->
@@ -803,8 +676,9 @@ async function loadSessions() {
     const sessions = json.data.sessions || [];
     const tbody = document.getElementById('sessionTable');
     if (sessions.length === 0) {
-      tbody.innerHTML = '<tr><th>セッションコード</th><th>セッション名</th><th>開催日</th><th>デモ</th><th>操作</th></tr><tr><td colspan="5" style="color:#666;text-align:center;">セッションがありません。「＋ 新規作成」から作成してください。</td></tr>';
-      document.getElementById('sessionBottom').style.display = 'none';
+      tbody.innerHTML = '<tr><th>セッションコード</th><th>セッション名</th><th>開催日</th><th>デモ</th><th>操作</th></tr><tr><td colspan="5" style="color:#666;text-align:center;">セッションがありません。「＋ セッションを追加」から作成してください。</td></tr>';
+      document.getElementById('detailCard').style.display   = 'none';
+      document.getElementById('accountsCard').style.display = 'none';
       return;
     }
     let html = '<tr><th>セッションコード</th><th>セッション名</th><th>開催日</th><th>デモ</th><th>操作</th></tr>';
@@ -840,6 +714,7 @@ async function selectSession(code, reload = true) {
     document.getElementById('sessionName').value   = d.session_name || '';
     document.getElementById('sessionDate').value   = d.session_date || '';
     document.getElementById('sessionTime').value   = d.session_time || '';
+    document.getElementById('detailUrl').value     = d.detail_url   || '';
     document.getElementById('materialsUrl').value  = d.materials_url || '';
     document.getElementById('surveyUrl').value     = d.survey_url   || '';
     document.getElementById('useDemo').checked     = d.use_demo !== false;
@@ -847,10 +722,9 @@ async function selectSession(code, reload = true) {
     document.getElementById('message').value       = d.message      || '';
     document.getElementById('loginUrl').value      = d.login_url    || 'https://system.netsuite.com/pages/customerlogin.jsp?country=JP';
     document.getElementById('useLogin').checked    = d.use_login !== false;
-    document.getElementById('sessionBottom').style.display = 'grid';
+    document.getElementById('detailCard').style.display   = 'block';
+    document.getElementById('accountsCard').style.display = 'block';
     document.getElementById('detailMsg').textContent = '';
-    initSnsGenerator();
-    snsSync();
     if (reload) loadAccounts();
   } catch(e) {}
 }
@@ -871,7 +745,7 @@ async function saveAll() {
     const r2 = await api({
       action: 'saveSettings',
       session_code: currentSession,
-      detail_url:   '',
+      detail_url:   document.getElementById('detailUrl').value,
       materials_url:document.getElementById('materialsUrl').value,
       survey_url:   document.getElementById('surveyUrl').value,
       use_demo:     document.getElementById('useDemo').checked,
@@ -904,7 +778,75 @@ async function deleteSession() {
     const json = await api({ action: 'deleteSession', session_code: currentSession, token: partnerToken });
     if (json.status !== 'ok') { alert(json.message); return; }
     currentSession = null;
-    document.getElementById('sessionBottom').style.display = 'none';
+    document.getElementById('detailCard').style.display   = 'none';
+    document.getElementById('accountsCard').style.display = 'none';
+    loadSessions();
+  } catch(e) { alert('エラーが発生しました'); }
+}
+    document.getElementById('surveyUrl').value     = d.survey_url   || '';
+    document.getElementById('useDemo').checked     = d.use_demo !== false;
+    document.getElementById('publishRss').checked  = d.publish_rss === true;
+    document.getElementById('message').value       = d.message      || '';
+    document.getElementById('loginUrl').value      = d.login_url    || 'https://system.netsuite.com/pages/customerlogin.jsp?country=JP';
+    document.getElementById('useLogin').checked    = d.use_login !== false;
+    document.getElementById('detailCard').style.display   = 'block';
+    document.getElementById('accountsCard').style.display = 'block';
+    document.getElementById('detailMsg').textContent = '';
+    if (reload) loadAccounts();
+  } catch(e) {}
+}
+
+async function saveAll() {
+  const msg = document.getElementById('detailMsg');
+  msg.textContent = '保存中...'; msg.className = 'msg';
+  try {
+    const r1 = await api({
+      action: 'updateSessionInfo',
+      session_code: currentSession,
+      session_name: document.getElementById('sessionName').value,
+      session_date: document.getElementById('sessionDate').value,
+      session_time: document.getElementById('sessionTime').value,
+      token: partnerToken
+    });
+    if (r1.status !== 'ok') { msg.textContent = r1.message; msg.className = 'msg err'; return; }
+    const r2 = await api({
+      action: 'saveSettings',
+      session_code: currentSession,
+      detail_url:   document.getElementById('detailUrl').value,
+      materials_url:document.getElementById('materialsUrl').value,
+      survey_url:   document.getElementById('surveyUrl').value,
+      use_demo:     document.getElementById('useDemo').checked,
+      publish_rss:  document.getElementById('publishRss').checked,
+      message:      document.getElementById('message').value,
+      login_url:    document.getElementById('loginUrl').value,
+      use_login:    document.getElementById('useLogin').checked,
+      token: partnerToken
+    });
+    if (r2.status !== 'ok') { msg.textContent = r2.message; msg.className = 'msg err'; return; }
+    msg.textContent = '保存しました'; msg.className = 'msg ok';
+    loadSessions();
+  } catch(e) { msg.textContent = 'エラーが発生しました'; msg.className = 'msg err'; }
+}
+
+async function addSession() {
+  try {
+    const json = await api({ action: 'addSession', company_id: companyId, token: partnerToken });
+    if (json.status !== 'ok') { alert(json.message); return; }
+    currentSession = json.data.session_code;
+    await loadSessions();
+    selectSession(currentSession);
+  } catch(e) { alert('エラーが発生しました'); }
+}
+
+async function deleteSession() {
+  if (!currentSession) { alert('セッションを選択してください'); return; }
+  if (!confirm(`セッション ${currentSession} とすべてのアカウントを削除します。よろしいですか？`)) return;
+  try {
+    const json = await api({ action: 'deleteSession', session_code: currentSession, token: partnerToken });
+    if (json.status !== 'ok') { alert(json.message); return; }
+    currentSession = null;
+    document.getElementById('detailCard').style.display   = 'none';
+    document.getElementById('accountsCard').style.display = 'none';
     loadSessions();
   } catch(e) { alert('エラーが発生しました'); }
 }
@@ -1305,212 +1247,6 @@ function postCopy(i) {
   });
 }
 
-// ============================================================
-// DEV: セッション管理 UI helpers
-// ============================================================
-function closeSessionBottom() {
-  document.getElementById('sessionBottom').style.display = 'none';
-  currentSession = null;
-  document.querySelectorAll('#sessionTable tr').forEach(tr => tr.classList.remove('active'));
-}
-
-// ============================================================
-// DEV: SNS投稿文ジェネレーター
-// ============================================================
-const SNS_IND  = ['製造業','小売・流通','サービス業','建設・不動産','医療・介護','IT・情報通信'];
-const SNS_ROLE = ['全社員','経営者・役員','CFO・財務責任者','経理担当者','情報システム担当','現場リーダー'];
-const SNS_MOD  = ['財務会計','在庫管理','プロジェクト管理','CRM・営業管理','レポーティング'];
-const SNS_PURP = ['DX推進','業務効率化','コスト削減','経営可視化','内部統制','グローバル展開','システム刷新'];
-
-const snsSelected = { i: new Set(), r: new Set(), m: new Set(), p: new Set() };
-let snsMethod = 'off';
-
-function snsBuildChips() {
-  const mk = (arr, cid, key, cls) => {
-    const el = document.getElementById(cid);
-    if (!el) return;
-    el.innerHTML = arr.map(o =>
-      `<span class="sns-chip${snsSelected[key].has(o) ? ' sc-'+cls : ''}"
-        onclick="snsToggleChip(this,'${key}','${cls}')">${o}</span>`
-    ).join('');
-  };
-  mk(SNS_IND,  'snsChipInd',  'i', 'i');
-  mk(SNS_ROLE, 'snsChipRole', 'r', 'r');
-  mk(SNS_MOD,  'snsChipMod',  'm', 'm');
-  mk(SNS_PURP, 'snsChipPurp', 'p', 'p');
-}
-
-function snsToggleChip(el, key, cls) {
-  const v = el.textContent;
-  if (snsSelected[key].has(v)) {
-    snsSelected[key].delete(v);
-    el.classList.remove('sc-' + cls);
-  } else {
-    snsSelected[key].add(v);
-    el.classList.add('sc-' + cls);
-  }
-  snsSync();
-}
-
-function snsSelMethod(m) {
-  snsMethod = m;
-  ['Off','On','Hy'].forEach(k => {
-    const el = document.getElementById('snsMethod' + k);
-    if (el) el.classList.toggle('sel', k.toLowerCase() === m || (k==='Hy' && m==='hy'));
-  });
-  // 正確にIDで切り替え
-  document.getElementById('snsMethodOff').classList.toggle('sel', m === 'off');
-  document.getElementById('snsMethodOn').classList.toggle('sel',  m === 'on');
-  document.getElementById('snsMethodHy').classList.toggle('sel',  m === 'hy');
-  const locRow = document.getElementById('snsLocRow');
-  const urlRow = document.getElementById('snsUrlRow');
-  if (locRow) locRow.style.display = m === 'on'  ? 'none' : '';
-  if (urlRow) urlRow.style.display = m === 'off' ? 'none' : '';
-  snsSync();
-}
-
-function snsFmtDate(d) {
-  if (!d) return '';
-  const [y, mo, day] = d.split('-');
-  return `${y}年${parseInt(mo)}月${parseInt(day)}日`;
-}
-
-function snsTags() {
-  return [
-    ...[...snsSelected.i].map(t => '#' + t.replace(/[・\-\s\/]/g, '')),
-    ...[...snsSelected.r].map(t => '#' + t.replace(/[・\-\s\/]/g, '')),
-    ...[...snsSelected.m].map(t => '#' + t.replace(/[・\-\s\/]/g, '')),
-    ...[...snsSelected.p].map(t => '#' + t.replace(/[・\-\s\/]/g, '')),
-  ];
-}
-
-function snsBuildTexts() {
-  const name  = (document.getElementById('sessionName')?.value      || '（セッション名）');
-  const date  = snsFmtDate(document.getElementById('sessionDate')?.value || '');
-  const t1    = document.getElementById('sessionTime')?.value    || '';
-  const t2    = document.getElementById('sessionTimeEnd')?.value || '';
-  const tm    = (t1 && t2) ? `${t1}〜${t2}` : t1;
-  const loc   = document.getElementById('snsLoc')?.value          || '';
-  const url   = document.getElementById('snsUrl')?.value          || '';
-  const ann   = document.getElementById('snsAnnounce')?.value     || '';
-  const dlD   = snsFmtDate(document.getElementById('snsDeadlineDate')?.value || '');
-  const dlT   = document.getElementById('snsDeadlineTime')?.value || '';
-  const dl    = dlD ? (dlT ? `${dlD} ${dlT}まで` : dlD + 'まで') : '';
-  const apl   = document.getElementById('snsApply')?.value        || '';
-  const ml    = { off: 'オフライン', on: 'オンライン', hy: 'ハイブリッド' }[snsMethod];
-  const tg    = snsTags().join(' ');
-  const mods  = [...snsSelected.m].join('・') || 'ERP';
-  const roles = [...snsSelected.r].join('・') || 'ご担当者';
-  const inds  = [...snsSelected.i].join('・') || '全業種';
-  const purps = [...snsSelected.p].join('・');
-
-  const locLine = snsMethod !== 'on'  && loc ? `場所：${loc}` : '';
-  const urlLine = snsMethod !== 'off' && url ? `参加URL：${url}` : '';
-  const annLine = ann ? `詳細・告知：${ann}` : '';
-  const aplLine = apl ? `申し込み：${apl}` : '';
-  const dlLine  = dl  ? `申込期限：${dl}`   : '';
-
-  const x = [
-    `【セミナー開催】`, name, ``,
-    date ? `日程：${date} ${tm}` : '',
-    `形式：${ml}`,
-    locLine, urlLine, dlLine, aplLine, annLine,
-    tg ? `\n${tg}` : ''
-  ].filter(Boolean).join('\n');
-
-  const li = [
-    `【${name}】`, ``,
-    purps ? `テーマ：${purps}` : '',
-    `${mods}をテーマに、${roles}の皆様向けの実践的なセミナーを開催します。`,
-    `実務にすぐ活かせる内容を中心にお届けします。`, ``,
-    date ? `日程：${date}` : '', tm ? `時間：${tm}` : '', `形式：${ml}`,
-    locLine, urlLine, dlLine, aplLine, annLine,
-    tg ? `\n${tg}` : ''
-  ].filter(Boolean).join('\n');
-
-  const fb = [
-    `【${name}】`, ``,
-    `${inds}の${roles}の皆さまへ。`,
-    purps ? `${purps}をテーマにしたセミナーを開催します。` : `${mods}についての実践セミナーを開催します。`, ``,
-    date ? `日程：${date}` : '', tm ? `時間：${tm}` : '', `形式：${ml}`,
-    locLine, urlLine, dlLine, aplLine, annLine,
-    tg ? `\n${tg}` : ''
-  ].filter(Boolean).join('\n');
-
-  const other = [
-    `【開催案内】${name}`, ``,
-    `開催日時：${date} ${tm}`, `開催形式：${ml}`,
-    locLine, urlLine,
-    purps ? `テーマ：${purps}` : '',
-    `対象：${inds} / ${roles}`,
-    dlLine, aplLine, annLine,
-    tg ? `\nタグ：${tg}` : ''
-  ].filter(Boolean).join('\n');
-
-  return [x, li, fb, other];
-}
-
-function snsSync() {
-  const tg = snsTags();
-  const hp = document.getElementById('snsHtagPreview');
-  if (hp) {
-    hp.innerHTML = tg.length
-      ? tg.map(t => `<span class="htag">${t}</span>`).join('')
-      : '<span style="font-size:11px;color:#aaa;">タグを選択するとハッシュタグが生成されます</span>';
-  }
-  const texts = snsBuildTexts();
-  texts.forEach((t, i) => {
-    const el = document.getElementById(`snsOut${i}`);
-    if (el) el.value = t;
-  });
-  const len = texts[0].length;
-  const cc = document.getElementById('snsCc0');
-  if (cc) { cc.textContent = `${len} / 280 文字`; cc.className = 'sns-cc' + (len > 280 ? ' over' : ''); }
-}
-
-function snsReset(i) {
-  const texts = snsBuildTexts();
-  const el = document.getElementById(`snsOut${i}`);
-  if (el) el.value = texts[i];
-  if (i === 0) {
-    const len = texts[0].length;
-    const cc = document.getElementById('snsCc0');
-    if (cc) { cc.textContent = `${len} / 280 文字`; cc.className = 'sns-cc' + (len > 280 ? ' over' : ''); }
-  }
-}
-
-function snsSw(i) {
-  document.querySelectorAll('.sns-tab-btn').forEach((t, j) => t.classList.toggle('active', j === i));
-  document.querySelectorAll('.sns-panel').forEach((p, j) => p.classList.toggle('active', j === i));
-}
-
-function snsCopy(i) {
-  const el = document.getElementById(`snsOut${i}`);
-  if (!el) return;
-  navigator.clipboard.writeText(el.value).then(() => {
-    const ck = document.getElementById(`snsCopyOk${i}`);
-    if (ck) { ck.style.display = 'inline'; setTimeout(() => ck.style.display = 'none', 2000); }
-  });
-}
-
-// SNSジェネレーター初期化（セッション管理タブ表示時）
-function initSnsGenerator() {
-  snsSelected.i.clear(); snsSelected.r.clear();
-  snsSelected.m.clear(); snsSelected.p.clear();
-  snsMethod = 'off';
-  const mOff = document.getElementById('snsMethodOff');
-  const mOn  = document.getElementById('snsMethodOn');
-  const mHy  = document.getElementById('snsMethodHy');
-  if (mOff) { mOff.classList.add('sel'); }
-  if (mOn)  { mOn.classList.remove('sel'); }
-  if (mHy)  { mHy.classList.remove('sel'); }
-  const locRow = document.getElementById('snsLocRow');
-  const urlRow = document.getElementById('snsUrlRow');
-  if (locRow) locRow.style.display = '';
-  if (urlRow) urlRow.style.display = 'none';
-  snsBuildChips();
-  snsSync();
-}
 </script>
 </body>
 </html>
