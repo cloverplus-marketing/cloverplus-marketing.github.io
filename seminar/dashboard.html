@@ -1,1 +1,189 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clover Plus - セミナーダッシュボード</title>
+<style>
+:root{--green:#196B24;--green2:#22922f;--bg:#f0f7f2;--text:#1a3320;--orange:#E97132;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Yu Gothic','Hiragino Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:24px 16px;}
+header{text-align:center;margin-bottom:32px;}
+.logo{color:var(--green);font-size:22px;font-weight:bold;}
+.session-name{color:#555;font-size:14px;margin-top:4px;}
+.card{background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.07);padding:28px 24px;margin-bottom:20px;max-width:480px;margin-left:auto;margin-right:auto;}
+.card h2{font-size:16px;color:var(--green);margin-bottom:16px;border-bottom:2px solid var(--bg);padding-bottom:8px;}
+.btn{display:block;width:100%;padding:14px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:15px;font-family:inherit;font-weight:bold;cursor:pointer;text-align:center;transition:background .2s;}
+.btn:hover{background:var(--green2);}
+.btn-outline{background:#fff;color:var(--green);border:2px solid var(--green);}
+.btn-outline:hover{background:var(--bg);}
+.btn-orange{background:var(--orange);}
+.btn-orange:hover{background:#c85a1a;}
+.account-box{background:var(--bg);border-radius:8px;padding:20px;text-align:center;margin-bottom:16px;}
+.account-label{font-size:12px;color:#666;margin-bottom:4px;}
+.account-value{font-size:22px;font-weight:bold;color:var(--text);letter-spacing:.15em;}
+.link-btn{display:block;padding:14px;background:var(--green);color:#fff;border-radius:8px;text-decoration:none;text-align:center;font-weight:bold;font-size:15px;margin-bottom:10px;transition:background .2s;}
+.link-btn:hover{background:var(--green2);}
+.link-btn.survey{background:var(--orange);}
+.link-btn.survey:hover{background:#c85a1a;}
+.reset-area{margin-top:8px;}
+.reset-input{width:100%;padding:10px 14px;border:2px solid #ddd;border-radius:8px;font-size:15px;font-family:inherit;margin-bottom:10px;}
+.reset-input:focus{outline:none;border-color:var(--orange);}
+.msg{text-align:center;font-size:13px;margin-top:8px;color:#666;}
+.msg.err{color:#c00;}
+.loading{text-align:center;color:#666;padding:20px;}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Clover Plus Seminar System</div>
+  <div class="session-name" id="sessionName">読み込み中...</div>
+  <div style="margin-top:8px;"><a href="index.html" style="font-size:12px;color:#888;text-decoration:none;">← セミナーコード入力に戻る</a></div>
+</header>
 
+<div id="messageCard" class="card" style="display:none;">
+  <div id="messageArea" style="font-size:14px;line-height:1.8;white-space:pre-wrap;color:#333;"></div>
+</div>
+
+<div id="demoCard" class="card" style="display:none;">
+  <h2>デモアカウント</h2>
+  <div id="accountDisplay">
+    <button class="btn" onclick="getAccount()">アカウントを取得する</button>
+  </div>
+  <div class="msg" id="demoMsg"></div>
+</div>
+
+<div id="loginCard" class="card" style="display:none;">
+  <h2>システムログイン</h2>
+  <div id="loginArea"></div>
+</div>
+
+<div id="linksCard" class="card">
+  <h2>資料・アンケート</h2>
+  <div id="linksArea"><div class="loading">読み込み中...</div></div>
+</div>
+
+<div id="resetCard" class="card" style="display:none;">
+  <h2>アカウントをリセット</h2>
+  <div class="reset-area">
+    <input type="text" class="reset-input" id="resetCode" placeholder="リセットコードを入力" maxlength="10">
+    <button class="btn btn-outline" onclick="doReset()" id="resetBtn" disabled>リセットする</button>
+    <div class="msg err" id="resetMsg"></div>
+  </div>
+</div>
+
+<script>
+const API_URL = 'https://script.google.com/macros/s/AKfycbxQ7fNkIzsxaFEOoPngnY5lcWLRTQUhG97D1THjDciUqLcIqKlCQxGrPjpZSEPt3vp09A/exec';
+const sessionCode = sessionStorage.getItem('session_code');
+if(!sessionCode) location.href = 'index.html';
+
+async function init(){
+  try{
+    const res = await fetch(`${API_URL}?action=getSettings&session_code=${sessionCode}`, {redirect:'follow'});
+    const json = await res.json();
+    if(json.status !== 'ok'){
+      document.getElementById('sessionName').textContent = 'コードが正しくありません';
+      document.getElementById('linksArea').innerHTML = '<p style="text-align:center"><a href="index.html">トップに戻る</a></p>';
+      return;
+    }
+    const d = json.data;
+    document.getElementById('sessionName').textContent = d.session_name || '';
+
+    // 資料・アンケート
+    let linksHtml = '';
+    if(d.materials_url) linksHtml += `<a class="link-btn" href="${d.materials_url}" target="_blank">資料をダウンロード</a>`;
+    if(d.survey_url) linksHtml += `<a class="link-btn survey" href="${d.survey_url}" target="_blank">アンケートに回答する</a>`;
+    if(!linksHtml) linksHtml = '<p class="msg">資料・アンケートは準備中です</p>';
+    document.getElementById('linksArea').innerHTML = linksHtml;
+
+    // メッセージカード
+    if(d.message){
+      document.getElementById('messageCard').style.display='block';
+      document.getElementById('messageArea').textContent=d.message;
+    }
+
+    // ログインカード
+    if(d.use_login && d.login_url){
+      document.getElementById('loginCard').style.display='block';
+      document.getElementById('loginArea').innerHTML=`<a class="link-btn" href="${d.login_url}" target="_blank">システムにログインする</a>`;
+    }
+
+    // デモカード
+    if(d.use_demo){
+      document.getElementById('demoCard').style.display = 'block';
+      document.getElementById('resetCard').style.display = 'block';
+      const info = getAccountInfo();
+      if(info) showAccount(info);
+      updateResetBtn();
+    }
+  }catch(e){
+    document.getElementById('sessionName').textContent = 'エラーが発生しました';
+  }
+}
+
+async function getAccount(){
+  const info = getAccountInfo();
+  if(info){ showAccount(info); return; }
+  document.getElementById('demoMsg').textContent = '取得中...';
+  try{
+    const res = await fetch(`${API_URL}?action=getUser&session_code=${sessionCode}`, {redirect:'follow'});
+    const json = await res.json();
+    if(json.status !== 'ok'){
+      document.getElementById('demoMsg').textContent = json.message;
+      return;
+    }
+    sessionStorage.setItem('account_info', JSON.stringify(json.data));
+    showAccount(json.data);
+    updateResetBtn();
+    document.getElementById('demoMsg').textContent = '';
+  }catch(e){
+    document.getElementById('demoMsg').textContent = 'エラーが発生しました';
+  }
+}
+
+function showAccount(info){
+  document.getElementById('accountDisplay').innerHTML = `
+    <div class="account-box">
+      <div class="account-label">ユーザーID</div>
+      <div class="account-value">${info.user_id}</div>
+    </div>
+    <div class="account-box">
+      <div class="account-label">パスワード</div>
+      <div class="account-value">${info.password}</div>
+    </div>
+  `;
+}
+
+function getAccountInfo(){
+  const raw = sessionStorage.getItem('account_info');
+  return raw ? JSON.parse(raw) : null;
+}
+
+function updateResetBtn(){
+  const btn = document.getElementById('resetBtn');
+  if(btn) btn.disabled = !getAccountInfo();
+}
+
+async function doReset(){
+  const code = document.getElementById('resetCode').value.trim();
+  const info = getAccountInfo();
+  if(!info){ document.getElementById('resetMsg').textContent = 'アカウントを先に取得してください'; return; }
+  if(!code){ document.getElementById('resetMsg').textContent = 'リセットコードを入力してください'; return; }
+  try{
+    const res = await fetch(`${API_URL}?action=resetAccountByCode&session_code=${sessionCode}&user_id=${info.user_id}&reset_code=${code}`, {redirect:'follow'});
+    const json = await res.json();
+    if(json.status !== 'ok'){ document.getElementById('resetMsg').textContent = json.message; return; }
+    sessionStorage.removeItem('account_info');
+    document.getElementById('accountDisplay').innerHTML = '<button class="btn" onclick="getAccount()">アカウントを取得する</button>';
+    document.getElementById('resetCode').value = '';
+    document.getElementById('resetMsg').textContent = 'リセットしました。新しいアカウントを取得できます。';
+    updateResetBtn();
+  }catch(e){
+    document.getElementById('resetMsg').textContent = 'エラーが発生しました';
+  }
+}
+
+init();
+</script>
+</body>
+</html>
