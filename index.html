@@ -3,51 +3,168 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Clover Plus Seminar System</title>
+<title>Clover Plus Marketing Portal</title>
 <style>
-:root{--green:#196B24;--green2:#22922f;--bg:#f0f7f2;--text:#1a3320;--orange:#E97132;}
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Yu Gothic','Hiragino Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.card{background:#fff;border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,.08);padding:48px 40px;width:100%;max-width:440px;text-align:center;}
-.logo{color:var(--green);font-size:26px;font-weight:bold;margin-bottom:6px;}
-.sub{color:#666;font-size:13px;margin-bottom:36px;}
-label{display:block;text-align:left;font-size:13px;font-weight:bold;margin-bottom:6px;}
-input{width:100%;padding:12px 16px;border:2px solid #ddd;border-radius:8px;font-size:16px;font-family:inherit;letter-spacing:.1em;transition:border-color .2s;}
-input:focus{outline:none;border-color:var(--green);}
-.btn{width:100%;padding:14px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:16px;font-family:inherit;font-weight:bold;cursor:pointer;margin-top:20px;transition:background .2s;}
-.btn:hover{background:var(--green2);}
-.err{color:#c00;font-size:13px;margin-top:10px;display:none;}
-.links{margin-top:24px;font-size:13px;}
-.links a{color:var(--green);text-decoration:none;}
+body{font-family:'Yu Gothic','Hiragino Sans',sans-serif;background:#f4f8f2;min-height:100vh;display:flex;align-items:center;justify-content:center;}
+.portal{width:100%;min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.bg-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+.content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;padding:48px 32px;}
+.brand{text-align:center;margin-bottom:40px;}
+.brand-name{font-size:28px;font-weight:700;color:#196B24;letter-spacing:-.02em;display:block;margin-bottom:6px;}
+.brand-sub{font-size:12px;color:#7a9a7a;letter-spacing:.12em;font-weight:400;text-transform:uppercase;}
+.buttons{display:flex;flex-direction:column;gap:12px;width:280px;}
+.btn-portal{display:flex;align-items:center;gap:14px;padding:16px 20px;border-radius:12px;text-decoration:none;transition:all .18s;width:100%;}
+.btn-seminar{background:#196B24;color:#fff;}
+.btn-seminar:hover{background:#22922f;transform:translateY(-1px);}
+.btn-partner{background:#fff;color:#196B24;border:1.5px solid #196B24;}
+.btn-partner:hover{background:#f0f7f2;transform:translateY(-1px);}
+.btn-corporate{background:#fff;color:#4a6a4a;border:1.5px solid #c8ddc8;}
+.btn-corporate:hover{background:#f7fbf7;transform:translateY(-1px);}
+.btn-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.btn-seminar .btn-icon{background:rgba(255,255,255,.2);}
+.btn-partner .btn-icon{background:#e8f5e9;}
+.btn-corporate .btn-icon{background:#f0f4f0;}
+.btn-text{text-align:left;}
+.btn-label{font-size:14px;font-weight:700;display:block;line-height:1.2;}
+.btn-sub{font-size:11px;opacity:.7;display:block;margin-top:2px;font-weight:400;}
+.btn-arrow{margin-left:auto;opacity:.5;font-size:14px;}
+.btn-seminar .btn-arrow{opacity:.7;}
 </style>
 </head>
 <body>
-<div class="card">
-  <div class="logo">Clover Plus Seminar System</div>
-  <div class="sub">セミナーコードを入力してください</div>
-  <label for="code">セミナーコード</label>
-  <input type="text" id="code" placeholder="CP-XXXXXX" maxlength="9" autocomplete="off">
-  <div class="err" id="err"></div>
-  <button class="btn" onclick="enter()">入室する</button>
-  <div class="links">
-    <a href="register.html">パートナー登録</a>
-    &nbsp;|&nbsp;
-    <a href="partner.html">パートナーログイン</a>
-    &nbsp;|&nbsp;
-    <a href="admin.html">管理者</a>
+<div class="portal">
+  <svg class="bg-svg" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <g opacity="0.13" stroke="#196B24" fill="none" stroke-width="1.2" stroke-linecap="round">
+      <circle cx="110" cy="148" r="18"/>
+      <path d="M82 220 Q110 190 138 220 L142 270 L78 270 Z"/>
+      <line x1="110" y1="190" x2="110" y2="230"/>
+      <line x1="110" y1="210" x2="85" y2="240"/>
+      <line x1="110" y1="210" x2="135" y2="225"/>
+      <circle cx="72" cy="320" r="14"/>
+      <path d="M52 374 Q72 354 92 374 L95 410 L49 410 Z"/>
+      <line x1="72" y1="348" x2="72" y2="378"/>
+      <line x1="72" y1="362" x2="52" y2="385"/>
+      <line x1="72" y1="362" x2="92" y2="375"/>
+      <circle cx="148" cy="320" r="14"/>
+      <path d="M128 374 Q148 354 168 374 L171 410 L125 410 Z"/>
+      <line x1="148" y1="348" x2="148" y2="378"/>
+      <line x1="148" y1="362" x2="128" y2="385"/>
+      <line x1="148" y1="362" x2="168" y2="375"/>
+      <path d="M100 270 Q80 295 72 340" stroke-dasharray="4 3"/>
+      <path d="M120 270 Q140 295 148 340" stroke-dasharray="4 3"/>
+    </g>
+    <g opacity="0.10" stroke="#196B24" fill="none" stroke-width="1" stroke-linecap="round">
+      <rect x="50" y="80" width="130" height="85" rx="4"/>
+      <line x1="50" y1="95" x2="180" y2="95"/>
+      <line x1="115" y1="165" x2="115" y2="185"/>
+      <line x1="95" y1="185" x2="135" y2="185"/>
+      <line x1="65" y1="110" x2="165" y2="110"/>
+      <line x1="65" y1="122" x2="145" y2="122"/>
+      <line x1="65" y1="134" x2="155" y2="134"/>
+      <line x1="65" y1="146" x2="130" y2="146"/>
+    </g>
+    <g opacity="0.11" stroke="#196B24" fill="none" stroke-width="1.2" stroke-linecap="round">
+      <circle cx="620" cy="120" r="16"/>
+      <path d="M598 184 Q620 162 642 184 L645 225 L595 225 Z"/>
+      <circle cx="700" cy="160" r="16"/>
+      <path d="M678 224 Q700 202 722 224 L725 265 L675 265 Z"/>
+      <circle cx="640" cy="240" r="14"/>
+      <path d="M620 295 Q640 275 660 295 L663 330 L617 330 Z"/>
+      <circle cx="720" cy="300" r="14"/>
+      <path d="M700 355 Q720 335 740 355 L743 390 L697 390 Z"/>
+      <line x1="628" y1="136" x2="688" y2="152" stroke-dasharray="3 3"/>
+      <line x1="642" y1="184" x2="678" y2="202" stroke-dasharray="3 3"/>
+      <line x1="636" y1="225" x2="636" y2="254" stroke-dasharray="3 3"/>
+      <line x1="654" y1="295" x2="708" y2="308" stroke-dasharray="3 3"/>
+      <line x1="700" y1="224" x2="700" y2="268" stroke-dasharray="3 3"/>
+      <circle cx="636" cy="225" r="3" fill="#196B24" opacity="0.3"/>
+      <circle cx="700" cy="224" r="3" fill="#196B24" opacity="0.3"/>
+    </g>
+    <g opacity="0.07" stroke="#196B24" fill="none" stroke-width="1" stroke-dasharray="5 4">
+      <path d="M200 180 Q340 140 430 180"/>
+      <path d="M200 220 Q340 260 430 220"/>
+      <path d="M580 180 Q470 140 430 180"/>
+      <path d="M580 260 Q470 290 430 260"/>
+    </g>
+    <g opacity="0.08" stroke="#196B24" fill="none" stroke-width="1" transform="translate(710,500)">
+      <ellipse cx="0" cy="-18" rx="14" ry="16"/>
+      <ellipse cx="18" cy="0" rx="16" ry="14"/>
+      <ellipse cx="0" cy="18" rx="14" ry="16"/>
+      <ellipse cx="-18" cy="0" rx="16" ry="14"/>
+      <line x1="0" y1="0" x2="0" y2="30"/>
+    </g>
+    <g opacity="0.06" stroke="#196B24" fill="none" stroke-width="1" transform="translate(60,530)">
+      <ellipse cx="0" cy="-14" rx="11" ry="13"/>
+      <ellipse cx="14" cy="0" rx="13" ry="11"/>
+      <ellipse cx="0" cy="14" rx="11" ry="13"/>
+      <ellipse cx="-14" cy="0" rx="13" ry="11"/>
+      <line x1="0" y1="0" x2="0" y2="22"/>
+    </g>
+    <g opacity="0.06" fill="#196B24">
+      <circle cx="250" cy="80" r="2"/><circle cx="310" cy="80" r="2"/><circle cx="370" cy="80" r="2"/><circle cx="430" cy="80" r="2"/><circle cx="490" cy="80" r="2"/>
+      <circle cx="250" cy="520" r="2"/><circle cx="310" cy="520" r="2"/><circle cx="370" cy="520" r="2"/><circle cx="430" cy="520" r="2"/><circle cx="490" cy="520" r="2"/>
+    </g>
+  </svg>
+
+  <div class="content">
+    <div class="brand">
+      <span class="brand-name">Clover Plus</span>
+      <span class="brand-sub">Marketing Portal</span>
+    </div>
+
+    <div class="buttons">
+      <a class="btn-portal btn-seminar" href="/seminar/">
+        <div class="btn-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <rect x="2" y="3" width="14" height="10" rx="2" stroke="white" stroke-width="1.4"/>
+            <line x1="9" y1="13" x2="9" y2="16" stroke="white" stroke-width="1.4"/>
+            <line x1="6" y1="16" x2="12" y2="16" stroke="white" stroke-width="1.4"/>
+            <line x1="5" y1="7" x2="13" y2="7" stroke="white" stroke-width="1.2" opacity=".7"/>
+            <line x1="5" y1="10" x2="10" y2="10" stroke="white" stroke-width="1.2" opacity=".7"/>
+          </svg>
+        </div>
+        <div class="btn-text">
+          <span class="btn-label">セミナーに参加する</span>
+          <span class="btn-sub">セミナーコードをお持ちの方</span>
+        </div>
+        <span class="btn-arrow">›</span>
+      </a>
+
+      <a class="btn-portal btn-partner" href="/partner/">
+        <div class="btn-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <circle cx="7" cy="6" r="3" stroke="#196B24" stroke-width="1.4"/>
+            <path d="M2 15 Q7 11 12 15" stroke="#196B24" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+            <circle cx="13" cy="7" r="2.5" stroke="#196B24" stroke-width="1.2" opacity=".6"/>
+            <path d="M11 14 Q13 12 16 14" stroke="#196B24" stroke-width="1.2" fill="none" stroke-linecap="round" opacity=".6"/>
+          </svg>
+        </div>
+        <div class="btn-text">
+          <span class="btn-label">Partner Hub</span>
+          <span class="btn-sub">ログイン・新規登録はこちら</span>
+        </div>
+        <span class="btn-arrow" style="color:#196B24;opacity:.4;">›</span>
+      </a>
+
+      <a class="btn-portal btn-corporate" href="https://www.cloverplus.net" target="_blank" rel="noopener">
+        <div class="btn-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <circle cx="9" cy="9" r="6.5" stroke="#5a7a5a" stroke-width="1.3"/>
+            <ellipse cx="9" cy="9" rx="3" ry="6.5" stroke="#5a7a5a" stroke-width="1.1"/>
+            <line x1="2.5" y1="9" x2="15.5" y2="9" stroke="#5a7a5a" stroke-width="1.1"/>
+            <line x1="3.5" y1="6" x2="14.5" y2="6" stroke="#5a7a5a" stroke-width="1" opacity=".5"/>
+            <line x1="3.5" y1="12" x2="14.5" y2="12" stroke="#5a7a5a" stroke-width="1" opacity=".5"/>
+          </svg>
+        </div>
+        <div class="btn-text">
+          <span class="btn-label" style="color:#4a6a4a;">コーポレートページ</span>
+          <span class="btn-sub" style="color:#6a8a6a;">cloverplus.net</span>
+        </div>
+        <span class="btn-arrow" style="color:#4a6a4a;opacity:.35;">›</span>
+      </a>
+    </div>
   </div>
 </div>
-<script>
-function enter(){
-  const code = document.getElementById('code').value.trim().toUpperCase();
-  const err = document.getElementById('err');
-  if(!code){err.textContent='セミナーコードを入力してください';err.style.display='block';return;}
-  if(!/^CP-[A-Z0-9]{6}$/.test(code)){err.textContent='正しいセミナーコードを入力してください（例: CP-A3F7K2）';err.style.display='block';return;}
-  err.style.display='none';
-  sessionStorage.setItem('session_code',code);
-  location.href='dashboard.html';
-}
-document.getElementById('code').addEventListener('keydown',e=>{if(e.key==='Enter')enter();});
-</script>
 </body>
 </html>
