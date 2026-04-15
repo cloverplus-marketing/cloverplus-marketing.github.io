@@ -931,7 +931,7 @@ async function uploadResource(){
     const res = await fetch(API_URL, {
       method:   'POST',
       redirect: 'follow',
-      headers:  { 'Content-Type': 'application/json' },
+      headers:  { 'Content-Type': 'text/plain' },
       body:     body
     });
     const json = await res.json();
