@@ -840,7 +840,6 @@ async function selectSession(code, reload = true) {
     document.getElementById('sessionName').value   = d.session_name || '';
     document.getElementById('sessionDate').value   = d.session_date || '';
     document.getElementById('sessionTime').value   = d.session_time || '';
-    document.getElementById('detailUrl').value     = d.detail_url   || '';
     document.getElementById('materialsUrl').value  = d.materials_url || '';
     document.getElementById('surveyUrl').value     = d.survey_url   || '';
     document.getElementById('useDemo').checked     = d.use_demo !== false;
@@ -872,7 +871,7 @@ async function saveAll() {
     const r2 = await api({
       action: 'saveSettings',
       session_code: currentSession,
-      detail_url:   document.getElementById('detailUrl').value,
+      detail_url:   '',
       materials_url:document.getElementById('materialsUrl').value,
       survey_url:   document.getElementById('surveyUrl').value,
       use_demo:     document.getElementById('useDemo').checked,
