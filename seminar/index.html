@@ -3,45 +3,187 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Clover Plus - セミナー参加</title>
+<title>Clover Plus - セミナーに参加</title>
 <style>
 :root{--green:#196B24;--green2:#22922f;--bg:#f0f7f2;--text:#1a3320;--orange:#E97132;}
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Yu Gothic','Hiragino Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.card{background:#fff;border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,.08);padding:48px 40px;width:100%;max-width:440px;text-align:center;}
-.logo{color:var(--green);font-size:26px;font-weight:bold;margin-bottom:6px;}
-.sub{color:#666;font-size:13px;margin-bottom:36px;}
-label{display:block;text-align:left;font-size:13px;font-weight:bold;margin-bottom:6px;}
-input{width:100%;padding:12px 16px;border:2px solid #ddd;border-radius:8px;font-size:16px;font-family:inherit;letter-spacing:.1em;transition:border-color .2s;}
-input:focus{outline:none;border-color:var(--green);}
-.btn{width:100%;padding:14px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:16px;font-family:inherit;font-weight:bold;cursor:pointer;margin-top:20px;transition:background .2s;}
-.btn:hover{background:var(--green2);}
+body{font-family:'Yu Gothic','Hiragino Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:20px 16px;}
+.login-wrap{display:flex;align-items:stretch;justify-content:center;min-height:calc(100vh - 40px);padding:24px 0;}
+.login-layout{display:grid;grid-template-columns:420px 1fr;gap:0;width:100%;max-width:1000px;background:#fff;border-radius:16px;box-shadow:0 4px 32px rgba(0,0,0,.10);overflow:hidden;}
+.login-left{padding:48px 40px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid #e8f0e9;}
+.login-left-top{flex:1;}
+.login-logo{margin-bottom:32px;}
+.login-logo-title{color:var(--green);font-size:22px;font-weight:bold;line-height:1.2;margin-bottom:4px;}
+.login-logo-sub{color:#888;font-size:13px;}
+.login-left label{display:block;font-size:13px;font-weight:bold;margin-bottom:6px;color:var(--text);}
+.login-left input[type=text]{width:100%;padding:12px 14px;border:2px solid #ddd;border-radius:8px;font-size:16px;font-family:inherit;margin-bottom:16px;transition:border-color .2s;letter-spacing:.15em;}
+.login-left input:focus{outline:none;border-color:var(--green);}
+#code::placeholder{color:#ccc;letter-spacing:.05em;}
+.btn-login{width:100%;padding:14px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:15px;font-family:inherit;font-weight:bold;cursor:pointer;transition:background .2s;margin-top:4px;}
+.btn-login:hover{background:var(--green2);}
 .err{color:#c00;font-size:13px;margin-top:10px;display:none;}
-.links{margin-top:24px;font-size:13px;}
-.links a{color:var(--green);text-decoration:none;}
+.login-links{margin-top:32px;padding-top:20px;border-top:1px solid #eef2ee;display:flex;flex-direction:column;gap:8px;}
+.login-link-item{display:flex;align-items:center;gap:8px;font-size:13px;color:#555;text-decoration:none;padding:8px 10px;border-radius:8px;transition:background .15s;}
+.login-link-item:hover{background:var(--bg);color:var(--green);}
+.link-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.link-icon-web{background:#e3f2fd;color:#1565c0;}
+.login-right{background:#fafcfa;padding:32px 28px;display:flex;flex-direction:column;min-width:0;}
+.feed-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.feed-title{font-size:15px;font-weight:bold;color:var(--text);}
+.feed-badge{font-size:11px;background:#e8f5e9;color:var(--green);border-radius:12px;padding:3px 10px;font-weight:bold;}
+.rss-tabs{display:flex;gap:2px;border-bottom:2px solid #e0e8e0;margin-bottom:16px;}
+.rss-tab{padding:7px 16px;border:none;background:transparent;font-size:13px;font-family:inherit;cursor:pointer;color:#888;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;border-radius:4px 4px 0 0;}
+.rss-tab:hover{color:var(--green);background:#f0f7f2;}
+.rss-tab.active{color:var(--green);border-bottom-color:var(--green);font-weight:bold;}
+.rss-panel{display:none;overflow-y:auto;flex:1;}
+.rss-panel.active{display:block;}
+.news-item{padding:12px 14px;background:#fff;border-radius:8px;margin-bottom:8px;border:1px solid #e8ede8;transition:border-color .15s;}
+.news-item:hover{border-color:var(--green);}
+.news-item-top{display:flex;align-items:flex-start;gap:8px;margin-bottom:4px;}
+.source-icon{width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold;flex-shrink:0;margin-top:1px;}
+.icon-note{background:#41c9b4;color:#fff;}
+.icon-youtube{background:#ff0000;color:#fff;}
+.icon-spotify{background:#1db954;color:#fff;}
+.news-title{font-size:13px;font-weight:bold;line-height:1.4;}
+.news-title a{color:var(--text);text-decoration:none;}
+.news-title a:hover{color:var(--green);}
+.news-desc{font-size:12px;color:#888;line-height:1.5;margin:4px 0 6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.news-meta{font-size:11px;color:#bbb;}
+.news-loading{color:#aaa;font-size:13px;padding:16px 0;text-align:center;}
+.news-error{color:#c00;font-size:12px;padding:8px 0;}
+@media(max-width:700px){
+  .login-layout{grid-template-columns:1fr;max-width:440px;}
+  .login-left{border-right:none;border-bottom:1px solid #e8f0e9;padding:32px 24px;}
+  .login-right{padding:24px;}
+  .login-wrap{align-items:flex-start;padding:16px 0;}
+}
 </style>
 </head>
 <body>
-<div class="card">
-  <div class="logo">Clover Plus Seminar System</div>
-  <div class="sub">セミナーコードを入力してください</div>
-  <label for="code">セミナーコード</label>
-  <input type="text" id="code" placeholder="CP-XXXXXX" maxlength="9" autocomplete="off">
-  <div class="err" id="err"></div>
-  <button class="btn" onclick="enter()">入室する</button>
 
+<div class="login-wrap">
+  <div class="login-layout">
+
+    <!-- 左カラム -->
+    <div class="login-left">
+      <div class="login-left-top">
+        <div class="login-logo">
+          <div class="login-logo-title">セミナーに参加</div>
+          <div class="login-logo-sub">セミナーコードを入力してください</div>
+        </div>
+        <label for="code">セミナーコード</label>
+        <input type="text" id="code" placeholder="CP-XXXXXX" maxlength="9" autocomplete="off">
+        <div class="err" id="err"></div>
+        <button class="btn-login" onclick="enter()">入室する</button>
+      </div>
+
+      <!-- 下部リンク -->
+      <div class="login-links">
+        <a class="login-link-item" href="https://www.cloverplus.net" target="_blank" rel="noopener">
+          <span class="link-icon link-icon-web">🌐</span>
+          <span>Clover Plus コーポレートページ</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- 右カラム：RSSフィード -->
+    <div class="login-right">
+      <div class="feed-header">
+        <div class="feed-title">Clover Plus 最新情報</div>
+        <div class="feed-badge" id="feedBadge">読み込み中...</div>
+      </div>
+      <div class="rss-tabs">
+        <button class="rss-tab active" data-feed="note" onclick="switchFeed('note')">note</button>
+        <button class="rss-tab" data-feed="youtube" onclick="switchFeed('youtube')">YouTube</button>
+        <button class="rss-tab" data-feed="spotify" onclick="switchFeed('spotify')">Spotify</button>
+      </div>
+      <div class="rss-panel active" id="panel-note"><div class="news-loading">読み込み中...</div></div>
+      <div class="rss-panel" id="panel-youtube"><div class="news-loading">読み込み中...</div></div>
+      <div class="rss-panel" id="panel-spotify"><div class="news-loading">読み込み中...</div></div>
+    </div>
+
+  </div>
 </div>
+
 <script>
-function enter(){
+const API_URL = 'https://script.google.com/macros/s/AKfycbxQ7fNkIzsxaFEOoPngnY5lcWLRTQUhG97D1THjDciUqLcIqKlCQxGrPjpZSEPt3vp09A/exec';
+const RSS_FEEDS = {
+  note:    { icon: 'N', iconClass: 'icon-note',    label: 'note' },
+  youtube: { icon: '▶', iconClass: 'icon-youtube', label: 'YouTube' },
+  spotify: { icon: '♪', iconClass: 'icon-spotify', label: 'Spotify' }
+};
+let feedLoaded = { note: false, youtube: false, spotify: false };
+
+function enter() {
   const code = document.getElementById('code').value.trim().toUpperCase();
-  const err = document.getElementById('err');
-  if(!code){err.textContent='セミナーコードを入力してください';err.style.display='block';return;}
-  if(!/^CP-[A-Z0-9]{6}$/.test(code)){err.textContent='正しいセミナーコードを入力してください（例: CP-A3F7K2）';err.style.display='block';return;}
-  err.style.display='none';
-  sessionStorage.setItem('session_code',code);
-  location.href='dashboard.html';
+  const err  = document.getElementById('err');
+  if (!code) { err.textContent = 'セミナーコードを入力してください'; err.style.display = 'block'; return; }
+  if (!/^CP-[A-Z0-9]{6}$/.test(code)) { err.textContent = '正しいセミナーコードを入力してください（例: CP-A3F7K2）'; err.style.display = 'block'; return; }
+  err.style.display = 'none';
+  sessionStorage.setItem('session_code', code);
+  location.href = 'dashboard.html';
 }
-document.getElementById('code').addEventListener('keydown',e=>{if(e.key==='Enter')enter();});
+document.getElementById('code').addEventListener('keydown', e => { if (e.key === 'Enter') enter(); });
+
+function switchFeed(feed) {
+  document.querySelectorAll('.rss-tab').forEach(t => t.classList.toggle('active', t.dataset.feed === feed));
+  document.querySelectorAll('.rss-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + feed).classList.add('active');
+  if (!feedLoaded[feed]) loadRssFeed(feed);
+}
+
+async function loadRssFeed(feed) {
+  if (feedLoaded[feed]) return;
+  const cfg   = RSS_FEEDS[feed];
+  const panel = document.getElementById('panel-' + feed);
+  panel.innerHTML = '<div class="news-loading">読み込み中...</div>';
+  try {
+    const url  = API_URL + '?action=getRssFeed&feed=' + encodeURIComponent(feed);
+    const res  = await fetch(url, { redirect: 'follow' });
+    const json = await res.json();
+    feedLoaded[feed] = true;
+    if (!json.items || json.items.length === 0) {
+      panel.innerHTML = '<div class="news-loading">記事が見つかりませんでした</div>';
+      updateFeedBadge(); return;
+    }
+    panel.innerHTML = json.items.map(function(item) {
+      const date = formatFeedDate(item.date);
+      const desc = item.desc ? '<div class="news-desc">' + escHtml(item.desc) + '</div>' : '';
+      return '<div class="news-item">'
+        + '<div class="news-item-top">'
+        + '<span class="source-icon ' + cfg.iconClass + '">' + cfg.icon + '</span>'
+        + '<div class="news-title"><a href="' + escHtml(item.link) + '" target="_blank" rel="noopener">' + escHtml(item.title) + '</a></div>'
+        + '</div>'
+        + desc
+        + '<div class="news-meta">' + cfg.label + (date ? ' · ' + date : '') + '</div>'
+        + '</div>';
+    }).join('');
+    updateFeedBadge();
+  } catch(e) {
+    feedLoaded[feed] = false;
+    panel.innerHTML = '<div class="news-error">読み込みに失敗しました</div>';
+  }
+}
+
+function updateFeedBadge() {
+  const loaded = Object.values(feedLoaded).filter(Boolean).length;
+  document.getElementById('feedBadge').textContent = loaded + 'フィード';
+}
+
+function formatFeedDate(dateStr) {
+  if (!dateStr) return '';
+  try {
+    const d = new Date(dateStr);
+    if (isNaN(d)) return '';
+    return (d.getMonth() + 1) + '/' + d.getDate();
+  } catch(e) { return ''; }
+}
+
+function escHtml(str) {
+  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+loadRssFeed('note');
 </script>
 </body>
 </html>
