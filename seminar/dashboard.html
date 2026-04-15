@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Clover Plus - セミナーダッシュボード</title>
+<title>Clover Plus - セミナー情報</title>
 <style>
 :root{--green:#196B24;--green2:#22922f;--bg:#f0f7f2;--text:#1a3320;--orange:#E97132;}
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -36,8 +36,9 @@ header{text-align:center;margin-bottom:32px;}
 </head>
 <body>
 <header>
-  <div class="logo">Clover Plus Seminar System</div>
+  <div class="logo">セミナー情報</div>
   <div class="session-name" id="sessionName">読み込み中...</div>
+  <div id="sessionMeta" style="margin-top:4px;font-size:13px;color:#888;"></div>
   <div style="margin-top:8px;"><a href="index.html" style="font-size:12px;color:#888;text-decoration:none;">← セミナーコード入力に戻る</a></div>
 </header>
 
@@ -88,6 +89,15 @@ async function init(){
     }
     const d = json.data;
     document.getElementById('sessionName').textContent = d.session_name || '';
+    // 会社名・開催日時を表示
+    const metaParts = [];
+    if (d.company_name) metaParts.push(d.company_name);
+    if (d.session_date) {
+      const dateStr = d.session_date.replace(/-/g, '/');
+      const timeStr = d.session_time ? ' ' + d.session_time : '';
+      metaParts.push(dateStr + timeStr);
+    }
+    document.getElementById('sessionMeta').textContent = metaParts.join('　');
 
     // 資料・アンケート
     let linksHtml = '';
