@@ -235,19 +235,19 @@ tr.active td{background:#e8f5e9;}
   <div class="tabs">
     <button class="tab active" onclick="switchTab('resources')">資料ダウンロード</button>
     <button class="tab" id="tab-btn-research" style="display:none;" onclick="switchTab('research')">企業調査 <span style="font-size:10px;background:#E97132;color:#fff;padding:1px 5px;border-radius:4px;vertical-align:middle;">β</span></button>
-    <button class="tab" onclick="switchTab('sessions')">セッション管理</button>
+    <button class="tab" onclick="switchTab('sessions')">セミナー管理</button>
   </div>
 
-  <!-- タブ：セッション管理 -->
+  <!-- タブ：セミナー管理 -->
   <div id="tab-sessions" class="tab-content">
   <div class="card">
-    <h2>セッション一覧</h2>
+    <h2>セミナー一覧</h2>
     <div style="margin-bottom:12px;">
-      <button class="btn btn-sm" onclick="addSession()">＋ セッションを追加</button>
+      <button class="btn btn-sm" onclick="addSession()">＋ セミナーを追加</button>
     </div>
     <div class="session-table-wrap">
       <table id="sessionTable">
-        <tr><th>セッションコード</th><th>セッション名</th><th>開催日</th><th>デモ</th><th>操作</th></tr>
+        <tr><th>セミナーコード</th><th>セミナー名</th><th>開催日</th><th>デモ</th><th>操作</th></tr>
         <tr><td colspan="5" style="color:#666;text-align:center;">読み込み中...</td></tr>
       </table>
     </div>
@@ -255,10 +255,10 @@ tr.active td{background:#e8f5e9;}
   </div>
 
   <div class="card" id="detailCard" style="display:none;">
-    <h2>セッション編集：<span id="editSessionCode" style="font-size:13px;color:#666;"></span></h2>
+    <h2>セミナー編集：<span id="editSessionCode" style="font-size:13px;color:#666;"></span></h2>
     <div class="form-row">
       <div>
-        <label>セッション名</label>
+        <label>セミナー名</label>
         <input type="text" id="sessionName" placeholder="NetSuite ハンズオン 2026春">
       </div>
       <div>
@@ -298,7 +298,7 @@ tr.active td{background:#e8f5e9;}
     </div>
     <div class="flex-wrap">
       <button class="btn" onclick="saveAll()">保存</button>
-      <button class="btn btn-red btn-sm" onclick="deleteSession()">このセッションを削除</button>
+      <button class="btn btn-red btn-sm" onclick="deleteSession()">このセミナーを削除</button>
     </div>
     <div class="msg" id="detailMsg"></div>
   </div>
@@ -526,7 +526,7 @@ function logout() {
 }
 
 // ============================================================
-// セッション管理
+// セミナー管理
 // ============================================================
 async function loadSessions() {
   try {
@@ -535,12 +535,12 @@ async function loadSessions() {
     const sessions = json.data.sessions || [];
     const tbody = document.getElementById('sessionTable');
     if (sessions.length === 0) {
-      tbody.innerHTML = '<tr><th>セッションコード</th><th>セッション名</th><th>開催日</th><th>デモ</th><th>操作</th></tr><tr><td colspan="5" style="color:#666;text-align:center;">セッションがありません。「＋ セッションを追加」から作成してください。</td></tr>';
+      tbody.innerHTML = '<tr><th>セミナーコード</th><th>セミナー名</th><th>開催日</th><th>デモ</th><th>操作</th></tr><tr><td colspan="5" style="color:#666;text-align:center;">セミナーがありません。「＋ セミナーを追加」から作成してください。</td></tr>';
       document.getElementById('detailCard').style.display = 'none';
       document.getElementById('accountsCard').style.display = 'none';
       return;
     }
-    let html = '<tr><th>セッションコード</th><th>セッション名</th><th>開催日</th><th>デモ</th><th>操作</th></tr>';
+    let html = '<tr><th>セミナーコード</th><th>セミナー名</th><th>開催日</th><th>デモ</th><th>操作</th></tr>';
     sessions.forEach(s => {
       const active = s.session_code === currentSession ? 'class="active"' : '';
       html += `<tr ${active}>
@@ -631,7 +631,7 @@ async function addSession() {
 }
 
 async function deleteSession() {
-  if (!currentSession) { alert('セッションを選択してください'); return; }
+  if (!currentSession) { alert('セミナーを選択してください'); return; }
   if (!confirm(`セッション ${currentSession} とすべてのアカウントを削除します。よろしいですか？`)) return;
   try {
     const json = await api({ action: 'deleteSession', session_code: currentSession, token: partnerToken });
