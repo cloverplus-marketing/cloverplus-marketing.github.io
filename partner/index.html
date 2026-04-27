@@ -50,6 +50,7 @@ body{font-family:'Yu Gothic','Hiragino Sans',sans-serif;background:var(--bg);col
 
 .news-item{padding:12px 14px;background:#fff;border-radius:8px;margin-bottom:8px;border:1px solid #e8ede8;transition:border-color .15s;}
 .news-item:hover{border-color:var(--green);}
+.news-item-body{}
 .news-item-top{display:flex;align-items:flex-start;gap:8px;margin-bottom:4px;}
 .source-icon{width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold;flex-shrink:0;margin-top:1px;}
 .icon-note{background:#41c9b4;color:#fff;}
@@ -61,16 +62,6 @@ body{font-family:'Yu Gothic','Hiragino Sans',sans-serif;background:var(--bg);col
 .news-meta{font-size:11px;color:#bbb;}
 .news-loading{color:#aaa;font-size:13px;padding:16px 0;text-align:center;}
 .news-error{color:#c00;font-size:12px;padding:8px 0;}
-
-/* スケジュールリスト */
-.schedule-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:#fff;border-radius:8px;margin-bottom:6px;border:1px solid #e8ede8;}
-.schedule-date{font-size:12px;color:#888;min-width:72px;padding-top:1px;}
-.schedule-title{font-size:13px;font-weight:bold;color:var(--text);line-height:1.4;flex:1;}
-.schedule-badge{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:bold;flex-shrink:0;margin-top:2px;}
-.badge-published{background:#e8f5e9;color:var(--green);}
-.badge-review{background:#fff3e0;color:#e65100;}
-.badge-draft{background:#f5f5f5;color:#999;}
-.badge-event{background:#e3f2fd;color:#1565c0;}
 
 @media(max-width:700px){
   .login-layout{grid-template-columns:1fr;max-width:440px;}
@@ -135,6 +126,8 @@ tr.active td{background:#e8f5e9;}
 .chip-wrap{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
 .chip{padding:5px 12px;border-radius:20px;background:#e8f5e9;color:var(--green);font-size:12px;font-weight:bold;cursor:pointer;border:2px solid transparent;transition:all .2s;}
 .chip:hover,.chip.active{background:var(--green);color:#fff;}
+.copy-btn{background:transparent;border:1px solid #ddd;border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer;color:#666;margin-left:8px;}
+.copy-btn:hover{background:var(--bg);}
 .search-engines{display:flex;gap:10px;flex-wrap:wrap;}
 .engine-btn{flex:1;min-width:120px;padding:12px;border:none;border-radius:8px;font-size:13px;font-family:inherit;font-weight:bold;cursor:pointer;transition:background .2s;}
 .engine-google{background:#4285F4;color:#fff;}
@@ -143,6 +136,7 @@ tr.active td{background:#e8f5e9;}
 .engine-perplexity:hover{background:#178f89;}
 .engine-chatgpt{background:#10a37f;color:#fff;}
 .engine-chatgpt:hover{background:#0d8a6b;}
+
 .session-layout{display:flex;flex-direction:column;gap:16px;}
 .session-bottom{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start;}
 .session-left-col{display:flex;flex-direction:column;gap:16px;}
@@ -156,6 +150,11 @@ tr.active td{background:#e8f5e9;}
 .sns-chip.sc-m{background:#EAF3DE;color:#3B6D11;border-color:#3B6D11;}
 .sns-chip.sc-p{background:#EEEDFE;color:#534AB7;border-color:#534AB7;}
 .sns-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px;}
+.sns-tgi{display:inline-block;width:16px;height:16px;border-radius:3px;font-size:9px;text-align:center;line-height:16px;font-weight:bold;vertical-align:middle;margin-right:3px;}
+.sns-ti{background:#E6F1FB;color:#185FA5;}
+.sns-tr{background:#FAEEDA;color:#854F0B;}
+.sns-tm{background:#EAF3DE;color:#3B6D11;}
+.sns-tp{background:#EEEDFE;color:#534AB7;}
 .htag-preview{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px;min-height:24px;padding:6px 8px;background:var(--bg);border-radius:6px;}
 .htag{font-size:11px;color:#185FA5;background:#E6F1FB;padding:2px 8px;border-radius:10px;}
 .sns-method-btn{padding:5px 12px;border-radius:6px;font-size:12px;cursor:pointer;border:1px solid #ddd;background:#f5f5f5;color:#666;font-family:inherit;transition:all .15s;}
@@ -193,6 +192,7 @@ tr.active td{background:#e8f5e9;}
           <div class="msg err" id="loginMsg"></div>
           <p class="login-hint">パスコードをお忘れの場合は管理者までご連絡ください。</p>
         </div>
+
         <div class="login-links">
           <a class="login-link-item" href="https://cloverplus-marketing.github.io/seminar/" target="_blank" rel="noopener">
             <span class="link-icon link-icon-session">🎓</span>
@@ -212,15 +212,11 @@ tr.active td{background:#e8f5e9;}
         </div>
 
         <div class="rss-tabs">
-          <button class="rss-tab active" data-feed="schedule" onclick="switchFeed('schedule')">📅 スケジュール</button>
-          <button class="rss-tab" data-feed="note" onclick="switchFeed('note')">note</button>
+          <button class="rss-tab active" data-feed="note" onclick="switchFeed('note')">note</button>
           <button class="rss-tab" data-feed="spotify" onclick="switchFeed('spotify')">Spotify</button>
         </div>
 
-        <div class="rss-panel active" id="panel-schedule">
-          <div class="news-loading">読み込み中...</div>
-        </div>
-        <div class="rss-panel" id="panel-note">
+        <div class="rss-panel active" id="panel-note">
           <div class="news-loading">読み込み中...</div>
         </div>
         <div class="rss-panel" id="panel-spotify">
@@ -263,12 +259,24 @@ tr.active td{background:#e8f5e9;}
   <div class="card" id="detailCard" style="display:none;">
     <h2>セッション編集：<span id="editSessionCode" style="font-size:13px;color:#666;"></span></h2>
     <div class="form-row">
-      <div><label>セッション名</label><input type="text" id="sessionName" placeholder="NetSuite ハンズオン 2026春"></div>
-      <div><label>開催日</label><input type="date" id="sessionDate"></div>
+      <div>
+        <label>セッション名</label>
+        <input type="text" id="sessionName" placeholder="NetSuite ハンズオン 2026春">
+      </div>
+      <div>
+        <label>開催日</label>
+        <input type="date" id="sessionDate">
+      </div>
     </div>
     <div class="form-row">
-      <div><label>開催時間</label><input type="time" id="sessionTime"></div>
-      <div><label>告知URL（任意）</label><input type="url" id="detailUrl" placeholder="https://..."></div>
+      <div>
+        <label>開催時間</label>
+        <input type="time" id="sessionTime">
+      </div>
+      <div>
+        <label>告知URL（任意）</label>
+        <input type="url" id="detailUrl" placeholder="https://...">
+      </div>
     </div>
     <label>資料URL</label>
     <input type="url" id="materialsUrl" placeholder="https://drive.google.com/...">
@@ -278,9 +286,18 @@ tr.active td{background:#e8f5e9;}
     <textarea id="message" rows="4" style="width:100%;padding:10px 13px;border:2px solid #ddd;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:12px;resize:vertical;transition:border-color .2s;" placeholder="受講者への案内文や注意事項を入力してください&#10;（改行可）"></textarea>
     <label>ログインURL</label>
     <input type="url" id="loginUrl" placeholder="https://system.netsuite.com/pages/customerlogin.jsp?country=JP">
-    <div class="toggle"><input type="checkbox" id="useLogin" checked><label for="useLogin" style="margin:0;font-weight:normal;cursor:pointer;">ログインボタンを表示する</label></div>
-    <div class="toggle"><input type="checkbox" id="useDemo" checked><label for="useDemo" style="margin:0;font-weight:normal;cursor:pointer;">デモアカウント機能を使用する</label></div>
-    <div class="toggle"><input type="checkbox" id="publishRss"><label for="publishRss" style="margin:0;font-weight:normal;cursor:pointer;">RSS配信する（将来実装予定）</label></div>
+    <div class="toggle">
+      <input type="checkbox" id="useLogin" checked>
+      <label for="useLogin" style="margin:0;font-weight:normal;cursor:pointer;">ログインボタンを表示する</label>
+    </div>
+    <div class="toggle">
+      <input type="checkbox" id="useDemo" checked>
+      <label for="useDemo" style="margin:0;font-weight:normal;cursor:pointer;">デモアカウント機能を使用する</label>
+    </div>
+    <div class="toggle">
+      <input type="checkbox" id="publishRss">
+      <label for="publishRss" style="margin:0;font-weight:normal;cursor:pointer;">RSS配信する（将来実装予定）</label>
+    </div>
     <div class="flex-wrap">
       <button class="btn" onclick="saveAll()">保存</button>
       <button class="btn btn-red btn-sm" onclick="deleteSession()">このセッションを削除</button>
@@ -304,7 +321,7 @@ tr.active td{background:#e8f5e9;}
   <div id="tab-research" class="tab-content">
     <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#7a5c00;">
       <strong>🔬 企業調査 β（ベータ版）</strong><br>
-      現在は一般の検索サービスを経由しているため、表示される企業情報は検索結果のタイトルとURLのみとなっています。
+      現在は一般の検索サービスを経由しているため、表示される企業情報は検索結果のタイトルとURLのみとなっています。法人番号・所在地・インボイス番号などの詳細情報は表示されません。今後、国税庁の法人番号APIと連携し、これらの情報を自動取得できるようアップデートを予定しています。
     </div>
     <div class="card">
       <h2>企業調査 <span style="font-size:12px;background:#E97132;color:#fff;padding:2px 7px;border-radius:4px;vertical-align:middle;font-weight:normal;">β</span></h2>
@@ -312,16 +329,23 @@ tr.active td{background:#e8f5e9;}
         <input type="text" id="researchQuery" placeholder="会社名を入力（例：トヨタ）" style="flex:1;margin:0;" onkeydown="if(event.key==='Enter')searchCompany()">
         <button class="btn" onclick="searchCompany()">検索</button>
       </div>
-      <p style="font-size:12px;color:#888;margin-top:8px;">※ 初回検索は10〜20秒かかる場合があります。</p>
+      <p style="font-size:12px;color:#888;margin-top:8px;">※ 初回検索は10〜20秒かかる場合があります。エラーが表示された際はもう一度お試しください。</p>
       <div class="msg err" id="researchMsg" style="margin-top:8px;"></div>
     </div>
-    <div class="card" id="corpListCard" style="display:none;"><h2>検索結果</h2><div id="corpListArea"></div></div>
+    <div class="card" id="corpListCard" style="display:none;">
+      <h2>検索結果</h2>
+      <div id="corpListArea"></div>
+    </div>
     <div class="card" id="corpDetailCard" style="display:none;">
       <h2 id="corpDetailName"></h2>
       <div class="info-grid" id="corpInfoGrid"></div>
-      <div style="margin-bottom:8px;"><label style="font-size:13px;font-weight:bold;color:#666;">検索クエリ</label></div>
+      <div style="margin-bottom:8px;">
+        <label style="font-size:13px;font-weight:bold;color:#666;">検索クエリ</label>
+      </div>
       <div class="chip-wrap" id="chipWrap"></div>
-      <div style="margin-bottom:12px;"><input type="text" id="searchQuery" style="margin:0;" placeholder="検索クエリを編集できます"></div>
+      <div style="margin-bottom:12px;">
+        <input type="text" id="searchQuery" style="margin:0;" placeholder="検索クエリを編集できます">
+      </div>
       <div class="search-engines">
         <button class="engine-btn engine-google" onclick="openEngine('google')">Google で検索</button>
         <button class="engine-btn engine-perplexity" onclick="openEngine('perplexity')">Perplexity で検索</button>
@@ -340,47 +364,81 @@ tr.active td{background:#e8f5e9;}
 
   <div id="tab-sns" class="tab-content">
   <div style="display:flex;flex-direction:column;gap:16px;">
+
     <div class="card">
       <h2>Step 1 &nbsp; セッションを選択</h2>
-      <div id="snsSessionList"><p style="color:#666;font-size:13px;">セッション管理タブでセッションを作成してください。</p></div>
+      <div id="snsSessionList">
+        <p style="color:#666;font-size:13px;">セッション管理タブでセッションを作成してください。</p>
+      </div>
       <div id="snsSessionSelected" style="display:none;margin-top:10px;padding:8px 12px;background:var(--bg);border-radius:8px;font-size:13px;">
         選択中：<strong id="snsSelName"></strong>　<span style="color:#888;" id="snsSelInfo"></span>
       </div>
     </div>
+
     <div class="card">
       <h2>Step 2 &nbsp; 追加情報を入力</h2>
+
       <div class="sns-sl" style="margin-top:0;">セミナー分類タグ（ハッシュタグに変換）</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;">
-        <div><div style="font-size:11px;color:#888;margin-bottom:4px;">対象業種</div><div id="postChipInd" style="display:flex;flex-wrap:wrap;gap:5px;"></div></div>
-        <div><div style="font-size:11px;color:#888;margin-bottom:4px;">対象役職</div><div id="postChipRole" style="display:flex;flex-wrap:wrap;gap:5px;"></div></div>
-        <div><div style="font-size:11px;color:#888;margin-bottom:4px;">実施モジュール</div><div id="postChipMod" style="display:flex;flex-wrap:wrap;gap:5px;"></div></div>
-        <div><div style="font-size:11px;color:#888;margin-bottom:4px;">目的</div><div id="postChipPurp" style="display:flex;flex-wrap:wrap;gap:5px;"></div></div>
+        <div>
+          <div style="font-size:11px;color:#888;margin-bottom:4px;">対象業種</div>
+          <div id="postChipInd" style="display:flex;flex-wrap:wrap;gap:5px;"></div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:#888;margin-bottom:4px;">対象役職</div>
+          <div id="postChipRole" style="display:flex;flex-wrap:wrap;gap:5px;"></div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:#888;margin-bottom:4px;">実施モジュール</div>
+          <div id="postChipMod" style="display:flex;flex-wrap:wrap;gap:5px;"></div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:#888;margin-bottom:4px;">目的</div>
+          <div id="postChipPurp" style="display:flex;flex-wrap:wrap;gap:5px;"></div>
+        </div>
       </div>
+
       <div style="font-size:11px;color:#888;margin-top:10px;margin-bottom:3px;">生成されるハッシュタグ</div>
       <div id="postHtagPreview" style="display:flex;flex-wrap:wrap;gap:4px;padding:7px 10px;background:var(--bg);border-radius:8px;min-height:30px;">
         <span style="font-size:11px;color:#aaa;">タグを選択するとハッシュタグが生成されます</span>
       </div>
+
       <div class="sns-sl">開催情報</div>
       <div style="display:flex;gap:6px;margin-bottom:10px;">
         <button class="sns-method-btn sel" id="postMOff" onclick="postSelMethod('off')">オフライン</button>
-        <button class="sns-method-btn" id="postMOn" onclick="postSelMethod('on')">オンライン</button>
-        <button class="sns-method-btn" id="postMHy" onclick="postSelMethod('hy')">ハイブリッド</button>
+        <button class="sns-method-btn"     id="postMOn"  onclick="postSelMethod('on')">オンライン</button>
+        <button class="sns-method-btn"     id="postMHy"  onclick="postSelMethod('hy')">ハイブリッド</button>
       </div>
-      <div id="postLocRow"><label>開催場所</label><input type="text" id="postLoc" placeholder="例：東京都港区 Clover Plus セミナールーム" oninput="postSync()"></div>
+
+      <div id="postLocRow">
+        <label>開催場所</label>
+        <input type="text" id="postLoc" placeholder="例：東京都港区 Clover Plus セミナールーム" oninput="postSync()">
+      </div>
+
       <div class="form-row" style="margin-top:4px;">
-        <div><label>申込期限日</label><input type="date" id="postDlDate" oninput="postSync()"></div>
-        <div><label>申込期限時刻</label><input type="time" id="postDlTime" oninput="postSync()"></div>
+        <div>
+          <label>申込期限日</label>
+          <input type="date" id="postDlDate" oninput="postSync()">
+        </div>
+        <div>
+          <label>申込期限時刻</label>
+          <input type="time" id="postDlTime" oninput="postSync()">
+        </div>
       </div>
+
       <label>告知URLもしくは連絡先</label>
       <input type="text" id="postContact" placeholder="https://... または info@example.com" oninput="postSync()">
     </div>
+
     <div class="card">
       <h2>Step 3 &nbsp; 投稿文を確認・編集・コピー</h2>
-      <p style="font-size:12px;color:#888;background:var(--bg);padding:7px 10px;border-radius:6px;margin-bottom:12px;border-left:3px solid #ddd;">自動生成された基本情報の後に挨拶文・詳細を追記してください。</p>
+      <p style="font-size:12px;color:#888;background:var(--bg);padding:7px 10px;border-radius:6px;margin-bottom:12px;border-left:3px solid #ddd;">自動生成された基本情報の後に挨拶文・詳細を追記してください。「初期状態に戻す」で自動生成文に戻せます。</p>
+
       <div class="sns-tabs">
         <button class="sns-tab-btn active" onclick="postSw(0)">X（旧Twitter）</button>
         <button class="sns-tab-btn" onclick="postSw(1)">SNS</button>
       </div>
+
       <div class="sns-panel active" id="postPanel0">
         <textarea class="sns-out" id="postOut0" rows="10"></textarea>
         <div class="sns-cc" id="postCc0">0 / 280 文字</div>
@@ -390,6 +448,7 @@ tr.active td{background:#e8f5e9;}
           <span class="sns-copy-ok" id="postCopyOk0">コピーしました</span>
         </div>
       </div>
+
       <div class="sns-panel" id="postPanel1">
         <textarea class="sns-out" id="postOut1" rows="14"></textarea>
         <div class="flex-wrap" style="margin-top:8px;justify-content:flex-end;">
@@ -399,6 +458,7 @@ tr.active td{background:#e8f5e9;}
         </div>
       </div>
     </div>
+
   </div>
   </div>
 
@@ -408,8 +468,6 @@ tr.active td{background:#e8f5e9;}
 <script>
 const API_URL = 'https://script.google.com/macros/s/AKfycbxQ7fNkIzsxaFEOoPngnY5lcWLRTQUhG97D1THjDciUqLcIqKlCQxGrPjpZSEPt3vp09A/exec';
 const RSS_PROXY = 'https://cp-rss-proxy.media-264.workers.dev/';
-const CALENDAR_API = 'https://calendar-api.yebihara36.workers.dev';
-const CALENDAR_ID = '95e60ccee465fc780dd6d3548fb9bb9f55d8b8d492b23f6c680d787da76a412b@group.calendar.google.com';
 
 const RSS_FEEDS = {
   note:    { icon: 'N', iconClass: 'icon-note',    label: 'note' },
@@ -422,8 +480,8 @@ let currentSession = null;
 let researchEnabled = false;
 let resourcesLoaded = false;
 let currentCorp = null;
-let feedLoaded = { schedule: false, note: false, spotify: false };
-let currentFeed = 'schedule';
+let feedLoaded = { note: false, spotify: false };
+let currentFeed = 'note';
 
 if (partnerToken && companyId) {
   document.getElementById('loginSection').style.display = 'none';
@@ -434,7 +492,7 @@ if (partnerToken && companyId) {
 }
 
 if (document.getElementById('loginSection').style.display !== 'none') {
-  loadRssFeed('schedule');
+  loadRssFeed('note');
 }
 
 function switchFeed(feed) {
@@ -447,31 +505,31 @@ function switchFeed(feed) {
 
 async function loadRssFeed(feed) {
   if (feedLoaded[feed]) return;
-  if (feed === 'schedule') {
-    await loadSchedule();
-    return;
-  }
   const cfg = RSS_FEEDS[feed];
   const panel = document.getElementById('panel-' + feed);
   panel.innerHTML = '<div class="news-loading">読み込み中...</div>';
   try {
-    const res  = await fetch(RSS_PROXY + '?feed=' + feed);
+    const url = RSS_PROXY + '?feed=' + feed;
+    const res  = await fetch(url);
     const json = await res.json();
     feedLoaded[feed] = true;
     if (!json.items || json.items.length === 0) {
       panel.innerHTML = '<div class="news-loading">記事が見つかりませんでした</div>';
-      updateFeedBadge(); return;
+      updateFeedBadge();
+      return;
     }
     panel.innerHTML = json.items.map(function(item) {
       const date = formatFeedDate(item.date);
       const desc = item.description ? '<div class="news-desc">' + escHtml(item.description) + '</div>' : '';
       return '<div class="news-item">'
+        + '<div class="news-item-body">'
         + '<div class="news-item-top">'
         + '<span class="source-icon ' + cfg.iconClass + '">' + cfg.icon + '</span>'
         + '<div class="news-title"><a href="' + escHtml(item.link) + '" target="_blank" rel="noopener">' + escHtml(item.title) + '</a></div>'
         + '</div>'
         + desc
         + '<div class="news-meta">' + cfg.label + (date ? ' · ' + date : '') + '</div>'
+        + '</div>'
         + '</div>';
     }).join('');
     updateFeedBadge();
@@ -479,67 +537,6 @@ async function loadRssFeed(feed) {
     feedLoaded[feed] = false;
     panel.innerHTML = '<div class="news-error">読み込みに失敗しました</div>';
   }
-}
-
-async function loadSchedule() {
-  const panel = document.getElementById('panel-schedule');
-  panel.innerHTML = '<div class="news-loading">読み込み中...</div>';
-  try {
-    // 1週間前から取得
-    const from = new Date();
-    from.setDate(from.getDate() - 7);
-    const timeMin = from.toISOString();
-    const url = CALENDAR_API + '/events?calendarId=' + encodeURIComponent(CALENDAR_ID)
-      + '&timeMin=' + encodeURIComponent(timeMin)
-      + '&maxResults=30&orderBy=startTime&singleEvents=true';
-    const res  = await fetch(url);
-    const json = await res.json();
-    feedLoaded['schedule'] = true;
-
-    const events = (json.items || []).filter(e => {
-      const summary = e.summary || '';
-      return summary.includes('[CP_CONTENT]') || summary.includes('[CP_TYPE');
-    });
-
-    if (events.length === 0) {
-      panel.innerHTML = '<div class="news-loading">スケジュールがありません</div>';
-      updateFeedBadge(); return;
-    }
-
-    panel.innerHTML = events.map(function(e) {
-      const raw = e.summary || '';
-      const title = raw.replace(/\[CP_CONTENT\]/g,'').replace(/\[CP_STATUS:[^\]]*\]/g,'').replace(/\[CP_SPOTIFY:[^\]]*\]/g,'').trim();
-      const statusMatch = raw.match(/\[CP_STATUS:([^\]]+)\]/);
-      const status = statusMatch ? statusMatch[1] : '';
-      const start = e.start.date || e.start.dateTime || '';
-      const dateStr = formatScheduleDate(start);
-      let badgeClass = 'badge-draft';
-      let badgeLabel = '下書き';
-      if (status === 'published') { badgeClass = 'badge-published'; badgeLabel = '公開済'; }
-      else if (status === 'review') { badgeClass = 'badge-review'; badgeLabel = 'レビュー待ち'; }
-      else if (raw.includes('[CP_TYPE:自社]')) { badgeClass = 'badge-event'; badgeLabel = '自社イベント'; }
-      else if (raw.includes('[CP_TYPE:外部]')) { badgeClass = 'badge-event'; badgeLabel = '外部イベント'; }
-      const link = e.htmlLink ? ' onclick="window.open(\'' + e.htmlLink + '\',\'_blank\')" style="cursor:pointer;"' : '';
-      return '<div class="schedule-item"' + link + '>'
-        + '<div class="schedule-date">' + escHtml(dateStr) + '</div>'
-        + '<div class="schedule-title">' + escHtml(title) + '</div>'
-        + '<span class="schedule-badge ' + badgeClass + '">' + badgeLabel + '</span>'
-        + '</div>';
-    }).join('');
-    updateFeedBadge();
-  } catch(e) {
-    feedLoaded['schedule'] = false;
-    panel.innerHTML = '<div class="news-error">読み込みに失敗しました</div>';
-  }
-}
-
-function formatScheduleDate(dateStr) {
-  if (!dateStr) return '';
-  try {
-    const d = dateStr.includes('T') ? new Date(dateStr) : new Date(dateStr + 'T00:00:00');
-    const days = ['日','月','火','水','木','金','土'];
-    return (d.getMonth() + 1) + '/' + d.getDate() + '（' + days[d.getDay()] + '）';
-  } catch(e) { return dateStr; }
 }
 
 function updateFeedBadge() {
@@ -562,11 +559,18 @@ function escHtml(str) {
 
 function switchTab(tab) {
   const tabs = ['resources', 'research', 'sessions', 'sns'];
-  document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', tabs[i] === tab));
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    t.classList.toggle('active', tabs[i] === tab);
+  });
   document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
-  if (tab === 'resources' && !resourcesLoaded) { resourcesLoaded = true; loadResources(); }
-  if (tab === 'sns') postLoadSessions();
+  if (tab === 'resources' && !resourcesLoaded) {
+    resourcesLoaded = true;
+    loadResources();
+  }
+  if (tab === 'sns') {
+    postLoadSessions();
+  }
 }
 
 async function api(params) {
@@ -604,18 +608,18 @@ function logout() {
   document.getElementById('mainSection').style.display = 'none';
   document.getElementById('loginSection').style.display = 'flex';
   document.getElementById('loginPasscode').value = '';
-  feedLoaded = { schedule: false, note: false, spotify: false };
-  loadRssFeed('schedule');
+  feedLoaded = { note: false, spotify: false };
+  loadRssFeed('note');
 }
 
 async function loadSessions() {
   try {
     const json = await api({ action: 'getSessions', company_id: companyId, token: partnerToken });
-    if (json.status !== 'ok') { if (json.message && json.message.includes('切れ')) logout(); return; }
+    if (json.status !== 'ok') { if (json.message && json.message.includes('切れ')) { logout(); } return; }
     const sessions = json.data.sessions || [];
     const tbody = document.getElementById('sessionTable');
     if (sessions.length === 0) {
-      tbody.innerHTML = '<tr><th>セッションコード</th><th>セッション名</th><th>開催日</th><th>デモ</th><th>操作</th></tr><tr><td colspan="5" style="color:#666;text-align:center;">セッションがありません。</td></tr>';
+      tbody.innerHTML = '<tr><th>セッションコード</th><th>セッション名</th><th>開催日</th><th>デモ</th><th>操作</th></tr><tr><td colspan="5" style="color:#666;text-align:center;">セッションがありません。「＋ セッションを追加」から作成してください。</td></tr>';
       document.getElementById('detailCard').style.display   = 'none';
       document.getElementById('accountsCard').style.display = 'none';
       return;
@@ -623,10 +627,19 @@ async function loadSessions() {
     let html = '<tr><th>セッションコード</th><th>セッション名</th><th>開催日</th><th>デモ</th><th>操作</th></tr>';
     sessions.forEach(s => {
       const active = s.session_code === currentSession ? 'class="active"' : '';
-      html += `<tr ${active}><td><code>${s.session_code}</code></td><td>${s.session_name||'（未設定）'}</td><td>${s.session_date||'（未設定）'}</td><td>${s.use_demo?'✅':'－'}</td><td><button class="btn btn-sm" onclick="selectSession('${s.session_code}')">編集</button></td></tr>`;
+      html += `<tr ${active}>
+        <td><code>${s.session_code}</code></td>
+        <td>${s.session_name || '（未設定）'}</td>
+        <td>${s.session_date || '（未設定）'}</td>
+        <td>${s.use_demo ? '✅' : '－'}</td>
+        <td><button class="btn btn-sm" onclick="selectSession('${s.session_code}')">編集</button></td>
+      </tr>`;
     });
     tbody.innerHTML = html;
-    if (currentSession) { const found = sessions.find(s => s.session_code === currentSession); if (found) selectSession(currentSession, false); }
+    if (currentSession) {
+      const found = sessions.find(s => s.session_code === currentSession);
+      if (found) selectSession(currentSession, false);
+    }
   } catch(e) { document.getElementById('sessionMsg').textContent = 'エラーが発生しました'; }
 }
 
@@ -663,9 +676,28 @@ async function saveAll() {
   const msg = document.getElementById('detailMsg');
   msg.textContent = '保存中...'; msg.className = 'msg';
   try {
-    const r1 = await api({ action: 'updateSessionInfo', session_code: currentSession, session_name: document.getElementById('sessionName').value, session_date: document.getElementById('sessionDate').value, session_time: document.getElementById('sessionTime').value, token: partnerToken });
+    const r1 = await api({
+      action: 'updateSessionInfo',
+      session_code: currentSession,
+      session_name: document.getElementById('sessionName').value,
+      session_date: document.getElementById('sessionDate').value,
+      session_time: document.getElementById('sessionTime').value,
+      token: partnerToken
+    });
     if (r1.status !== 'ok') { msg.textContent = r1.message; msg.className = 'msg err'; return; }
-    const r2 = await api({ action: 'saveSettings', session_code: currentSession, detail_url: document.getElementById('detailUrl').value, materials_url: document.getElementById('materialsUrl').value, survey_url: document.getElementById('surveyUrl').value, use_demo: document.getElementById('useDemo').checked, publish_rss: document.getElementById('publishRss').checked, message: document.getElementById('message').value, login_url: document.getElementById('loginUrl').value, use_login: document.getElementById('useLogin').checked, token: partnerToken });
+    const r2 = await api({
+      action: 'saveSettings',
+      session_code: currentSession,
+      detail_url:   document.getElementById('detailUrl').value,
+      materials_url:document.getElementById('materialsUrl').value,
+      survey_url:   document.getElementById('surveyUrl').value,
+      use_demo:     document.getElementById('useDemo').checked,
+      publish_rss:  document.getElementById('publishRss').checked,
+      message:      document.getElementById('message').value,
+      login_url:    document.getElementById('loginUrl').value,
+      use_login:    document.getElementById('useLogin').checked,
+      token: partnerToken
+    });
     if (r2.status !== 'ok') { msg.textContent = r2.message; msg.className = 'msg err'; return; }
     msg.textContent = '保存しました'; msg.className = 'msg ok';
     loadSessions();
@@ -722,7 +754,7 @@ async function resetAccount(userId) {
     const json = await api({ action: 'resetAccount', session_code: currentSession, user_id: userId, token: partnerToken });
     const msg = document.getElementById('accountsMsg');
     msg.textContent = json.status === 'ok' ? 'リセットしました' : json.message;
-    msg.className = 'msg ' + (json.status === 'ok' ? 'ok' : 'err');
+    msg.className   = 'msg ' + (json.status === 'ok' ? 'ok' : 'err');
     if (json.status === 'ok') loadAccounts();
   } catch(e) {}
 }
@@ -733,14 +765,18 @@ async function resetAll() {
     const json = await api({ action: 'resetAll', session_code: currentSession, token: partnerToken });
     const msg = document.getElementById('accountsMsg');
     msg.textContent = json.status === 'ok' ? '全リセットしました' : json.message;
-    msg.className = 'msg ' + (json.status === 'ok' ? 'ok' : 'err');
+    msg.className   = 'msg ' + (json.status === 'ok' ? 'ok' : 'err');
     if (json.status === 'ok') loadAccounts();
   } catch(e) {}
 }
 
 function downloadTemplate() {
   const wb = XLSX.utils.book_new();
-  const ws = XLSX.utils.aoa_to_sheet([['USER ID','PASSWORD'],['user001','pass001'],['user002','pass002']]);
+  const ws = XLSX.utils.aoa_to_sheet([
+    ['USER ID', 'PASSWORD'],
+    ['user001', 'pass001'],
+    ['user002', 'pass002'],
+  ]);
   ws['!cols'] = [{ wch: 20 }, { wch: 20 }];
   XLSX.utils.book_append_sheet(wb, ws, 'アカウント一覧');
   XLSX.writeFile(wb, 'account_template.xlsx');
@@ -756,15 +792,15 @@ async function importAccounts() {
     const ws   = wb.Sheets[wb.SheetNames[0]];
     const rows = XLSX.utils.sheet_to_json(ws, { header: 1 });
     const data = rows.slice(1).filter(r => r[0] && r[1]).map(r => ({ user_id: String(r[0]).trim(), password: String(r[1]).trim() }));
-    if (data.length === 0) { msg.textContent = 'データがありません'; msg.className = 'msg err'; return; }
-    if (data.length > 100) { msg.textContent = '100件を超えるデータはインポートできません'; msg.className = 'msg err'; return; }
+    if (data.length === 0)   { msg.textContent = 'データがありません'; msg.className = 'msg err'; return; }
+    if (data.length > 100)   { msg.textContent = '100件を超えるデータはインポートできません'; msg.className = 'msg err'; return; }
     msg.textContent = 'インポート中...'; msg.className = 'msg';
     const encodedData = encodeURIComponent(JSON.stringify(data));
     const url = API_URL + '?action=importAccounts&session_code=' + currentSession + '&token=' + partnerToken + '&data=' + encodedData;
     const res  = await fetch(url, { redirect: 'follow' });
     const json = await res.json();
     msg.textContent = json.status === 'ok' ? json.data.message : json.message;
-    msg.className = 'msg ' + (json.status === 'ok' ? 'ok' : 'err');
+    msg.className   = 'msg ' + (json.status === 'ok' ? 'ok' : 'err');
     if (json.status === 'ok') loadAccounts();
   } catch(e) { msg.textContent = 'エラーが発生しました'; msg.className = 'msg err'; }
   document.getElementById('xlsxFile').value = '';
@@ -781,14 +817,27 @@ async function searchCompany() {
   document.getElementById('corpListCard').style.display  = 'block';
   try {
     const json = await api({ action: 'searchCompanyBrave', token: partnerToken, name });
-    if (json.status !== 'ok') { document.getElementById('corpListArea').innerHTML = `<p style="color:#c00;font-size:13px;">${json.message}</p>`; return; }
+    if (json.status !== 'ok') {
+      document.getElementById('corpListArea').innerHTML = `<p style="color:#c00;font-size:13px;">${json.message}</p>`;
+      return;
+    }
     const corps = json.data?.results || [];
-    if (corps.length === 0) { document.getElementById('corpListArea').innerHTML = '<p style="color:#666;font-size:13px;">該当する結果が見つかりませんでした</p>'; return; }
+    if (corps.length === 0) {
+      document.getElementById('corpListArea').innerHTML = '<p style="color:#666;font-size:13px;">該当する結果が見つかりませんでした</p>';
+      return;
+    }
     let html = '';
-    corps.forEach((c, i) => { html += `<div class="corp-card" id="corp-${i}" onclick="selectCorp(${i})"><div class="corp-name">${c.name}</div><div class="corp-meta" style="font-size:11px;">${c.url}</div></div>`; });
+    corps.forEach((c, i) => {
+      html += `<div class="corp-card" id="corp-${i}" onclick="selectCorp(${i})">
+        <div class="corp-name">${c.name}</div>
+        <div class="corp-meta" style="font-size:11px;">${c.url}</div>
+      </div>`;
+    });
     document.getElementById('corpListArea').innerHTML = html;
     document.getElementById('corpListArea')._data = corps;
-  } catch(e) { document.getElementById('corpListArea').innerHTML = `<p style="color:#c00;font-size:13px;">エラーが発生しました: ${e.message}</p>`; }
+  } catch(e) {
+    document.getElementById('corpListArea').innerHTML = `<p style="color:#c00;font-size:13px;">エラーが発生しました: ${e.message}</p>`;
+  }
 }
 
 function selectCorp(idx) {
@@ -798,9 +847,14 @@ function selectCorp(idx) {
   currentCorp = { name: c.name, corporate_number: '', invoice_number: '' };
   document.querySelectorAll('.corp-card').forEach((el, i) => el.classList.toggle('selected', i === idx));
   document.getElementById('corpDetailName').textContent = c.name;
-  document.getElementById('corpInfoGrid').innerHTML = `<span class="info-label">会社名</span><span class="info-value">${c.name}</span><span class="info-label">参照URL</span><span class="info-value" style="font-size:11px;word-break:break-all;">${c.url}</span>`;
+  document.getElementById('corpInfoGrid').innerHTML = `
+    <span class="info-label">会社名</span><span class="info-value">${c.name}</span>
+    <span class="info-label">参照URL</span><span class="info-value" style="font-size:11px;word-break:break-all;">${c.url}</span>
+  `;
   const chips = [c.name, c.name + ' ERP', c.name + ' NetSuite', c.name + ' 基幹システム', c.name + ' 導入事例'];
-  document.getElementById('chipWrap').innerHTML = chips.map((chip, i) => `<span class="chip${i===0?' active':''}" onclick="selectChip(this,'${chip.replace(/'/g,"\\'")}')">${chip}</span>`).join('');
+  document.getElementById('chipWrap').innerHTML = chips.map((chip, i) =>
+    `<span class="chip${i === 0 ? ' active' : ''}" onclick="selectChip(this,'${chip.replace(/'/g, "\\'")}')">${chip}</span>`
+  ).join('');
   document.getElementById('searchQuery').value = c.name;
   document.getElementById('corpDetailCard').style.display = 'block';
   document.getElementById('corpDetailCard').scrollIntoView({ behavior: 'smooth' });
@@ -820,7 +874,14 @@ function openEngine(engine) {
   if (engine === 'perplexity') url = `https://www.perplexity.ai/search?q=${encodeURIComponent(query)}`;
   if (engine === 'chatgpt')    url = `https://chatgpt.com/?q=${encodeURIComponent(query)}`;
   window.open(url, '_blank');
-  fetch(API_URL + '?action=logResearch&token=' + encodeURIComponent(partnerToken) + '&corporate_number=' + encodeURIComponent(currentCorp.corporate_number) + '&company_name=' + encodeURIComponent(currentCorp.name) + '&engine=' + encodeURIComponent(engine), { redirect: 'follow' }).catch(() => {});
+  fetch(API_URL
+    + '?action=logResearch'
+    + '&token=' + encodeURIComponent(partnerToken)
+    + '&corporate_number=' + encodeURIComponent(currentCorp.corporate_number)
+    + '&company_name=' + encodeURIComponent(currentCorp.name)
+    + '&engine=' + encodeURIComponent(engine),
+    { redirect: 'follow' }
+  ).catch(() => {});
 }
 
 async function loadResources() {
@@ -839,14 +900,26 @@ function renderResources(resources) {
   const area = document.getElementById('resourcesArea');
   if (!resources || resources.length === 0) { area.innerHTML = '<p style="color:#666;font-size:13px;">現在ダウンロードできる資料はありません</p>'; return; }
   const categories = {};
-  resources.forEach(r => { const cat = r.category || 'その他'; if (!categories[cat]) categories[cat] = []; categories[cat].push(r); });
-  const catOrder = ['製品カタログ', '資料'];
+  resources.forEach(r => {
+    const cat = r.category || 'その他';
+    if (!categories[cat]) categories[cat] = [];
+    categories[cat].push(r);
+  });
+  const catOrder    = ['製品カタログ', '資料'];
   const orderedCats = [...catOrder.filter(c => categories[c]), ...Object.keys(categories).filter(c => !catOrder.includes(c))];
   let html = '';
   orderedCats.forEach(cat => {
     html += `<div class="resource-section"><div class="resource-section-title">${cat}</div>`;
     categories[cat].forEach(r => {
-      html += `<div class="resource-item"><div class="resource-info"><div class="resource-name">${r.file_name}</div>${r.description?`<div class="resource-desc">${r.description}</div>`:''}</div><div class="resource-actions"><button class="btn btn-outline btn-sm" onclick="downloadResource('${r.doc_id}','${r.file_name}')">ダウンロード</button></div></div>`;
+      html += `<div class="resource-item">
+        <div class="resource-info">
+          <div class="resource-name">${r.file_name}</div>
+          ${r.description ? `<div class="resource-desc">${r.description}</div>` : ''}
+        </div>
+        <div class="resource-actions">
+          <button class="btn btn-outline btn-sm" onclick="downloadResource('${r.doc_id}','${r.file_name}')">ダウンロード</button>
+        </div>
+      </div>`;
     });
     html += '</div>';
   });
@@ -878,12 +951,24 @@ async function postLoadSessions() {
   list.innerHTML = '<p style="color:#666;font-size:13px;">読み込み中...</p>';
   try {
     const json = await api({ action: 'getSessions', company_id: companyId, token: partnerToken });
-    if (json.status !== 'ok' || !json.data.sessions || json.data.sessions.length === 0) { list.innerHTML = '<p style="color:#666;font-size:13px;">セッションがありません。</p>'; return; }
-    list.innerHTML = json.data.sessions.map(s => `<div class="corp-card" onclick="postPickSession(this,'${s.session_code}')"><div style="display:flex;align-items:center;gap:12px;"><code style="font-size:11px;color:#888;min-width:90px;">${s.session_code}</code><span style="font-size:13px;font-weight:bold;">${escHtml(s.session_name||'（未設定）')}</span><span style="font-size:12px;color:#888;margin-left:auto;">${s.session_date||''}</span></div></div>`).join('');
+    if (json.status !== 'ok' || !json.data.sessions || json.data.sessions.length === 0) {
+      list.innerHTML = '<p style="color:#666;font-size:13px;">セッションがありません。セッション管理タブで作成してください。</p>';
+      return;
+    }
+    list.innerHTML = json.data.sessions.map(s => `
+      <div class="corp-card" onclick="postPickSession(this,'${s.session_code}')">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <code style="font-size:11px;color:#888;min-width:90px;">${s.session_code}</code>
+          <span style="font-size:13px;font-weight:bold;">${escHtml(s.session_name||'（未設定）')}</span>
+          <span style="font-size:12px;color:#888;margin-left:auto;">${s.session_date||''}</span>
+        </div>
+      </div>`).join('');
     const firstEl = list.querySelector('.corp-card');
     firstEl.classList.add('selected');
     await postPickSession(firstEl, json.data.sessions[0].session_code);
-  } catch(e) { list.innerHTML = '<p style="color:#c00;font-size:13px;">読み込みに失敗しました</p>'; }
+  } catch(e) {
+    list.innerHTML = '<p style="color:#c00;font-size:13px;">読み込みに失敗しました</p>';
+  }
 }
 
 async function postPickSession(el, code) {
@@ -891,98 +976,175 @@ async function postPickSession(el, code) {
   el.classList.add('selected');
   try {
     const json = await api({ action: 'getSettings', session_code: code });
-    if (json.status === 'ok') { const d = json.data; postSession = { code, name: d.session_name||'', date: d.session_date||'', t1: d.session_time||'' }; }
+    if (json.status === 'ok') {
+      const d = json.data;
+      postSession = {
+        code: code,
+        name: d.session_name || '',
+        date: d.session_date || '',
+        t1:   d.session_time || ''
+      };
+    }
   } catch(e) {}
-  postBuildChips(); postUpdateSelected(); postSync();
+  postBuildChips();
+  postUpdateSelected();
+  postSync();
 }
 
 function postUpdateSelected() {
   if (!postSession) return;
-  document.getElementById('snsSessionSelected').style.display = 'block';
+  const sel = document.getElementById('snsSessionSelected');
+  sel.style.display = 'block';
   document.getElementById('snsSelName').textContent = postSession.name;
-  const dateStr = postSession.date ? postSession.date.replace(/-/g,'/') : '';
+  const dateStr = postSession.date ? postSession.date.replace(/-/g, '/') : '';
   const timeStr = (postSession.t1 && postSession.t2) ? `${postSession.t1}〜${postSession.t2}` : postSession.t1;
   document.getElementById('snsSelInfo').textContent = `${postSession.code}　${dateStr}　${timeStr}`;
 }
 
 function postBuildChips() {
-  const mk = (arr, id, key, cls) => { const el = document.getElementById(id); if (!el) return; el.innerHTML = arr.map(o => `<span class="sns-chip${POST_SEL[key].has(o)?' sc-'+cls:''}" onclick="postToggleChip(this,'${key}','${cls}')">${o}</span>`).join(''); };
-  mk(POST_IND,'postChipInd','i','i'); mk(POST_ROLE,'postChipRole','r','r'); mk(POST_MOD,'postChipMod','m','m'); mk(POST_PURP,'postChipPurp','p','p');
+  const mk = (arr, id, key, cls) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.innerHTML = arr.map(o =>
+      `<span class="sns-chip${POST_SEL[key].has(o) ? ' sc-' + cls : ''}" onclick="postToggleChip(this,'${key}','${cls}')">${o}</span>`
+    ).join('');
+  };
+  mk(POST_IND,  'postChipInd',  'i', 'i');
+  mk(POST_ROLE, 'postChipRole', 'r', 'r');
+  mk(POST_MOD,  'postChipMod',  'm', 'm');
+  mk(POST_PURP, 'postChipPurp', 'p', 'p');
 }
 
 function postToggleChip(el, key, cls) {
   const v = el.textContent;
-  POST_SEL[key].has(v) ? (POST_SEL[key].delete(v), el.classList.remove('sc-'+cls)) : (POST_SEL[key].add(v), el.classList.add('sc-'+cls));
+  POST_SEL[key].has(v) ? (POST_SEL[key].delete(v), el.classList.remove('sc-' + cls))
+                        : (POST_SEL[key].add(v),    el.classList.add('sc-' + cls));
   postSync();
 }
 
 function postSelMethod(m) {
   postMethod = m;
-  document.getElementById('postMOff').classList.toggle('sel', m==='off');
-  document.getElementById('postMOn').classList.toggle('sel',  m==='on');
-  document.getElementById('postMHy').classList.toggle('sel',  m==='hy');
-  document.getElementById('postLocRow').style.display = m==='on' ? 'none' : '';
+  document.getElementById('postMOff').classList.toggle('sel', m === 'off');
+  document.getElementById('postMOn').classList.toggle('sel',  m === 'on');
+  document.getElementById('postMHy').classList.toggle('sel',  m === 'hy');
+  document.getElementById('postLocRow').style.display = m === 'on' ? 'none' : '';
   postSync();
 }
 
-function postFmtDate(d) { if (!d) return ''; const [y,mo,day]=d.split('-'); return `${y}年${parseInt(mo)}月${parseInt(day)}日`; }
+function postFmtDate(d) {
+  if (!d) return '';
+  const [y, mo, day] = d.split('-');
+  return `${y}年${parseInt(mo)}月${parseInt(day)}日`;
+}
 
 function postTags() {
-  return [...[...POST_SEL.i].map(t=>'#'+t.replace(/[・\-\s\/]/g,'')), ...[...POST_SEL.r].map(t=>'#'+t.replace(/[・\-\s\/]/g,'')), ...[...POST_SEL.m].map(t=>'#'+t.replace(/[・\-\s\/]/g,'')), ...[...POST_SEL.p].map(t=>'#'+t.replace(/[・\-\s\/]/g,''))];
+  return [
+    ...[...POST_SEL.i].map(t => '#' + t.replace(/[・\-\s\/]/g, '')),
+    ...[...POST_SEL.r].map(t => '#' + t.replace(/[・\-\s\/]/g, '')),
+    ...[...POST_SEL.m].map(t => '#' + t.replace(/[・\-\s\/]/g, '')),
+    ...[...POST_SEL.p].map(t => '#' + t.replace(/[・\-\s\/]/g, '')),
+  ];
 }
 
 function postBuildTexts() {
-  const s = postSession || { name:'（セッション未選択）', date:'', t1:'', t2:'' };
-  const n=s.name, d=postFmtDate(s.date), tm=(s.t1&&s.t2)?`${s.t1}〜${s.t2}`:s.t1;
-  const loc=document.getElementById('postLoc').value;
-  const dlD=postFmtDate(document.getElementById('postDlDate').value);
-  const dlT=document.getElementById('postDlTime').value;
-  const dl=dlD?(dlT?`${dlD} ${dlT}まで`:dlD+'まで'):'';
-  const contact=document.getElementById('postContact').value;
-  const ml={off:'オフライン',on:'オンライン',hy:'ハイブリッド'}[postMethod];
-  const tg=postTags().join(' ');
-  const inds=[...POST_SEL.i].join('・')||'全業種';
-  const roles=[...POST_SEL.r].join('・')||'ご担当者';
-  const mods=[...POST_SEL.m].join('・')||'ERP';
-  const locLine=postMethod!=='on'&&loc?`場所：${loc}`:'';
-  const dlLine=dl?`申込期限：${dl}`:'';
-  const contactLine=contact?`お問い合わせ・告知：${contact}`:'';
-  const x=[`【セミナー開催】`,n,``,d?`日程：${d} ${tm}`:'',`形式：${ml}`,locLine,dlLine,contactLine,``,POST_PH,tg?`\n${tg}`:'']. filter(Boolean).join('\n');
-  const sns=[`${inds}の${roles}の皆さまへ。`,`${mods}についての実践セミナーを開催します。`,``,d?`日程：${d}`:'',tm?`時間：${tm}`:'',`形式：${ml}`,locLine,dlLine,contactLine,``,POST_PH,tg?`\n${tg}`:'']. filter(Boolean).join('\n');
+  const s       = postSession || { name: '（セッション未選択）', date: '', t1: '', t2: '' };
+  const n       = s.name;
+  const d       = postFmtDate(s.date);
+  const tm      = (s.t1 && s.t2) ? `${s.t1}〜${s.t2}` : s.t1;
+  const loc     = document.getElementById('postLoc').value;
+  const dlD     = postFmtDate(document.getElementById('postDlDate').value);
+  const dlT     = document.getElementById('postDlTime').value;
+  const dl      = dlD ? (dlT ? `${dlD} ${dlT}まで` : dlD + 'まで') : '';
+  const contact = document.getElementById('postContact').value;
+  const ml      = { off: 'オフライン', on: 'オンライン', hy: 'ハイブリッド' }[postMethod];
+  const tg      = postTags().join(' ');
+  const inds    = [...POST_SEL.i].join('・') || '全業種';
+  const roles   = [...POST_SEL.r].join('・') || 'ご担当者';
+  const mods    = [...POST_SEL.m].join('・') || 'ERP';
+
+  const locLine     = postMethod !== 'on' && loc ? `場所：${loc}` : '';
+  const dlLine      = dl      ? `申込期限：${dl}`           : '';
+  const contactLine = contact ? `お問い合わせ・告知：${contact}` : '';
+
+  const x = [
+    `【セミナー開催】`, n, ``,
+    d ? `日程：${d} ${tm}` : '',
+    `形式：${ml}`,
+    locLine, dlLine, contactLine,
+    ``, POST_PH,
+    tg ? `\n${tg}` : ''
+  ].filter(Boolean).join('\n');
+
+  const sns = [
+    `${inds}の${roles}の皆さまへ。`,
+    `${mods}についての実践セミナーを開催します。`, ``,
+    d  ? `日程：${d}` : '',
+    tm ? `時間：${tm}` : '',
+    `形式：${ml}`,
+    locLine, dlLine, contactLine,
+    ``, POST_PH,
+    tg ? `\n${tg}` : ''
+  ].filter(Boolean).join('\n');
+
   return [x, sns];
 }
 
 function postSync() {
-  const tg=postTags();
-  const hp=document.getElementById('postHtagPreview');
-  if (hp) hp.innerHTML=tg.length?tg.map(t=>`<span class="sns-chip sc-i" style="cursor:default;">${t}</span>`).join(''):'<span style="font-size:11px;color:#aaa;">タグを選択するとハッシュタグが生成されます</span>';
-  const texts=postBuildTexts();
-  texts.forEach((t,i)=>{ const el=document.getElementById(`postOut${i}`); if(el) el.value=t; });
-  const len=texts[0].length;
-  const cc=document.getElementById('postCc0');
-  if(cc){cc.textContent=`${len} / 280 文字`;cc.className='sns-cc'+(len>280?' over':'');}
+  const tg = postTags();
+  const hp = document.getElementById('postHtagPreview');
+  if (hp) hp.innerHTML = tg.length
+    ? tg.map(t => `<span class="sns-chip sc-i" style="cursor:default;">${t}</span>`).join('')
+    : '<span style="font-size:11px;color:#aaa;">タグを選択するとハッシュタグが生成されます</span>';
+
+  const texts = postBuildTexts();
+  texts.forEach((t, i) => {
+    const el = document.getElementById(`postOut${i}`);
+    if (el) el.value = t;
+  });
+  const len = texts[0].length;
+  const cc = document.getElementById('postCc0');
+  if (cc) { cc.textContent = `${len} / 280 文字`; cc.className = 'sns-cc' + (len > 280 ? ' over' : ''); }
 }
 
 function postReset(i) {
-  const t=postBuildTexts()[i];
-  const el=document.getElementById(`postOut${i}`);
-  if(el) el.value=t;
-  if(i===0){const l=t.length;const cc=document.getElementById('postCc0');if(cc){cc.textContent=`${l} / 280 文字`;cc.className='sns-cc'+(l>280?' over':'');}}
+  const t = postBuildTexts()[i];
+  const el = document.getElementById(`postOut${i}`);
+  if (el) el.value = t;
+  if (i === 0) {
+    const l = t.length;
+    const cc = document.getElementById('postCc0');
+    if (cc) { cc.textContent = `${l} / 280 文字`; cc.className = 'sns-cc' + (l > 280 ? ' over' : ''); }
+  }
 }
 
 function postSw(i) {
-  document.querySelectorAll('#tab-sns .sns-tab-btn').forEach((t,j)=>t.classList.toggle('active',j===i));
-  document.querySelectorAll('#tab-sns .sns-panel').forEach((p,j)=>p.classList.toggle('active',j===i));
+  document.querySelectorAll('#tab-sns .sns-tab-btn').forEach((t, j) => t.classList.toggle('active', j === i));
+  document.querySelectorAll('#tab-sns .sns-panel').forEach((p, j) => p.classList.toggle('active', j === i));
 }
 
 function postCopy(i) {
-  const el=document.getElementById(`postOut${i}`);
-  if(!el) return;
-  navigator.clipboard.writeText(el.value).then(()=>{const ck=document.getElementById(`postCopyOk${i}`);if(ck){ck.style.display='inline';setTimeout(()=>ck.style.display='none',2000);}});
-  if(!postSession) return;
-  const platform=['x','sns'][i]||'other';
-  const tags={industries:[...POST_SEL.i],roles:[...POST_SEL.r],modules:[...POST_SEL.m],purposes:[...POST_SEL.p]};
-  fetch(API_URL+'?action=logSnsTag&token='+encodeURIComponent(partnerToken)+'&session_code='+encodeURIComponent(postSession.code)+'&platform='+encodeURIComponent(platform)+'&tags='+encodeURIComponent(JSON.stringify(tags)),{redirect:'follow'}).catch(()=>{});
+  const el = document.getElementById(`postOut${i}`);
+  if (!el) return;
+  navigator.clipboard.writeText(el.value).then(() => {
+    const ck = document.getElementById(`postCopyOk${i}`);
+    if (ck) { ck.style.display = 'inline'; setTimeout(() => ck.style.display = 'none', 2000); }
+  });
+  if (!postSession) return;
+  const platform = ['x', 'sns'][i] || 'other';
+  const tags = {
+    industries: [...POST_SEL.i],
+    roles:      [...POST_SEL.r],
+    modules:    [...POST_SEL.m],
+    purposes:   [...POST_SEL.p]
+  };
+  fetch(API_URL
+    + '?action=logSnsTag'
+    + '&token='        + encodeURIComponent(partnerToken)
+    + '&session_code=' + encodeURIComponent(postSession.code)
+    + '&platform='     + encodeURIComponent(platform)
+    + '&tags='         + encodeURIComponent(JSON.stringify(tags)),
+    { redirect: 'follow' }
+  ).catch(() => {});
 }
 </script>
 </body>
