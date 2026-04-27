@@ -9,13 +9,9 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Yu Gothic','Hiragino Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:20px 16px;}
 
-/* ============================================================
-   ログイン画面：左右2カラム
-   ============================================================ */
 .login-wrap{display:flex;align-items:stretch;justify-content:center;min-height:100vh;padding:24px 0;}
 .login-layout{display:grid;grid-template-columns:420px 1fr;gap:0;width:100%;max-width:1000px;background:#fff;border-radius:16px;box-shadow:0 4px 32px rgba(0,0,0,.10);overflow:hidden;}
 
-/* 左カラム：フォーム */
 .login-left{padding:48px 40px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid #e8f0e9;}
 .login-left-top{flex:1;}
 .login-logo{margin-bottom:32px;}
@@ -32,7 +28,6 @@ body{font-family:'Yu Gothic','Hiragino Sans',sans-serif;background:var(--bg);col
 .msg.ok{color:var(--green);}
 .msg.err{color:#c00;}
 
-/* 左カラム下部リンク */
 .login-links{margin-top:32px;padding-top:20px;border-top:1px solid #eef2ee;display:flex;flex-direction:column;gap:8px;}
 .login-link-item{display:flex;align-items:center;gap:8px;font-size:13px;color:#555;text-decoration:none;padding:8px 10px;border-radius:8px;transition:background .15s;}
 .login-link-item:hover{background:var(--bg);color:var(--green);}
@@ -40,13 +35,11 @@ body{font-family:'Yu Gothic','Hiragino Sans',sans-serif;background:var(--bg);col
 .link-icon-session{background:#e8f5e9;color:var(--green);}
 .link-icon-web{background:#e3f2fd;color:#1565c0;}
 
-/* 右カラム：RSSフィード */
 .login-right{background:#fafcfa;padding:32px 28px;display:flex;flex-direction:column;min-width:0;}
 .feed-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
 .feed-title{font-size:15px;font-weight:bold;color:var(--text);}
 .feed-badge{font-size:11px;background:#e8f5e9;color:var(--green);border-radius:12px;padding:3px 10px;font-weight:bold;}
 
-/* RSSタブ */
 .rss-tabs{display:flex;gap:2px;border-bottom:2px solid #e0e8e0;margin-bottom:16px;}
 .rss-tab{padding:7px 16px;border:none;background:transparent;font-size:13px;font-family:inherit;cursor:pointer;color:#888;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;border-radius:4px 4px 0 0;}
 .rss-tab:hover{color:var(--green);background:#f0f7f2;}
@@ -55,14 +48,12 @@ body{font-family:'Yu Gothic','Hiragino Sans',sans-serif;background:var(--bg);col
 .rss-panel{display:none;overflow-y:auto;flex:1;}
 .rss-panel.active{display:block;}
 
-/* 記事カード */
 .news-item{padding:12px 14px;background:#fff;border-radius:8px;margin-bottom:8px;border:1px solid #e8ede8;transition:border-color .15s;}
 .news-item:hover{border-color:var(--green);}
 .news-item-body{}
 .news-item-top{display:flex;align-items:flex-start;gap:8px;margin-bottom:4px;}
 .source-icon{width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold;flex-shrink:0;margin-top:1px;}
 .icon-note{background:#41c9b4;color:#fff;}
-.icon-youtube{background:#ff0000;color:#fff;}
 .icon-spotify{background:#1db954;color:#fff;}
 .news-title{font-size:13px;font-weight:bold;line-height:1.4;}
 .news-title a{color:var(--text);text-decoration:none;}
@@ -72,7 +63,6 @@ body{font-family:'Yu Gothic','Hiragino Sans',sans-serif;background:var(--bg);col
 .news-loading{color:#aaa;font-size:13px;padding:16px 0;text-align:center;}
 .news-error{color:#c00;font-size:12px;padding:8px 0;}
 
-/* スマホ対応 */
 @media(max-width:700px){
   .login-layout{grid-template-columns:1fr;max-width:440px;}
   .login-left{border-right:none;border-bottom:1px solid #e8f0e9;padding:32px 24px;}
@@ -80,9 +70,6 @@ body{font-family:'Yu Gothic','Hiragino Sans',sans-serif;background:var(--bg);col
   .login-wrap{align-items:flex-start;padding:16px 0;}
 }
 
-/* ============================================================
-   メイン画面
-   ============================================================ */
 .card{background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.07);padding:28px 24px;margin-bottom:16px;}
 .section{display:none;}
 input[type=text],input[type=password],input[type=date],input[type=url],input[type=time]{width:100%;padding:10px 13px;border:2px solid #ddd;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:12px;transition:border-color .2s;}
@@ -150,16 +137,12 @@ tr.active td{background:#e8f5e9;}
 .engine-chatgpt{background:#10a37f;color:#fff;}
 .engine-chatgpt:hover{background:#0d8a6b;}
 
-/* ============================================================
-   DEV: セッション管理 上下2段レイアウト
-   ============================================================ */
 .session-layout{display:flex;flex-direction:column;gap:16px;}
 .session-bottom{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start;}
 .session-left-col{display:flex;flex-direction:column;gap:16px;}
 .session-right-col{position:sticky;top:8px;}
 .fg2-dev{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .fg3-dev{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;}
-/* SNSジェネレーター チップ */
 .sns-chip{padding:3px 10px;border-radius:20px;font-size:12px;cursor:pointer;border:1px solid #ddd;background:#f5f5f5;color:#666;transition:all .15s;user-select:none;}
 .sns-chip:hover{border-color:var(--green);color:var(--green);}
 .sns-chip.sc-i{background:#E6F1FB;color:#185FA5;border-color:#185FA5;}
@@ -191,14 +174,10 @@ tr.active td{background:#e8f5e9;}
 </head>
 <body>
 
-<!-- ============================================================
-     ログイン画面
-     ============================================================ -->
 <div id="loginSection" style="display:flex;">
   <div class="login-wrap" style="width:100%;">
     <div class="login-layout">
 
-      <!-- 左カラム：フォーム -->
       <div class="login-left">
         <div class="login-left-top">
           <div class="login-logo">
@@ -214,7 +193,6 @@ tr.active td{background:#e8f5e9;}
           <p class="login-hint">パスコードをお忘れの場合は管理者までご連絡ください。</p>
         </div>
 
-        <!-- 下部リンク -->
         <div class="login-links">
           <a class="login-link-item" href="https://cloverplus-marketing.github.io/seminar/" target="_blank" rel="noopener">
             <span class="link-icon link-icon-session">🎓</span>
@@ -227,7 +205,6 @@ tr.active td{background:#e8f5e9;}
         </div>
       </div>
 
-      <!-- 右カラム：RSSフィード -->
       <div class="login-right">
         <div class="feed-header">
           <div class="feed-title">Clover Plus 最新情報</div>
@@ -236,14 +213,10 @@ tr.active td{background:#e8f5e9;}
 
         <div class="rss-tabs">
           <button class="rss-tab active" data-feed="note" onclick="switchFeed('note')">note</button>
-          <button class="rss-tab" data-feed="youtube" onclick="switchFeed('youtube')">YouTube</button>
           <button class="rss-tab" data-feed="spotify" onclick="switchFeed('spotify')">Spotify</button>
         </div>
 
         <div class="rss-panel active" id="panel-note">
-          <div class="news-loading">読み込み中...</div>
-        </div>
-        <div class="rss-panel" id="panel-youtube">
           <div class="news-loading">読み込み中...</div>
         </div>
         <div class="rss-panel" id="panel-spotify">
@@ -255,16 +228,12 @@ tr.active td{background:#e8f5e9;}
   </div>
 </div>
 
-<!-- ============================================================
-     メイン画面
-     ============================================================ -->
 <div id="mainSection" class="section">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
     <div style="color:var(--green);font-size:18px;font-weight:bold;"><a href="index.html" style="color:inherit;text-decoration:none;">Clover Plus Partner Hub</a></div>
     <button class="btn btn-logout" onclick="logout()">ログアウト</button>
   </div>
 
-  <!-- タブ -->
   <div class="tabs">
     <button class="tab active" onclick="switchTab('resources')">資料ダウンロード</button>
     <button class="tab" id="tab-btn-research" style="display:none;" onclick="switchTab('research')">企業調査 <span style="font-size:10px;background:#E97132;color:#fff;padding:1px 5px;border-radius:4px;vertical-align:middle;">β</span></button>
@@ -272,7 +241,6 @@ tr.active td{background:#e8f5e9;}
     <button class="tab" onclick="switchTab('sns')">SNS 投稿文</button>
   </div>
 
-  <!-- タブ：セッション管理 -->
   <div id="tab-sessions" class="tab-content">
   <div class="card">
     <h2>セッション一覧</h2>
@@ -348,9 +316,8 @@ tr.active td{background:#e8f5e9;}
     <div id="accountsArea"><p style="color:#666;font-size:13px;">アカウントがありません</p></div>
     <div class="msg" id="accountsMsg"></div>
   </div>
-  </div><!-- /tab-sessions -->
+  </div>
 
-  <!-- タブ：企業調査 -->
   <div id="tab-research" class="tab-content">
     <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#7a5c00;">
       <strong>🔬 企業調査 β（ベータ版）</strong><br>
@@ -385,22 +352,19 @@ tr.active td{background:#e8f5e9;}
         <button class="engine-btn engine-chatgpt" onclick="openEngine('chatgpt')">ChatGPT で検索 <span style="font-size:10px;font-weight:normal;">※要アカウント</span></button>
       </div>
     </div>
-  </div><!-- /tab-research -->
+  </div>
 
-  <!-- タブ：資料ダウンロード -->
   <div id="tab-resources" class="tab-content active">
     <div class="card">
       <h2>資料ダウンロード</h2>
       <div id="resourcesArea"><p style="color:#666;font-size:13px;">読み込み中...</p></div>
       <div class="msg" id="resourcesMsg"></div>
     </div>
-  </div><!-- /tab-resources -->
+  </div>
 
-  <!-- タブ：SNS投稿文 [DEV] -->
   <div id="tab-sns" class="tab-content">
   <div style="display:flex;flex-direction:column;gap:16px;">
 
-    <!-- Step1: セッション選択 -->
     <div class="card">
       <h2>Step 1 &nbsp; セッションを選択</h2>
       <div id="snsSessionList">
@@ -411,7 +375,6 @@ tr.active td{background:#e8f5e9;}
       </div>
     </div>
 
-    <!-- Step2: 追加情報 -->
     <div class="card">
       <h2>Step 2 &nbsp; 追加情報を入力</h2>
 
@@ -467,7 +430,6 @@ tr.active td{background:#e8f5e9;}
       <input type="text" id="postContact" placeholder="https://... または info@example.com" oninput="postSync()">
     </div>
 
-    <!-- Step3: 投稿文 -->
     <div class="card">
       <h2>Step 3 &nbsp; 投稿文を確認・編集・コピー</h2>
       <p style="font-size:12px;color:#888;background:var(--bg);padding:7px 10px;border-radius:6px;margin-bottom:12px;border-left:3px solid #ddd;">自動生成された基本情報の後に挨拶文・詳細を追記してください。「初期状態に戻す」で自動生成文に戻せます。</p>
@@ -498,19 +460,18 @@ tr.active td{background:#e8f5e9;}
     </div>
 
   </div>
-  </div><!-- /tab-sns -->
+  </div>
 
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 const API_URL = 'https://script.google.com/macros/s/AKfycbxQ7fNkIzsxaFEOoPngnY5lcWLRTQUhG97D1THjDciUqLcIqKlCQxGrPjpZSEPt3vp09A/exec';
+const RSS_PROXY = 'https://cp-rss-proxy.media-264.workers.dev/';
 
-// RSS フィード定義
 const RSS_FEEDS = {
-  note:    { url: 'https://note.com/clover_plus/rss',    icon: 'N', iconClass: 'icon-note',    label: 'note' },
-  youtube: { url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UC6ReXNRMH874dfAbtu8-ztg', icon: '▶', iconClass: 'icon-youtube', label: 'YouTube' },
-  spotify: { url: 'https://anchor.fm/s/110f9ce94/podcast/rss', icon: '♪', iconClass: 'icon-spotify', label: 'Spotify' }
+  note:    { icon: 'N', iconClass: 'icon-note',    label: 'note' },
+  spotify: { icon: '♪', iconClass: 'icon-spotify', label: 'Spotify' }
 };
 
 let partnerToken = sessionStorage.getItem('partner_token');
@@ -519,12 +480,9 @@ let currentSession = null;
 let researchEnabled = false;
 let resourcesLoaded = false;
 let currentCorp = null;
-let feedLoaded = { note: false, youtube: false, spotify: false };
+let feedLoaded = { note: false, spotify: false };
 let currentFeed = 'note';
 
-// ============================================================
-// ページ初期化
-// ============================================================
 if (partnerToken && companyId) {
   document.getElementById('loginSection').style.display = 'none';
   document.getElementById('mainSection').style.display = 'block';
@@ -533,14 +491,10 @@ if (partnerToken && companyId) {
   loadSessions();
 }
 
-// ログインページ表示時にRSSを読み込む
 if (document.getElementById('loginSection').style.display !== 'none') {
   loadRssFeed('note');
 }
 
-// ============================================================
-// RSS フィード
-// ============================================================
 function switchFeed(feed) {
   currentFeed = feed;
   document.querySelectorAll('.rss-tab').forEach(t => t.classList.toggle('active', t.dataset.feed === feed));
@@ -555,9 +509,8 @@ async function loadRssFeed(feed) {
   const panel = document.getElementById('panel-' + feed);
   panel.innerHTML = '<div class="news-loading">読み込み中...</div>';
   try {
-    // フィードURLをエンコードして渡す（encodeURIComponentで?も%3Fに変換されるため安全）
-    const url = API_URL + '?action=getRssFeed&url=' + encodeURIComponent(cfg.url);
-    const res  = await fetch(url, { redirect: 'follow' });
+    const url = RSS_PROXY + '?feed=' + feed;
+    const res  = await fetch(url);
     const json = await res.json();
     feedLoaded[feed] = true;
     if (!json.items || json.items.length === 0) {
@@ -567,7 +520,7 @@ async function loadRssFeed(feed) {
     }
     panel.innerHTML = json.items.map(function(item) {
       const date = formatFeedDate(item.date);
-      const desc = item.desc ? '<div class="news-desc">' + escHtml(item.desc) + '</div>' : '';
+      const desc = item.description ? '<div class="news-desc">' + escHtml(item.description) + '</div>' : '';
       return '<div class="news-item">'
         + '<div class="news-item-body">'
         + '<div class="news-item-top">'
@@ -604,9 +557,6 @@ function escHtml(str) {
   return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-// ============================================================
-// タブ切り替え
-// ============================================================
 function switchTab(tab) {
   const tabs = ['resources', 'research', 'sessions', 'sns'];
   document.querySelectorAll('.tab').forEach((t, i) => {
@@ -629,9 +579,6 @@ async function api(params) {
   return res.json();
 }
 
-// ============================================================
-// ログイン・ログアウト
-// ============================================================
 async function login() {
   const cid = document.getElementById('loginCompanyId').value.trim();
   const pc  = document.getElementById('loginPasscode').value;
@@ -661,13 +608,10 @@ function logout() {
   document.getElementById('mainSection').style.display = 'none';
   document.getElementById('loginSection').style.display = 'flex';
   document.getElementById('loginPasscode').value = '';
-  // ログアウト後フィードを再表示
-  if (!feedLoaded['note']) loadRssFeed('note');
+  feedLoaded = { note: false, spotify: false };
+  loadRssFeed('note');
 }
 
-// ============================================================
-// セッション管理
-// ============================================================
 async function loadSessions() {
   try {
     const json = await api({ action: 'getSessions', company_id: companyId, token: partnerToken });
@@ -783,64 +727,6 @@ async function deleteSession() {
   } catch(e) { alert('エラーが発生しました'); }
 }
 
-async function saveAll() {
-  const msg = document.getElementById('detailMsg');
-  msg.textContent = '保存中...'; msg.className = 'msg';
-  try {
-    const r1 = await api({
-      action: 'updateSessionInfo',
-      session_code: currentSession,
-      session_name: document.getElementById('sessionName').value,
-      session_date: document.getElementById('sessionDate').value,
-      session_time: document.getElementById('sessionTime').value,
-      token: partnerToken
-    });
-    if (r1.status !== 'ok') { msg.textContent = r1.message; msg.className = 'msg err'; return; }
-    const r2 = await api({
-      action: 'saveSettings',
-      session_code: currentSession,
-      detail_url:   document.getElementById('detailUrl').value,
-      materials_url:document.getElementById('materialsUrl').value,
-      survey_url:   document.getElementById('surveyUrl').value,
-      use_demo:     document.getElementById('useDemo').checked,
-      publish_rss:  document.getElementById('publishRss').checked,
-      message:      document.getElementById('message').value,
-      login_url:    document.getElementById('loginUrl').value,
-      use_login:    document.getElementById('useLogin').checked,
-      token: partnerToken
-    });
-    if (r2.status !== 'ok') { msg.textContent = r2.message; msg.className = 'msg err'; return; }
-    msg.textContent = '保存しました'; msg.className = 'msg ok';
-    loadSessions();
-  } catch(e) { msg.textContent = 'エラーが発生しました'; msg.className = 'msg err'; }
-}
-
-async function addSession() {
-  try {
-    const json = await api({ action: 'addSession', company_id: companyId, token: partnerToken });
-    if (json.status !== 'ok') { alert(json.message); return; }
-    currentSession = json.data.session_code;
-    await loadSessions();
-    selectSession(currentSession);
-  } catch(e) { alert('エラーが発生しました'); }
-}
-
-async function deleteSession() {
-  if (!currentSession) { alert('セッションを選択してください'); return; }
-  if (!confirm(`セッション ${currentSession} とすべてのアカウントを削除します。よろしいですか？`)) return;
-  try {
-    const json = await api({ action: 'deleteSession', session_code: currentSession, token: partnerToken });
-    if (json.status !== 'ok') { alert(json.message); return; }
-    currentSession = null;
-    document.getElementById('detailCard').style.display   = 'none';
-    document.getElementById('accountsCard').style.display = 'none';
-    loadSessions();
-  } catch(e) { alert('エラーが発生しました'); }
-}
-
-// ============================================================
-// アカウント管理
-// ============================================================
 async function loadAccounts() {
   try {
     const json = await api({ action: 'getAccounts', session_code: currentSession, token: partnerToken });
@@ -852,7 +738,6 @@ async function loadAccounts() {
 function renderAccounts(accounts) {
   const area = document.getElementById('accountsArea');
   if (!accounts || accounts.length === 0) { area.innerHTML = '<p style="color:#666;font-size:13px;">アカウントがありません</p>'; return; }
-  // user_id で昇順ソート
   accounts.sort((a, b) => String(a.user_id).localeCompare(String(b.user_id), 'ja'));
   let html = '<table><tr><th>ユーザーID</th><th>パスワード</th><th>状態</th><th>使用日時</th><th>操作</th></tr>';
   accounts.forEach(a => {
@@ -886,14 +771,12 @@ async function resetAll() {
 }
 
 function downloadTemplate() {
-  // ExcelテンプレートをJSで生成してダウンロード
   const wb = XLSX.utils.book_new();
   const ws = XLSX.utils.aoa_to_sheet([
     ['USER ID', 'PASSWORD'],
     ['user001', 'pass001'],
     ['user002', 'pass002'],
   ]);
-  // 列幅の設定
   ws['!cols'] = [{ wch: 20 }, { wch: 20 }];
   XLSX.utils.book_append_sheet(wb, ws, 'アカウント一覧');
   XLSX.writeFile(wb, 'account_template.xlsx');
@@ -923,9 +806,6 @@ async function importAccounts() {
   document.getElementById('xlsxFile').value = '';
 }
 
-// ============================================================
-// 企業調査
-// ============================================================
 async function searchCompany() {
   const name = document.getElementById('researchQuery').value.trim();
   const msg  = document.getElementById('researchMsg');
@@ -1004,9 +884,6 @@ function openEngine(engine) {
   ).catch(() => {});
 }
 
-// ============================================================
-// 資料ダウンロード
-// ============================================================
 async function loadResources() {
   const area = document.getElementById('resourcesArea');
   const msg  = document.getElementById('resourcesMsg');
@@ -1060,9 +937,6 @@ async function downloadResource(docId, fileName) {
   } catch(e) { msg.textContent = 'エラーが発生しました'; msg.className = 'msg err'; }
 }
 
-// ============================================================
-// DEV: SNS投稿文タブ（独立）
-// ============================================================
 const POST_IND  = ['製造業','小売・流通','サービス業','建設・不動産','医療・介護','IT・情報通信'];
 const POST_ROLE = ['全社員','経営者・役員','CFO・財務責任者','経理担当者','情報システム担当','現場リーダー'];
 const POST_MOD  = ['財務会計','在庫管理','プロジェクト管理','CRM・営業管理','レポーティング'];
@@ -1070,9 +944,8 @@ const POST_PURP = ['DX推進','業務効率化','コスト削減','経営可視�
 const POST_SEL  = { i: new Set(), r: new Set(), m: new Set(), p: new Set() };
 const POST_PH   = '<ここに挨拶文とセミナーの詳細を入れてください>';
 let postMethod  = 'off';
-let postSession = null; // { code, name, date, t1, t2 }
+let postSession = null;
 
-// セッション一覧をSNSタブ用に読み込む
 async function postLoadSessions() {
   const list = document.getElementById('snsSessionList');
   list.innerHTML = '<p style="color:#666;font-size:13px;">読み込み中...</p>';
@@ -1090,7 +963,6 @@ async function postLoadSessions() {
           <span style="font-size:12px;color:#888;margin-left:auto;">${s.session_date||''}</span>
         </div>
       </div>`).join('');
-    // 最初のセッションを自動選択
     const firstEl = list.querySelector('.corp-card');
     firstEl.classList.add('selected');
     await postPickSession(firstEl, json.data.sessions[0].session_code);
@@ -1102,7 +974,6 @@ async function postLoadSessions() {
 async function postPickSession(el, code) {
   document.querySelectorAll('#snsSessionList .corp-card').forEach(e => e.classList.remove('selected'));
   el.classList.add('selected');
-  // getSettingsで開催時間を取得
   try {
     const json = await api({ action: 'getSettings', session_code: code });
     if (json.status === 'ok') {
@@ -1258,7 +1129,6 @@ function postCopy(i) {
     const ck = document.getElementById(`postCopyOk${i}`);
     if (ck) { ck.style.display = 'inline'; setTimeout(() => ck.style.display = 'none', 2000); }
   });
-  // タグをサイレントにログ送信（エラーは無視）
   if (!postSession) return;
   const platform = ['x', 'sns'][i] || 'other';
   const tags = {
@@ -1276,7 +1146,6 @@ function postCopy(i) {
     { redirect: 'follow' }
   ).catch(() => {});
 }
-
 </script>
 </body>
 </html>
